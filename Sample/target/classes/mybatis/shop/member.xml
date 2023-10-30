@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberDao">
+
+<resultMap type="com.main.vo.MemberVo" id="membervo">
+	<result property="userId" column="userId"/>
+	<result property="userPw" column="userPw"/>
+</resultMap>
+	
+	<!-- 회원가입 관련(체크 및 성공) -->
+	<select id="signupCheck" resultMap="membervo" parameterType="String">
+		select
+			user_Id
+		from
+			member_table
+		where
+			user_Id = #{user_Id}
+	</select>
+	
+	<select id="signupSuccess">
+		insert into
+			member_table(
+				user_Id,
+				user_Pw,
+				user_Phone,
+				user_Ip
+			)
+			values(
+				#{user_Id},
+				#{user_Pw},
+				#{user_Phone},
+				#{user_Ip}
+			)
+	</select>
+	
+	<!-- 로그인 관련(체크 및 성공) -->
+	<select id="loginCheck" resultMap="membervo">
+		select
+			user_Ip
+		from 
+			member_table
+		where
+			userId = {#userId}
+		and
+			userPw = {#userPw}
+	</select>
+	
+	<select id="login" resultMap="membervo">
+		select
+			userId, userPw, user_Phone, user_Ip
+		from
+			member_table
+		where
+			userId = {userId} and userPw = #{userPw}
+	</select>
+</mapper>
