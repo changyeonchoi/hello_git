@@ -39,8 +39,9 @@ public class MemberController {
 	public @ResponseBody boolean signup(
 			@RequestParam("user_id") String user_id,
 			@RequestParam("user_pw") String user_pw,
-			@RequestParam("user_phone") String user_phone,
-			@RequestParam("user_ip") String user_ip) {
+			@RequestParam("user_name") String user_name,
+			@RequestParam("user_phone") String user_phone
+			) {
 		
 		boolean checkResult = memberservice.signupCheck(user_id);
 		
@@ -49,10 +50,10 @@ public class MemberController {
 		if(checkResult) {
 			MemberVo membervo = new MemberVo();
 			try { 
-				membervo.setUser_Id(user_id);
-				membervo.setUser_Pw(user_pw);
-				membervo.setUser_Phone(user_phone);
-				membervo.setUser_Ip(user_ip);
+				membervo.setUser_id(user_id);
+				membervo.setUser_pw(user_pw);
+				membervo.setUser_name(user_name);
+				membervo.setUser_phone(user_phone);
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -73,17 +74,14 @@ public class MemberController {
 	public @ResponseBody String login(
 			@RequestParam("user_id") String user_id,
 			@RequestParam("user_pw") String user_pw,
-			@RequestParam("user_phone") String user_phone,
-			@RequestParam("user_ip") String user_ip,
 			HttpServletRequest request) {
 		
 		String login;
 		MemberVo membervo = new MemberVo();
 		
-		membervo.setUser_Id(user_id);
-		membervo.setUser_Pw(user_pw);
-		membervo.setUser_Phone(user_phone);
-		membervo.setUser_Ip(user_ip);
+	
+		membervo.setUser_id(user_id);
+		membervo.setUser_pw(user_pw);
 
 		MemberVo result = memberservice.login(membervo);
 		
@@ -95,15 +93,47 @@ public class MemberController {
 	
 	@RequestMapping(value = "/loginCheck", method = RequestMethod.POST)
 	public @ResponseBody boolean loginCheck(
-			@RequestParam("userid") String userid,
-			@RequestParam("userpw") String userpw) {
+			@RequestParam("user_id") String user_id,
+			@RequestParam("user_pw") String user_pw) {
 		
 		MemberVo membervo = new MemberVo();
-		membervo.setUser_Id(userid);
-		membervo.setUser_Pw(userpw);
+		membervo.setUser_id(user_id);
+		membervo.setUser_pw(user_pw);
 		
 		boolean check = memberservice.loginCheck(membervo);
 		
 		return check;
+	}
+	
+	@RequestMapping(value = "/userstatus", method = RequestMethod.GET)
+	public String userstatus() {
+		return "userstatus";
+	}
+	
+//	@RequestMapping(value = "/userstatus", method = RequestMethod.POST)
+//	public @ResponseBody String userstatus() {
+//		return ;
+//	}
+	
+	@RequestMapping(value = "/admin", method = RequestMethod.GET)
+	public String admin() {
+		return "admin";
+	}
+	
+	@RequestMapping(value = "/parent", method = RequestMethod.GET)
+	public String parent() {
+		return "parent";
+	}
+	@RequestMapping(value = "/chlid", method = RequestMethod.GET)
+	public String chlid() {
+		return "chlid";
+	}
+	@RequestMapping(value = "/left", method = RequestMethod.GET)
+	public String left() {
+		return "left";
+	}
+	@RequestMapping(value = "/header", method = RequestMethod.GET)
+	public String header() {
+		return "header";
 	}
 }

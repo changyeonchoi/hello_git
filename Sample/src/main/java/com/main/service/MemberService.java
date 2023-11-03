@@ -4,7 +4,7 @@ import com.main.vo.MemberVo;
 
 public interface MemberService {
 
-	boolean signupCheck(String userid);
+	boolean signupCheck(String user_id);
 	
 	String signupSuccess(MemberVo membervo);
 

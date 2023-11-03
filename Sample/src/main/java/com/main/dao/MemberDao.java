@@ -15,10 +15,10 @@ public class MemberDao {
 	@Autowired
 	private SqlSession sqlSession;
 
-	public boolean signupCheck(String userid) {
+	public boolean signupCheck(String user_id) {
 		boolean checkResult = false;
 		
-		List<MemberVo> memberVo = sqlSession.selectList("memberDao.signupCheck",userid);
+		List<MemberVo> memberVo = sqlSession.selectList("memberDao.signupCheck",user_id);
 		
 		if(memberVo.size() > 0) {
 			

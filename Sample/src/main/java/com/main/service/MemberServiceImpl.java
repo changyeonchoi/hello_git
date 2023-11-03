@@ -15,10 +15,10 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDao memberDao;
 
 	@Override
-	public boolean signupCheck(String userid) {
+	public boolean signupCheck(String user_id) {
 		boolean checkResult = false;
 		
-		checkResult = memberDao.signupCheck(userid);
+		checkResult = memberDao.signupCheck(user_id);
 		
 		return checkResult;
 	}

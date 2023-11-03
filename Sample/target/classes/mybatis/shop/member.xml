@@ -12,47 +12,49 @@
 	<!-- 회원가입 관련(체크 및 성공) -->
 	<select id="signupCheck" resultMap="membervo" parameterType="String">
 		select
-			user_Id
+			user_id
 		from
 			member_table
 		where
-			user_Id = #{user_Id}
+			user_id = #{user_id}
 	</select>
 	
 	<select id="signupSuccess">
 		insert into
 			member_table(
-				user_Id,
-				user_Pw,
-				user_Phone,
-				user_Ip
+				seq_id,
+				user_id,
+				user_pw,
+				user_name,
+				user_phone
 			)
 			values(
-				#{user_Id},
-				#{user_Pw},
-				#{user_Phone},
-				#{user_Ip}
+				seq_id_seq.NEXTVAL,
+				#{user_id},
+				#{user_pw},
+				#{user_name},
+				#{user_phone}
 			)
 	</select>
 	
 	<!-- 로그인 관련(체크 및 성공) -->
 	<select id="loginCheck" resultMap="membervo">
 		select
-			user_Ip
+			seq_id
 		from 
 			member_table
 		where
-			userId = {#userId}
+			user_id = {#user_id}
 		and
-			userPw = {#userPw}
+			user_pw = {#user_pw}
 	</select>
 	
 	<select id="login" resultMap="membervo">
 		select
-			userId, userPw, user_Phone, user_Ip
+			seq_id, user_id, user_pw, user_name, user_Phone
 		from
 			member_table
 		where
-			userId = {userId} and userPw = #{userPw}
+			user_id = {user_id} and user_pw = #{user_pw}
 	</select>
 </mapper>

@@ -6,15 +6,36 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+    .center-align {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    
+   .button-container-black {
+        background-color: black;
+        color: white;
+        padding: 10px 65px;
+        border: none;
+/*         margin-right: 1px; /* 신청 버튼의 오른쪽 마진을 10px로 설정 */ */
+    }
+</style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-	<form>
-		<input type="text" id="userId" placeholder="아이디" required /><br><br>
-		<input type="password" id="userPw" placeholder="비밀번호" /><br><br>
-		<input type="button" id="btn_login" value="로그인" />
+<div class="center-align">
+	<h1 style="margin: 0;"><span style="color:red;">BT</span>   LOGIN</h1>
+	<form style="border: 2px solid red; padding: 20px;">
+		
+		<input type="text" id="userid" placeholder="회원ID" required /><br><br>
+		<input type="password" id="userpw" placeholder="패스워드" /><br><br>
+		<input type="button" id="btn_login" class="button-container-black" value="LOGIN" />
 	</form>
+</div>
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script>
     	$(function(){
@@ -25,12 +46,12 @@
     		
     		$("#btn_login").off("click").on("click", function(){
     			
-    			let id = $("#userId").val();
-    			let pw = $("#userPw").val();
+    			let user_id = $("#userid").val();
+    			let user_pw = $("#userpw").val();
     			
     			let data = {
-    					user_id : id,
-    					user_pw : pw
+    					user_id : user_id,
+    					user_pw : user_pw
     			}
     		
     		let url = "http://localhost:8080/loginCheck";
@@ -52,8 +73,9 @@
     						}
     					});
     				} else {
-    					alert("허용되지 않은 ip주소입니다.");
-    					location.href = "http://localhost:8080/signup"
+    					alert("아이디 또는 패스워드가 일치하지 않습니다.");
+    					let popupUrl = "http://localhost:8080/signup?user_id=" + encodeURIComponent(user_id);
+    					window.open(popupUrl, "_blank", "width=800, height=600");
     				}
     			}
     		});
