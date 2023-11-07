@@ -12,7 +12,7 @@
       <property name="mapperLocations"
          value="classpath*:mybatis/shop/*.xml" />
       <!-- mapper에서 사용할 DTO들의 기본 패키지를 등록한다. -->
-      <property name="typeAliasesPackage" value="com.main.Vo"></property>
+      <property name="typeAliasesPackage" value="com.main.vo"></property>
       <property name="configLocation" value="classpath:mybatis/config/mybatis-config.xml"></property>
    	</bean>
    

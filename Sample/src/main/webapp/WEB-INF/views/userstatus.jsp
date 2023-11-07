@@ -69,20 +69,24 @@
             <div class="table-container">
                 <table>
                     <tr>
-                        <td class="custom-cell">회원ID:</td>
+                        <td class="custom-cell">회원ID</td>
                         <td><input type="text" class="input_text" id="user_id" value="" placeholder=""></td>
                     </tr>
                     <tr>
-                        <td class="custom-cell">패스워드*</td>
+                        <td class="custom-cell">패스워드</td>
                         <td><input type="password" class="input_text" id="user_pw" maxlength="10"></td>
                     </tr>
                     <tr>
-                        <td class="custom-cell">이름*</td>
+                        <td class="custom-cell">이름</td>
                         <td><input type="text" class="input_text" id="user_name" maxlength="10"></td>
                     </tr>
                     <tr>
-                        <td class="custom-cell">휴대폰 번호*</td>
+                        <td class="custom-cell">연락처</td>
                         <td><input type="text" class="input_text" id="user_phone" maxlength="13"></td>
+                    </tr>
+                    <tr>
+                        <td class="custom-cell">상태</td>
+                        <td><input type="text" class="input_text" id="user_auth" maxlength="3"></td>
                     </tr>
                 </table>
             </div>
@@ -106,12 +110,14 @@
         var user_pw = getURLParameter('user_pw');
         var user_name = getURLParameter('user_name');
         var user_phone = getURLParameter('user_phone');
+        var user_auth = getURLParameter('user_auth');
 
         // 추출한 값을 화면에 표시
         $("#user_id").val(user_id);
         $("#user_pw").val(user_pw);
         $("#user_name").val(user_name);
         $("#user_phone").val(user_phone);
+        $("#user_auth").val(user_auth);
 
         // user_id가 이미 들어있으면 수정할 수 없도록 설정
         if (user_id) {
@@ -125,6 +131,9 @@
         } 
         if (user_phone){
         	 $("#user_phone").attr("readonly", true);
+        }
+        if (user_auth){
+        	 $("#user_auth").attr("readonly", true);
         }
     });
     

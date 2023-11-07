@@ -89,10 +89,11 @@
                         <td><input type="text" class="input_text" id="user_name" maxlength="10"></td>
                     </tr>
                     <tr>
-                        <td class="custom-cell">휴대폰 번호*</td>
+                        <td class="custom-cell">연락처*</td>
                         <td><input type="text" class="input_text" id="user_phone" maxlength="13"></td>
                     </tr>
                 </table>
+                    <input type="hidden" id="user_auth" value="미사용"/>
             </div>
             <div class="button-container">
                 <button type="button" class="button-container-black" id="btn_signup">신청</button>
@@ -169,6 +170,7 @@
     			let user_pwdConfirm = $("#user_pw1").val();
     			let user_name = $("#user_name").val();
     			let user_phone = $("#user_phone").val();
+    			let user_auth = $("#user_auth").val();
     			
     			// 각 필드의 값이 비어 있는지 확인
     			if(user_id == ""){
@@ -199,7 +201,8 @@
 						"user_id" : user_id,
 						"user_pw" : user_pw,
 						"user_name" : user_name,
-						"user_phone" : user_phone
+						"user_phone" : user_phone,
+						"user_auth" : user_auth
 				}
 					
 				let url = "http://localhost:8080/signupCheck";
@@ -215,7 +218,8 @@
 						    "user_id=" + encodeURIComponent(user_id) +
 						    "&user_pw=" + encodeURIComponent(user_pw) +
 						    "&user_name=" + encodeURIComponent(user_name) +
-						    "&user_phone=" + encodeURIComponent(user_phone);
+						    "&user_phone=" + encodeURIComponent(user_phone) +
+						    "&user_auth=" + encodeURIComponent(user_auth);
 
 						window.open(popupUrl, "_blank", "width=800, height=600");
 					},

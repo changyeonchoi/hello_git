@@ -148,7 +148,11 @@
 		    <artifactId>spring-test</artifactId>
 		    <version>${org.springframework-version}</version>
 		</dependency>
-
+<dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>jstl</artifactId>
+    <version>1.2</version> <!-- 사용 가능한 최신 버전으로 업데이트 가능 -->
+</dependency>
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>

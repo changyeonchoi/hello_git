@@ -3,7 +3,6 @@ package com.main.dao;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +45,7 @@ public class MemberDao {
 		
 		try {
 			MemberVo result = sqlSession.selectOne("memberDao.loginCheck", membervo);
+
 			if(result == null) {
 				check = false;
 			} else {
@@ -56,5 +56,28 @@ public class MemberDao {
 		}
 		return check;
 	}
+	
+	public List<MemberVo> selectmemberlist(String search) {
+		return sqlSession.selectList("memberDao.selectmemberlist", search);
+	}
+	
+	public List<MemberVo> selectmemberlist() {
+		return sqlSession.selectList("memberDao.selectmemberlist");
+	}
 
+	public MemberVo selectMemberdetail(String user_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberDao.selectMemberdetail", user_id);
+	}
+
+	public int deleteUserId(String user_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("memberDao.deleteUserId", user_id);
+	}
+
+	public void updateUser(MemberVo membervo) {
+		// TODO Auto-generated method stub
+		sqlSession.delete("memberDao.updateUser", membervo);
+	}
+	
 }

@@ -48,6 +48,7 @@
     			
     			let user_id = $("#userid").val();
     			let user_pw = $("#userpw").val();
+    			console.log("Test", user_id, user_pw);
     			
     			let data = {
     					user_id : user_id,
@@ -56,13 +57,19 @@
     		
     		let url = "http://localhost:8080/loginCheck";
     			
+    		console.log(data);
+    			
     		$.ajax({
     			url : url,
     			type : "post",
     			data : data,
-    			success : function(data2){
-    				let check = data2;
+//     			console.log("data" + data);
+    			success : function(result){
+    				console.log(result);
+    				let check = result;
+    				console.log("result" + result);
     				if(check){
+    					alert("로그인 성공");
     					url = "http://localhost:8080/login";
     					$.ajax({
     						url : url,

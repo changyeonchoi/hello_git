@@ -12,7 +12,22 @@ public class MemberVo {
 	private String user_name;
 	//폰번호
 	private String user_phone;
+	//상태
+	private String user_auth;
+	//검색
+	private String search;
 	
+	public String getSearch() {
+		return search;
+	}
+	public void setSearch(String search) {
+		this.search = search;
+	}
+	@Override
+	public String toString() {
+		return "MemberVo [seq_id=" + seq_id + ", user_id=" + user_id + ", user_pw=" + user_pw + ", user_name="
+				+ user_name + ", user_phone=" + user_phone + ", user_auth=" + user_auth + ", search=" + search + "]";
+	}
 	public String getSeq_id() {
 		return seq_id;
 	}
@@ -42,5 +57,11 @@ public class MemberVo {
 	}
 	public void setUser_phone(String user_phone) {
 		this.user_phone = user_phone;
+	}
+	public String getUser_auth() {
+		return user_auth;
+	}
+	public void setUser_auth(String user_auth) {
+		this.user_auth = user_auth;
 	}
 }
