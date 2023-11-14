@@ -105,7 +105,7 @@
     				<div>1. 관리자정보</div><br>
         				<table border="1" style="width: 90%;">
             				<tr>
-                				<td class="black-cell">회원 ID:</td>
+                				<td class="black-cell">회원 ID</td>
                 				<td><input type="text" class="input_text" id="user_id" value="${membervo.user_id}" placeholder=""></td>
             				</tr>
             				<tr>
@@ -199,6 +199,14 @@
     	        // 입력 창에 반영
     	        $(this).val(sanitizedText);
     	    });    
+    	    
+    	    var user_auth = "${membervo.user_auth}";
+    	    
+    	    // ID로 <select> 요소를 찾습니다.
+    	    var selectElement = $("#user_auth");
+
+    	    // 'user_auth' 값을 기반으로 선택된 옵션을 설정합니다.
+    	    selectElement.val(user_auth);
     	});
     	
     	 $(document).ready(function() {

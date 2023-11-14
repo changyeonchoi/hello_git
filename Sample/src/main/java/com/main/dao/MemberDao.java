@@ -1,6 +1,8 @@
 package com.main.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,24 @@ public class MemberDao {
 		MemberVo login = sqlSession.selectOne("memberDao.login", membervo);
 		return login;
 	}
+	
+
+    public boolean idCheck(MemberVo membervo) {
+   
+    	boolean idCheckResult = false;
+    	
+    	try {
+    		MemberVo result = sqlSession.selectOne("memberDao.idCheck", membervo);
+			if(result == null) {
+				idCheckResult = false;
+			} else {
+				idCheckResult = true;
+			}
+    	} catch(Exception e) {
+    		e.printStackTrace();
+    	}
+        return idCheckResult;
+    }
 
 	public boolean loginCheck(MemberVo membervo) {
 		
@@ -77,7 +97,23 @@ public class MemberDao {
 
 	public void updateUser(MemberVo membervo) {
 		// TODO Auto-generated method stub
-		sqlSession.delete("memberDao.updateUser", membervo);
+		sqlSession.update("memberDao.updateUser", membervo);
 	}
+
+   
+    
+//    public List<MemberVo> selectMemberListPaging(int startIndex, int pageSize) {
+//        Map<String, Integer> params = new HashMap<>();
+//        params.put("startIndex", startIndex);
+//        params.put("pageSize", pageSize);
+//        return sqlSession.selectList("memberDao.selectMemberListPaging", params);
+//    }
+//
+//  
+//    public int getTotalMembers() {
+//        return sqlSession.selectOne("memberDao.getTotalMembers");
+//    }
+
+
 	
 }

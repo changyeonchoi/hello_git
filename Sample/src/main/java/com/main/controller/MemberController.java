@@ -1,8 +1,8 @@
 package com.main.controller;
 
-
-
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -82,26 +81,64 @@ public class MemberController {
 		return "login";
 	}
 	
+//	@RequestMapping(value = "/login", method = RequestMethod.POST)
+//	public @ResponseBody String login(
+//			@RequestParam("user_id") String user_id,
+//			@RequestParam("user_pw") String user_pw,
+//			HttpServletRequest request) {
+//		
+//		String login;
+//		MemberVo membervo = new MemberVo();
+//		
+//	
+//		membervo.setUser_id(user_id);
+//		membervo.setUser_pw(user_pw);
+//		
+//		MemberVo result = memberservice.login(membervo);
+//		
+//		System.out.println("result" + result);
+//				
+//		request.getSession().setAttribute("memberVo", result);
+//		login = "redirect:/index";
+//		
+//		return "";
+//	}
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public @ResponseBody String login(
-			@RequestParam("user_id") String user_id,
-			@RequestParam("user_pw") String user_pw,
-			HttpServletRequest request) {
-		
-		String login;
-		MemberVo membervo = new MemberVo();
-		
-	
-		membervo.setUser_id(user_id);
-		membervo.setUser_pw(user_pw);
+	public @ResponseBody Map<String, Object> login(
+	        @RequestParam("user_id") String user_id,
+	        @RequestParam("user_pw") String user_pw,
+	        HttpServletRequest request) {
 
-		MemberVo result = memberservice.login(membervo);
-		
-		request.getSession().setAttribute("memberVo", result);
-		login = "redirect:/index";
-		
-		return "";
+	    MemberVo membervo = new MemberVo();    
+	    membervo.setUser_id(user_id);
+	    membervo.setUser_pw(user_pw);
+	    
+	    MemberVo result = memberservice.login(membervo);
+	                    
+	    request.getSession().setAttribute("memberVo", result);
+
+	    // 리다이렉트할 URL을 포함한 응답 데이터
+	    Map<String, Object> response = new HashMap<>();
+	    
+	    // MemberVo에서 user_auth 값을 가져와서 응답 데이터에 추가
+	    response.put("user_auth", result.getUser_auth());
+	    
+	    return response;
 	}
+	
+	@RequestMapping(value = "/idCheck", method = RequestMethod.POST)
+    public ResponseEntity<String> idCheck(@RequestParam String user_id) {
+		
+		MemberVo membervo = new MemberVo();
+		membervo.setUser_id(user_id);
+		
+        boolean idExists = memberservice.idCheck(membervo);
+        if (idExists) {
+            return ResponseEntity.ok("exists");
+        } else {
+            return ResponseEntity.ok("not_exists");
+        }
+    }
 	
 	@RequestMapping(value = "/loginCheck", method = RequestMethod.POST)
 	public @ResponseBody boolean loginCheck(
@@ -122,21 +159,32 @@ public class MemberController {
 		return "userstatus";
 	}
 	
-//	@RequestMapping(value = "/userstatus", method = RequestMethod.POST)
-//	public @ResponseBody String userstatus() {
-//		return ;
-//	}
-	// 관리자현황 리스트
-	@RequestMapping(value = "/adminlist", method = RequestMethod.GET)
-	public @ResponseBody ModelAndView admin(@RequestParam(value = "search", required = false) String search, Model model) {
+	@RequestMapping(value = "/userstatus", method = RequestMethod.POST)
+	public @ResponseBody String loginuser(String user_id, Model model) {
 		
-		List<MemberVo> memberList = memberservice.selectMemberList();
-	
-		model.addAttribute("member", memberList);
-	
-		ModelAndView mv = new ModelAndView("admin");
-		return mv;
+		MemberVo membervo = memberservice.selectMemberdetail(user_id);
+		
+		model.addAttribute("membervo", membervo);
+		
+		return "userstatus";
 	}
+	
+	@RequestMapping(value = "/newuserstatus", method = RequestMethod.GET)
+		public String newuserstatus() {
+			return "newuserstatus";
+		}
+	
+    @RequestMapping(value = "/adminlist", method = RequestMethod.GET)
+    public @ResponseBody ModelAndView admin(Model model) {
+    	
+    	List<MemberVo> memberList = memberservice.selectMemberList();
+    	
+    	model.addAttribute("member", memberList);
+    	
+    	ModelAndView mv = new ModelAndView("admin");
+    	
+    	return mv;
+    }
 	
 	// 관리자현황 검색
     @RequestMapping(value = "/adminlist", method = RequestMethod.POST)
@@ -144,16 +192,38 @@ public class MemberController {
         List<MemberVo> memberList = memberservice.selectMemberList(search);
         return ResponseEntity.ok(memberList);
     }
+//	   @RequestMapping(value = "/adminlist", method = RequestMethod.POST)
+//	    public ResponseEntity<Object> handleAdminRequest(
+//	            @RequestParam(name = "page", defaultValue = "1") int page,
+//	            @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
+//	            @RequestParam(value = "search", required = false) String search) {
+//
+//	        if (search != null) {
+//	            // POST 요청에서 검색을 수행하고 JSON 응답 반환
+//	            List<MemberVo> memberList = memberservice.selectMemberList(search);
+//	            return ResponseEntity.ok(memberList);
+//	        } else {
+//	            // POST 요청에서 페이지 로딩 처리 후 JSON 응답 반환
+//	            PagingVo pagingVo = memberservice.createPagingVo(page, pageSize);
+//	            List<MemberVo> memberList = memberservice.getMemberListPaging(pagingVo.getStartIndex(), pagingVo.getPageSize());
+//	            int totalMembers = memberservice.getTotalMembers();
+//	            
+//	            Map<String, Object> responseData = new HashMap<>();
+//	            responseData.put("member", memberList);
+//	            responseData.put("pagingVO", pagingVo);
+//	            responseData.put("totalMembers", totalMembers);
+//	            System.out.println("responseData" + responseData);
+//	            return ResponseEntity.ok(responseData);
+//	        }
+//	    }
     
     // 관리자현황 상세보기
     @RequestMapping(value = "/adminupdate", method = RequestMethod.GET)
-    public String update(String user_id, Model model) {
+    public String update(String user_id, String user_name,Model model) {
     	
     	MemberVo membervo = memberservice.selectMemberdetail(user_id);
     	
     	model.addAttribute("membervo", membervo);
-    	
-    	System.out.println(membervo);
     	
     	return "/adminupdate";
     }

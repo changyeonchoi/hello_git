@@ -129,6 +129,7 @@
  
 </head>
 <body>
+
 	<div id="wapper">
 		<!--헤더시작-->
 		<header>
@@ -161,27 +162,56 @@
             		<th>NO</th>
             		<th>회원ID</th>
             		<th>이름</th>
-            		<th>연락처</th>
+            		<th>상태</th>
         		</tr>
         	<c:forEach var="member" items="${member}" varStatus="status">
             	<tr>            	
                     <td>${status.index + 1}</td>
                 	<td>${member.user_id}</td>
                 	<td>${member.user_name}</td>
-                	<td>${member.user_phone}</td>
+                	<td>${member.user_auth}</td>
 	            </tr>
     	    </c:forEach>
     		</table>
-    		<div id="tableContainer"></div>
+    		
+		<c:if test="${ paging.prev != 1 }">
+			<a href="${ contextPath }/qna?pageNum=${ paging.prev - 1 }&countPerPage=${ paging.countPerPage }" style="margin:10px;">[이전]</a>
+		</c:if>
+		<c:forEach begin="${ paging.prev }" end="${ paging.next }" var="paging1">
+			<c:if test="${ paging.pageNum == paging1 }">
+				<a style="font-weight:bold;" href="${ contextPath }/qna?pageNum=${ paging1 }&countPerPage=${ paging.countPerPage }" style="margin:10px;">[${ paging1 }]</a>			
+			</c:if>
+			<c:if test="${ paging.pageNum != paging1 }">
+				<a href="${ contextPath }/qna?pageNum=${ paging1 }&countPerPage=${ paging.countPerPage }" style="margin:10px;">[${ paging1 }]</a>
+			</c:if>
+		</c:forEach>
+		<c:if test="${ paging.next != paging.totalPaging }">
+			<a href="${ contextPath }/qna?pageNum=${ paging.next + 1 }&countPerPage=${ paging.countPerPage }" style="margin:10px;">[다음]</a>
+		</c:if>
 		</section>
 	</div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+
+
 $(document).on('click', '#tableContainer td:nth-child(2)', function() {
     var user_id = $(this).text(); // 클릭한 행의 user_id 값을 가져옴
-    window.location.href = '/adminupdate?user_id=' + user_id; // adminupdate.jsp로 이동하면서 user_idd를 파라미터로 전달
+    window.location.href = '/adminupdate?user_id=' + user_id; // adminupdate.jsp로 이동하면서 user_id를 파라미터로 전달
+    
 });
+
+$(document).on('click', '#tableContainer td:nth-child(3)', function() {
+    // 현재 클릭한 td의 부모인 tr을 찾습니다.
+    var tr = $(this).closest('tr');
+    
+    // tr에서 td:nth-child(2)를 찾아서 그 값을 가져옵니다.
+    var user_id = tr.find('td:nth-child(2)').text();
+
+    // user_id 값을 사용하여 adminupdate.jsp로 이동
+    window.location.href = '/adminupdate?user_id=' + user_id;
+});
+
 
 function searchMembers() {
     var searchInputValue = $("#searchInput").val();
@@ -200,14 +230,14 @@ function searchMembers() {
                                 '<th>NO</th>' +
                                 '<th>회원ID</th>' +
                                 '<th>이름</th>' +
-                                '<th>연락처</th>' +
+                                '<th>상태</th>' +
                             '</tr>';
             $.each(data, function(index, member) {
                 tableHTML += '<tr>' +
                                 '<td>' + (index + 1) + '</td>' +
                                 '<td>' + member.user_id + '</td>' +
                                 '<td>' + member.user_name + '</td>' +
-                                '<td>' + member.user_phone + '</td>' +
+                                '<td>' + member.user_auth + '</td>' +
                              '</tr>';
             });
             tableHTML += '</table>';

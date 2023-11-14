@@ -73,7 +73,7 @@
             <div class="table-container">
                 <table>
                     <tr>
-                        <td class="custom-cell">회원ID:</td>
+                        <td class="custom-cell">회원ID</td>
                         <td><input type="text" class="input_text" id="user_id" value="" placeholder=""></td>
                     </tr>
                     <tr>
@@ -232,12 +232,14 @@
 				})
 	    		
     		});
-    	    // 취소 버튼 클릭 시 로그인 페이지로 이동
-    	    $("#btn_exit").off("click").on("click", function() {
-    	        window.location.href = "http://localhost:8080/login";
-    	    });
     	}
-    
+    	 $(document).ready(function() {
+    	        // 취소 버튼 클릭 시 로그인 페이지로 이동
+    	        $("#btn_exit").off("click").on("click", function() {
+    	            // 현재 창을 닫음
+    	            window.close();
+    	        });
+    	    });
     </script>
 
 </body>

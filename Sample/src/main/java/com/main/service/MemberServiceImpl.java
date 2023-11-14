@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.main.dao.MemberDao;
 import com.main.vo.MemberVo;
+import com.main.vo.PagingVo;
 
 
 @Service(value = "memberService")
@@ -39,6 +40,11 @@ public class MemberServiceImpl implements MemberService {
 		
 		return memberDao.login(membervo);
 	}
+	
+    @Override
+    public boolean idCheck(MemberVo membervo) {
+        return memberDao.idCheck(membervo);
+    }
 
 	@Override
 	public boolean loginCheck(MemberVo membervo) {

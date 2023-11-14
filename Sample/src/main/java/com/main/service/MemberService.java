@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.main.vo.MemberVo;
+import com.main.vo.PagingVo;
 
 public interface MemberService {
 
@@ -12,6 +13,8 @@ public interface MemberService {
 	String signupSuccess(MemberVo membervo);
 
 	MemberVo login(MemberVo membervo);
+	
+	boolean idCheck(MemberVo membervo);
 
 	boolean loginCheck(MemberVo membervo);
 	
@@ -24,9 +27,5 @@ public interface MemberService {
 	int deleteUserId(String user_id);
 
 	void updateUser(MemberVo membervo);
-	
-//	List<MemberVo> searchMembers(String search, int page, int pageSize);
-//	
-//    int countSearchedMembers(String search);
 
 }

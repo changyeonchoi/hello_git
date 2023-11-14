@@ -42,51 +42,59 @@
     		bind();
     	});
     	
-    	function bind(){
-    		
-    		$("#btn_login").off("click").on("click", function(){
-    			
-    			let user_id = $("#userid").val();
-    			let user_pw = $("#userpw").val();
-    			console.log("Test", user_id, user_pw);
-    			
-    			let data = {
-    					user_id : user_id,
-    					user_pw : user_pw
-    			}
-    		
-    		let url = "http://localhost:8080/loginCheck";
-    			
-    		console.log(data);
-    			
-    		$.ajax({
-    			url : url,
-    			type : "post",
-    			data : data,
-//     			console.log("data" + data);
-    			success : function(result){
-    				console.log(result);
-    				let check = result;
-    				console.log("result" + result);
-    				if(check){
-    					alert("로그인 성공");
-    					url = "http://localhost:8080/login";
-    					$.ajax({
-    						url : url,
-    						type : "post",
-    						data : data,
-    						success : function(data){
-    							location.href = "http://localhost:8080/index"
-    						}
-    					});
-    				} else {
-    					alert("아이디 또는 패스워드가 일치하지 않습니다.");
-    					let popupUrl = "http://localhost:8080/signup?user_id=" + encodeURIComponent(user_id);
-    					window.open(popupUrl, "_blank", "width=800, height=600");
-    				}
-    			}
-    		});
-    		})
+    	function bind() {
+    	    $("#btn_login").off("click").on("click", function () {
+    	        let user_id = $("#userid").val();
+    	        let user_pw = $("#userpw").val();
+//     	        console.log("Test", user_id, user_pw);
+
+    	        // 아이디 체크를 위한 AJAX 요청
+    	        let idCheckUrl = "http://localhost:8080/idCheck";
+    	        $.ajax({
+    	            url: idCheckUrl,
+    	            type: "post",
+    	            data: { user_id: user_id },
+    	            success: function (idCheckResult) {
+    	                if (idCheckResult === "exists") {
+    	                    // 아이디가 존재하는 경우, 로그인 체크 진행
+    	                    let loginCheckUrl = "http://localhost:8080/loginCheck";
+    	                    $.ajax({
+    	                        url: loginCheckUrl,
+    	                        type: "post",
+    	                        data: { user_id: user_id, user_pw: user_pw },
+    	                        success: function (loginCheckResult) {
+    	                            if (loginCheckResult) {
+//     	                                alert("로그인 성공");
+    	                                url = "http://localhost:8080/login";
+    	                                $.ajax({
+    	                                    url: url,
+    	                                    type: "post",
+    	                                    data: { user_id: user_id, user_pw: user_pw },
+    	                                    success: function (data) {
+    	                                    	console.log("user_auth", data.user_auth);
+    	                                    	 if (data.user_auth === "사용") {
+    	                                                // 사용 중인 경우에 대한 동작 추가
+    	                                    		 window.location.href = "index";
+    	                                            } else if (data.user_auth === "미사용") {
+    	                                                // 미사용 중인 경우에 대한 동작 추가
+    	                                            	window.open("newuserstatus", "_blank", "width=800, height=600");
+    	                                            }
+    	                                    }
+    	                                });
+    	                            } else {
+    	                                alert("아이디 또는 패스워드가 일치하지 않습니다.");
+//     	                                let popupUrl = "http://localhost:8080/signup?user_id=" + encodeURIComponent(user_id);
+//     	                                window.open(popupUrl, "_blank", "width=800, height=600");
+    	                            }
+    	                        }
+    	                    });
+    	                } else {
+                            let popupUrl = "http://localhost:8080/signup?user_id=" + encodeURIComponent(user_id);
+                            window.open(popupUrl, "_blank", "width=800, height=600");
+    	                }
+    	            }
+    	        });
+    	    });
     	}
     </script>
 </body>

@@ -1,7 +1,9 @@
 package com.main.vo;
 
 public class MemberVo {
-
+	
+	//no
+	private Integer no;
 	//pk
 	private String seq_id;
 	//아이디
@@ -17,12 +19,6 @@ public class MemberVo {
 	//검색
 	private String search;
 	
-	public String getSearch() {
-		return search;
-	}
-	public void setSearch(String search) {
-		this.search = search;
-	}
 	@Override
 	public String toString() {
 		return "MemberVo [seq_id=" + seq_id + ", user_id=" + user_id + ", user_pw=" + user_pw + ", user_name="
@@ -63,5 +59,17 @@ public class MemberVo {
 	}
 	public void setUser_auth(String user_auth) {
 		this.user_auth = user_auth;
+	}
+	public String getSearch() {
+		return search;
+	}
+	public void setSearch(String search) {
+		this.search = search;
+	}
+	public Integer getNo() {
+		return no;
+	}
+	public void setNo(Integer no) {
+		this.no = no;
 	}
 }
