@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.main.service.MemberService;
+import com.main.service.PageNavigigationService;
 import com.main.vo.MemberVo;
 
 
@@ -28,6 +29,8 @@ public class MemberController {
 	
 	@Autowired
 	MemberService memberservice;
+	@Autowired
+	PageNavigigationService pagenavigigationservice;
 	private MemberVo membervo;
 	
 	@RequestMapping("/index")
@@ -35,9 +38,9 @@ public class MemberController {
 		return "index";
 	}
 	
-	@RequestMapping("/main")
-	public String main() {
-		return "main";
+	@RequestMapping("/save")
+	public String save() {
+		return "save";
 	}
 	
 	@RequestMapping("/signup")
@@ -175,9 +178,40 @@ public class MemberController {
 		}
 	
     @RequestMapping(value = "/adminlist", method = RequestMethod.GET)
-    public @ResponseBody ModelAndView admin(Model model) {
+    public @ResponseBody ModelAndView admin(Model model, HttpServletRequest request,
+    		@RequestParam(value="pageNo"		, defaultValue="1" , required=true) int pageNo,
+    		@RequestParam(name = "listSize", defaultValue = "10") int listSize,
+    		@RequestParam(name = "naviSize", defaultValue = "20") int naviSize,
+    		@RequestParam(value = "search", defaultValue = "") String search
+    		) {
+    	Map<String, Object> keyword = new HashMap<String, Object>();
+    	keyword.put("search", search);
     	
-    	List<MemberVo> memberList = memberservice.selectMemberList();
+    	int totalCount = memberservice.selectTotalCount(keyword);
+    	
+    	System.out.println("totalCount" +totalCount);
+    	
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	map.put("pageNo", pageNo);
+    	map.put("totalCount", totalCount);
+    	map.put("listSize", listSize);
+    	map.put("naviSize", naviSize);
+    	map.put("search", search);
+    	System.out.println("search" + search);
+    	System.out.println("map" + map);
+
+    	// 계산된 startRow와 endRow를 Map에 추가
+        PageNavigation pageNavigation = new PageNavigation(map);
+        map.put("startRow", pageNavigation.getStartRow());
+        map.put("endRow", pageNavigation.getEndRow());
+    	
+    	model.addAttribute("pageAttribute", map);
+    	
+    	PageNavigation navigation = pagenavigigationservice.makePageNavigation(map);
+    	
+    	model.addAttribute("navigation", navigation);
+    	
+    	List<MemberVo> memberList = memberservice.selectMemberList(map);
     	
     	model.addAttribute("member", memberList);
     	
@@ -187,11 +221,18 @@ public class MemberController {
     }
 	
 	// 관리자현황 검색
-    @RequestMapping(value = "/adminlist", method = RequestMethod.POST)
-    public ResponseEntity<List<MemberVo>> searchMembers(@RequestParam(value = "search", required = false) String search) {
-        List<MemberVo> memberList = memberservice.selectMemberList(search);
-        return ResponseEntity.ok(memberList);
-    }
+//    @RequestMapping(value = "/adminlist", method = RequestMethod.POST)
+//    public ResponseEntity<List<MemberVo>> searchMembers(@RequestParam(value = "search", required = false) String search) {
+//        
+//    	Map<String, Object> map = new HashMap<String, Object>();
+//    	map.put("search", search);
+//    	
+//    	
+//    	List<MemberVo> memberList = memberservice.selectMemberList(map);
+//    	System.out.println("memberList" + memberList);
+//    	
+//        return ResponseEntity.ok(memberList);
+//    }
 //	   @RequestMapping(value = "/adminlist", method = RequestMethod.POST)
 //	    public ResponseEntity<Object> handleAdminRequest(
 //	            @RequestParam(name = "page", defaultValue = "1") int page,
@@ -229,10 +270,10 @@ public class MemberController {
     }
     
     // 관리자삭제
-    @RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
+    @RequestMapping(value = "/deleteMember", method = RequestMethod.POST)
     public ResponseEntity<String> deleteUser(@RequestParam("user_id") String user_id) {
         // 사용자 삭제를 수행하는 서비스 메서드 호출
-        int deletedRows = memberservice.deleteUserId(user_id);
+        int deletedRows = memberservice.deleteMemberId(user_id);
         
         if (deletedRows > 0) {
             // 삭제 성공 시 응답
@@ -245,14 +286,6 @@ public class MemberController {
     
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
     public ResponseEntity<Object> updateUser(@RequestBody MemberVo membervo) {
-        // 받아온 사용자 정보를 가지고 업데이트 로직을 수행합니다.
-        // 여기에서는 간단한 예시로 출력만 하겠습니다.
-        System.out.println("Received user information: " +
-                membervo.getUser_name() +
-                ", " + membervo.getUser_phone() +
-                ", " + membervo.getUser_pw() +
-                ", " + membervo.getUser_id() +
-                ", " + membervo.getUser_auth());
 
         try {
              memberservice.updateUser(membervo); // 실제로는 업데이트 로직을 수행해야 합니다.
@@ -261,6 +294,80 @@ public class MemberController {
         } catch (Exception e) {
             // 수정에 실패한 경우
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"status\":\"error\",\"message\":\"" + e.getMessage() + "\"}");
+        }
+    }
+    
+//    @RequestMapping(value = "/user", method = RequestMethod.GET)
+//    public String user() {
+//    	return "user";
+//    }
+    
+    @RequestMapping(value = "/userlist", method = RequestMethod.GET)
+    public @ResponseBody ModelAndView user(Model model, HttpServletRequest request,
+    		@RequestParam(value="pageNo"		, defaultValue="1" , required=true) int pageNo,
+    		@RequestParam(name = "listSize", defaultValue = "10") int listSize,
+    		@RequestParam(name = "naviSize", defaultValue = "20") int naviSize,
+    		@RequestParam(value = "search", defaultValue = "") String search
+    		) {
+    	Map<String, Object> keyword = new HashMap<String, Object>();
+    	keyword.put("search", search);
+    	
+    	int totalCount = memberservice.selectTotalCount(keyword);
+    	
+    	System.out.println("totalCount" +totalCount);
+    	
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	map.put("pageNo", pageNo);
+    	map.put("totalCount", totalCount);
+    	map.put("listSize", listSize);
+    	map.put("naviSize", naviSize);
+    	map.put("search", search);
+    	System.out.println("search" + search);
+    	System.out.println("map" + map);
+
+    	// 계산된 startRow와 endRow를 Map에 추가
+        PageNavigation pageNavigation = new PageNavigation(map);
+        map.put("startRow", pageNavigation.getStartRow());
+        map.put("endRow", pageNavigation.getEndRow());
+    	
+    	model.addAttribute("pageAttribute", map);
+    	
+    	PageNavigation navigation = pagenavigigationservice.makePageNavigation(map);
+    	
+    	model.addAttribute("navigation", navigation);
+    	
+    	List<MemberVo> memberList = memberservice.selectUserList(map);
+    	
+    	model.addAttribute("member", memberList);
+    	
+    	ModelAndView mv = new ModelAndView("user");
+    	
+    	return mv;
+    }
+    
+    // 사용자현황 상세보기
+    @RequestMapping(value = "/userupdate", method = RequestMethod.GET)
+    public String userupdate(String user_id, String user_name,Model model) {
+    	
+    	MemberVo membervo = memberservice.selectUserdetail(user_id);
+    	
+    	model.addAttribute("membervo", membervo);
+    	
+    	return "/userupdate";
+    }
+    
+    // 사용자삭제
+    @RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
+    public ResponseEntity<String> userdelete(@RequestParam("user_id") String user_id) {
+        // 사용자 삭제를 수행하는 서비스 메서드 호출
+        int deletedRows = memberservice.deleteUserId(user_id);
+        
+        if (deletedRows > 0) {
+            // 삭제 성공 시 응답
+            return ResponseEntity.ok("사용자가 삭제되었습니다.");
+        } else {
+            // 삭제 실패 시 응답
+            return ResponseEntity.status(500).body("사용자 삭제에 실패하였습니다.");
         }
     }
 }

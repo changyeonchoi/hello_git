@@ -9,6 +9,25 @@
 <meta charset="UTF-8">
 <title>관리자 현황</title>
 <style type="text/css">
+.center-div {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px; /* 필요에 따라 조절 가능한 상단 여백 */
+}
+.pagination {
+    margin: 0 5px; /* 페이지 번호와 부등호 사이의 간격을 조절할 수 있습니다. */
+}
+
+.page-number {
+    text-decoration: none;
+    padding: 3px 5px; /* 페이지 번호의 간격 및 여백을 조절할 수 있습니다. */
+    border: 1px solid #ccc; /* 페이지 번호의 테두리를 추가할 수 있습니다. */
+    color: #333; /* 페이지 번호의 글자색을 조절할 수 있습니다. */
+}
+
+.page-number:hover {
+    background-color: #f5f5f5; /* 마우스 오버 시 배경색을 변경할 수 있습니다. */
+}
 	body {
 		text-align: center;
 /* 		color: #FFF; */
@@ -143,8 +162,8 @@
 		<nav>
 			<div class="menu-items">
     			<h3>사용자관리</h3>
-    			<h5><a href="#" class="red-text">관리자 현황</a></h5>		
-    			<h5><a href="#">사용자 현황</a></h5>
+    			<h5><a href="adminlist" class="red-text">관리자 현황</a></h5>		
+    			<h5><a href="userlist">사용자 현황</a></h5>
     			<h5><a href="#">사용자 주문현황</a></h5>
 			</div>
 		</nav>
@@ -154,7 +173,7 @@
         		<h3>관리자 현황</h3>
 				<div class="underline-input">
     				<input type="text" id="searchInput" placeholder="회원 ID를 입력해주세요" class="input-field"/>
-    				<button onclick="searchMembers()" class="search-button"></button>
+    				<button onclick="goSearch()" class="search-button"></button>
 				</div>
     		</div>
 			<table id="tableContainer">
@@ -173,32 +192,27 @@
 	            </tr>
     	    </c:forEach>
     		</table>
-    		
-		<c:if test="${ paging.prev != 1 }">
-			<a href="${ contextPath }/qna?pageNum=${ paging.prev - 1 }&countPerPage=${ paging.countPerPage }" style="margin:10px;">[이전]</a>
-		</c:if>
-		<c:forEach begin="${ paging.prev }" end="${ paging.next }" var="paging1">
-			<c:if test="${ paging.pageNum == paging1 }">
-				<a style="font-weight:bold;" href="${ contextPath }/qna?pageNum=${ paging1 }&countPerPage=${ paging.countPerPage }" style="margin:10px;">[${ paging1 }]</a>			
-			</c:if>
-			<c:if test="${ paging.pageNum != paging1 }">
-				<a href="${ contextPath }/qna?pageNum=${ paging1 }&countPerPage=${ paging.countPerPage }" style="margin:10px;">[${ paging1 }]</a>
-			</c:if>
-		</c:forEach>
-		<c:if test="${ paging.next != paging.totalPaging }">
-			<a href="${ contextPath }/qna?pageNum=${ paging.next + 1 }&countPerPage=${ paging.countPerPage }" style="margin:10px;">[다음]</a>
-		</c:if>
-		</section>
+			<div class="center-div">${navigation}</div>
+    	</section>
 	</div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 
+function goPage(pageNo){
+	let searchInputValue = $("#searchInput").val();
+	$(location).attr('href',"<c:url value='/adminlist?pageNo="+pageNo+"'/>");
+}
 
+function goSearch(){
+	let search = $("#searchInput").val();
+	console.log("search" + search);
+	$(location).attr('href',"<c:url value='/adminlist?search="+search+"'/>");
+}
 $(document).on('click', '#tableContainer td:nth-child(2)', function() {
     var user_id = $(this).text(); // 클릭한 행의 user_id 값을 가져옴
     window.location.href = '/adminupdate?user_id=' + user_id; // adminupdate.jsp로 이동하면서 user_id를 파라미터로 전달
-    
+    	
 });
 
 $(document).on('click', '#tableContainer td:nth-child(3)', function() {
@@ -213,47 +227,47 @@ $(document).on('click', '#tableContainer td:nth-child(3)', function() {
 });
 
 
-function searchMembers() {
-    var searchInputValue = $("#searchInput").val();
+// function searchMembers() {
+//     var searchInputValue = $("#searchInput").val();
 
-    // 서버로 요청 보내기
-    $.ajax({
-        url: '/adminlist',
-        method: 'POST',
-        data: { search: searchInputValue },
-        dataType: 'json',
-        success: function(data) {
-        	console.log(data);
-            // 서버에서 받은 JSON 데이터를 기반으로 동적으로 테이블 생성
-            var tableHTML = '<table>' +
-                            '<tr>' +
-                                '<th>NO</th>' +
-                                '<th>회원ID</th>' +
-                                '<th>이름</th>' +
-                                '<th>상태</th>' +
-                            '</tr>';
-            $.each(data, function(index, member) {
-                tableHTML += '<tr>' +
-                                '<td>' + (index + 1) + '</td>' +
-                                '<td>' + member.user_id + '</td>' +
-                                '<td>' + member.user_name + '</td>' +
-                                '<td>' + member.user_auth + '</td>' +
-                             '</tr>';
-            });
-            tableHTML += '</table>';
+//     // 서버로 요청 보내기
+//     $.ajax({
+//         url: '/adminlist',
+//         method: 'POST',
+//         data: { search: searchInputValue },
+//         dataType: 'json',
+//         success: function(data) {
+//         	console.log(data);
+//             // 서버에서 받은 JSON 데이터를 기반으로 동적으로 테이블 생성
+//             var tableHTML = '<table>' +
+//                             '<tr>' +
+//                                 '<th>NO</th>' +
+//                                 '<th>회원ID</th>' +
+//                                 '<th>이름</th>' +
+//                                 '<th>상태</th>' +
+//                             '</tr>';
+//             $.each(data, function(index, member) {
+//                 tableHTML += '<tr>' +
+//                                 '<td>' + (index + 1) + '</td>' +
+//                                 '<td>' + member.user_id + '</td>' +
+//                                 '<td>' + member.user_name + '</td>' +
+//                                 '<td>' + member.user_auth + '</td>' +
+//                              '</tr>';
+//             });
+//             tableHTML += '</table>';
 
-            // 기존 테이블 삭제
-            $("#tableContainer").empty();
+//             // 기존 테이블 삭제
+//             $("#tableContainer").empty();
 
-            // 생성한 테이블을 화면에 추가 (ID가 "tableContainer"인 엘리먼트에 추가)
-            $("#tableContainer").html(tableHTML);
-        },
-        error: function(error) {
-            // 오류 처리
-            console.error('Error:', error);
-        }
-    });
-}
+//             // 생성한 테이블을 화면에 추가 (ID가 "tableContainer"인 엘리먼트에 추가)
+//             $("#tableContainer").html(tableHTML);
+//         },
+//         error: function(error) {
+//             // 오류 처리
+//             console.error('Error:', error);
+//         }
+//     });
+// }
 </script>
 </body>
 </html>

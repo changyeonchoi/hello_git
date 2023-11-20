@@ -123,7 +123,7 @@
             				<tr>
                 				<td class="black-cell">패스워드 확인*</td>
                         		<td><input type="password" class="input_text" id="user_pw1" value="${membervo.user_pw}" maxlength="10"></td>
-            					</tr>
+            				</tr>
         				</table><br>
         				<div>1.관리자 상태</div><br>
     					<table border="1" style="width: 90%;">
@@ -216,7 +216,7 @@
 
     	            // 서버에 삭제 요청을 보내는 Ajax 호출
     	            $.ajax({
-    	                url: '/deleteUser', // 삭제를 처리하는 서버의 엔드포인트 URL로 변경해주세요
+    	                url: '/deleteMember', // 삭제를 처리하는 서버의 엔드포인트 URL로 변경해주세요
     	                method: 'POST',
     	                data: { user_id: user_id }, // 삭제할 사용자 ID를 서버에 전달
     	                success: function(response) {

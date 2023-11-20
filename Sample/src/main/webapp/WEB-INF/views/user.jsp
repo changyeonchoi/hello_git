@@ -1,11 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE HTML>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>HTML5</title>
 <style type="text/css">
+.center-div {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px; /* 필요에 따라 조절 가능한 상단 여백 */
+}
+.pagination {
+    margin: 0 5px; /* 페이지 번호와 부등호 사이의 간격을 조절할 수 있습니다. */
+}
+.page-number {
+    text-decoration: none;
+    padding: 3px 5px; /* 페이지 번호의 간격 및 여백을 조절할 수 있습니다. */
+    border: 1px solid #ccc; /* 페이지 번호의 테두리를 추가할 수 있습니다. */
+    color: #333; /* 페이지 번호의 글자색을 조절할 수 있습니다. */
+}
+
+.page-number:hover {
+    background-color: #f5f5f5; /* 마우스 오버 시 배경색을 변경할 수 있습니다. */
+}
 	body {
 		text-align: center;
 /* 		color: #FFF; */
@@ -139,47 +160,67 @@
 		<nav>
 			<div class="menu-items">
     			<h3>사용자관리</h3>
-    			<h5><a href="#" class="red-text">관리자 현황</a></h5>		
-    			<h5><a href="#">사용자 현황</a></h5>
+    			<h5><a href="adminlist">관리자 현황</a></h5>		
+    			<h5><a href="userlist" class="red-text">사용자 현황</a></h5>
     			<h5><a href="#">사용자 주문현황</a></h5>
 			</div>
 		</nav>
 		<!--콘텐츠부분-->
 		<section>
 			<div class="section-header">
-        		<h3>관리자 현황</h3>
+        		<h3>사용자 현황</h3>
         			<div class="underline-input">
-            			<input type="text" value="${search}" placeholder="회원 ID를 입력해주세요" name="search" class="input-field"/>
-            			<button onclick="searchDate()" class="search-button"></button>
+            			<input type="text" id="searchInput" placeholder="회원 ID를 입력해주세요" class="input-field"/>
+            			<button onclick="goSearch()" class="search-button"></button>
         			</div>
     		</div>
-			<table>
+			<table id="tableContainer">
         		<tr>
             		<th>NO</th>
             		<th>회원ID</th>
             		<th>이름</th>
             		<th>연락처</th>
         		</tr>
-        		<tr>
-            		<td>1</td>
-            		<td>user123</td>
-            		<td>홍길동</td>
-            		<td>010-1234-5678</td>
-        		</tr>
-        		<tr>
-            		<td>2</td>
-            		<td>user456</td>
-            		<td>김철수</td>
-            		<td>010-9876-5432</td>
-        		</tr>
-        		<tr>
-            		<td>3</td>
-            		<td>user789</td>
-            		<td>이영희</td>
-            		<td>010-1111-2222</td>
-        		</tr>
+        	<c:forEach var="member" items="${member}" varStatus="status">
+            	<tr>            	
+                    <td>${status.index + 1}</td>
+                	<td>${member.user_id}</td>
+                	<td>${member.user_name}</td>
+                	<td>${member.user_phone}</td>
+	            </tr>
+    	    </c:forEach>
     		</table>
+			<div class="center-div">${navigation}</div>
 		</section>
 	</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+function goPage(pageNo){
+	let searchInputValue = $("#searchInput").val();
+	$(location).attr('href',"<c:url value='/userlist?pageNo="+pageNo+"'/>");
+}
+
+function goSearch(){
+	let search = $("#searchInput").val();
+	console.log("search" + search);
+	$(location).attr('href',"<c:url value='/userlist?search="+search+"'/>");
+}
+$(document).on('click', '#tableContainer td:nth-child(2)', function() {
+    var user_id = $(this).text(); // 클릭한 행의 user_id 값을 가져옴
+    window.location.href = '/userupdate?user_id=' + user_id; // adminupdate.jsp로 이동하면서 user_id를 파라미터로 전달
+    	
+});
+
+$(document).on('click', '#tableContainer td:nth-child(3)', function() {
+    // 현재 클릭한 td의 부모인 tr을 찾습니다.
+    var tr = $(this).closest('tr');
+    
+    // tr에서 td:nth-child(2)를 찾아서 그 값을 가져옵니다.
+    var user_id = tr.find('td:nth-child(2)').text();
+
+    // user_id 값을 사용하여 adminupdate.jsp로 이동
+    window.location.href = '/userupdate?user_id=' + user_id;
+});
+</script>
 </body>
 </html>

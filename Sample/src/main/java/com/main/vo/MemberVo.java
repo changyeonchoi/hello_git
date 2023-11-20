@@ -18,11 +18,13 @@ public class MemberVo {
 	private String user_auth;
 	//검색
 	private String search;
-	
-	@Override
-	public String toString() {
-		return "MemberVo [seq_id=" + seq_id + ", user_id=" + user_id + ", user_pw=" + user_pw + ", user_name="
-				+ user_name + ", user_phone=" + user_phone + ", user_auth=" + user_auth + ", search=" + search + "]";
+	//주소
+	private String user_address;
+	public Integer getNo() {
+		return no;
+	}
+	public void setNo(Integer no) {
+		this.no = no;
 	}
 	public String getSeq_id() {
 		return seq_id;
@@ -66,10 +68,19 @@ public class MemberVo {
 	public void setSearch(String search) {
 		this.search = search;
 	}
-	public Integer getNo() {
-		return no;
+	public String getUser_address() {
+		return user_address;
 	}
-	public void setNo(Integer no) {
-		this.no = no;
+	public void setUser_address(String user_address) {
+		this.user_address = user_address;
 	}
+	@Override
+	public String toString() {
+		return "MemberVo [no=" + no + ", seq_id=" + seq_id + ", user_id=" + user_id + ", user_pw=" + user_pw
+				+ ", user_name=" + user_name + ", user_phone=" + user_phone + ", user_auth=" + user_auth + ", search="
+				+ search + ", user_address=" + user_address + "]";
+	}
+	
+
+
 }

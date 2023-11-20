@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.main.vo.MemberVo;
-import com.main.vo.PagingVo;
+
 
 public interface MemberService {
 
@@ -18,14 +18,22 @@ public interface MemberService {
 
 	boolean loginCheck(MemberVo membervo);
 	
-	public List<MemberVo> selectMemberList(String search);
+//	public List<MemberVo> selectMemberList(String search);
 	
-	public List<MemberVo> selectMemberList();
+	public List<MemberVo> selectMemberList(Map<String, Object> map);
+	
+	public List<MemberVo> selectUserList(Map<String, Object> map);
 
 	MemberVo selectMemberdetail(String user_id);
+	
+	MemberVo selectUserdetail(String user_id);
 
-	int deleteUserId(String user_id);
+	int deleteMemberId(String user_id);
 
 	void updateUser(MemberVo membervo);
+
+	int selectTotalCount(Map<String, Object> map);
+	
+	int deleteUserId(String user_id);
 
 }

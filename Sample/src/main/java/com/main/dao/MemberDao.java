@@ -77,12 +77,12 @@ public class MemberDao {
 		return check;
 	}
 	
-	public List<MemberVo> selectmemberlist(String search) {
-		return sqlSession.selectList("memberDao.selectmemberlist", search);
-	}
+//	public List<MemberVo> selectmemberlist(String search) {
+//		return sqlSession.selectList("memberDao.selectmemberlist", search);
+//	}
 	
-	public List<MemberVo> selectmemberlist() {
-		return sqlSession.selectList("memberDao.selectmemberlist");
+	public List<MemberVo> selectmemberlist(Map<String, Object> map) {
+		return sqlSession.selectList("memberDao.selectmemberlist", map);
 	}
 
 	public MemberVo selectMemberdetail(String user_id) {
@@ -90,9 +90,9 @@ public class MemberDao {
 		return sqlSession.selectOne("memberDao.selectMemberdetail", user_id);
 	}
 
-	public int deleteUserId(String user_id) {
+	public int deleteMemberId(String user_id) {
 		// TODO Auto-generated method stub
-		return sqlSession.delete("memberDao.deleteUserId", user_id);
+		return sqlSession.delete("memberDao.deleteMemberId", user_id);
 	}
 
 	public void updateUser(MemberVo membervo) {
@@ -100,7 +100,24 @@ public class MemberDao {
 		sqlSession.update("memberDao.updateUser", membervo);
 	}
 
-   
+	public int selectTotalCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberDao.selectTotalCount", map);
+	}
+
+	public List<MemberVo> selectuserlist(Map<String, Object> map) {
+		return sqlSession.selectList("memberDao.selectuserlist", map);
+	}
+
+	public MemberVo selectUserdetail(String user_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberDao.selectUserdetail", user_id);
+	}
+
+	public int deleteUserId(String user_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("memberDao.deleteUserId", user_id);
+	}
     
 //    public List<MemberVo> selectMemberListPaging(int startIndex, int pageSize) {
 //        Map<String, Integer> params = new HashMap<>();

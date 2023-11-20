@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.main.dao.MemberDao;
 import com.main.vo.MemberVo;
-import com.main.vo.PagingVo;
 
 
 @Service(value = "memberService")
@@ -54,20 +53,20 @@ public class MemberServiceImpl implements MemberService {
 		return check;
 	}
 	
-	@Override
-	public List<MemberVo> selectMemberList(String search){
-		List<MemberVo> memberList = null;
-		
-		memberList = memberDao.selectmemberlist(search);
-		
-		return memberList;
-	}
+//	@Override
+//	public List<MemberVo> selectMemberList(String search){
+//		List<MemberVo> memberList = null;
+//		
+//		memberList = memberDao.selectmemberlist(search);
+//		
+//		return memberList;
+//	}
 	
 	@Override
-	public List<MemberVo> selectMemberList(){
+	public List<MemberVo> selectMemberList(Map<String, Object> map){
 		List<MemberVo> memberList = null;
 		
-		memberList = memberDao.selectmemberlist();
+		memberList = memberDao.selectmemberlist(map);
 		
 		return memberList;
 	}
@@ -79,9 +78,9 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int deleteUserId(String user_id) {
+	public int deleteMemberId(String user_id) {
 		
-		return memberDao.deleteUserId(user_id);
+		return memberDao.deleteMemberId(user_id);
 	}
 
     @Override
@@ -90,4 +89,32 @@ public class MemberServiceImpl implements MemberService {
         // 여기에서는 MemberRepository를 사용하여 데이터베이스에 업데이트하는 예시를 보여줍니다.
     	memberDao.updateUser(membervo);
     }
+
+	@Override
+	public int selectTotalCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return memberDao.selectTotalCount(map);
+	}
+
+	//사용자 현황
+	@Override
+	public List<MemberVo> selectUserList(Map<String, Object> map) {
+		List<MemberVo> userList = null;
+		
+		userList = memberDao.selectuserlist(map);
+		
+		return userList;
+	}
+	//사용자 상세보기
+	@Override
+	public MemberVo selectUserdetail(String user_id) {
+		
+		return memberDao.selectUserdetail(user_id);
+	}
+
+	@Override
+	public int deleteUserId(String user_id) {
+		// TODO Auto-generated method stub
+		return memberDao.deleteUserId(user_id);
+	}
 }
