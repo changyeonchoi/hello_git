@@ -9,6 +9,7 @@
 	<result property="banner_title" column="banner_title"/>
 	<result property="product_name" column="product_name"/>
 	<result property="file_img" column="file_img"/>
+	<result property="detail_img" column="detail_img"/>
 	<result property="product_amount" column="product_amount" />
 	<result property="delivery_fee" column="delivery_fee" />
 	<result property="company_name" column="company_name" />
@@ -63,6 +64,7 @@
     	seq_id
     	, regdate
     	, file_img
+    	, detail_img
     	, banner_title
     	, product_name
     	, product_amount
@@ -75,6 +77,7 @@
     	PRODUCT_SEQ.NEXTVAL
     	, SYSDATE
     	, #{filePath}
+    	, #{detailPath}
     	, #{banner_title, jdbcType=VARCHAR}
     	, #{product_name, jdbcType=VARCHAR}
     	, #{product_amount, jdbcType=VARCHAR}

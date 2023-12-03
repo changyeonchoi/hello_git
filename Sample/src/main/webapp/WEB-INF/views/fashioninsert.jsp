@@ -139,7 +139,7 @@
             				</tr>
             				<tr>
                 				<td class="black-cell">상세정보 이미지*</td>
-                        		<td><input type="text" class="input_text" id="detail_img" value="" maxlength="10"></td>
+                        		<td><input type="file" class="input_text" id="detail_img" name="detail_img" value="" maxlength="10"></td>
             				</tr>
             				<tr>
                 				<td class="black-cell">업체전화번호*</td>
@@ -241,7 +241,7 @@ $(document).ready(function() {
         var product_amount = $("#product_amount").val();
         var delivery_fee = $("#delivery_fee").val();
         var company_name = $("#company_name").val();
-        var detail_img = $("#detail_img").val();
+        var detail_img = $("#detail_img")[0].files[0]; // Get the file object
         var detail_phone = $("#detail_phone").val();
         var company_yn = $("input[name='company_yn']:checked").val(); // Get the selected radio button value
 
@@ -264,14 +264,14 @@ $(document).ready(function() {
             url: '/fashionenroll',
             method: 'POST',
             data: formData,
-            dataType: "json",
+            dataType: "text",
             enctype: 'multipart/form-data',
             contentType: false,
             processData: false,
             success: function(response) {
                 // 등록 성공 시 알림 표시 후 목록 페이지로 이동
                 alert('상품이 등록되었습니다.');
-                window.location.href = 'fashionlist'; // 등록 후 이동할 페이지 URL로 변경해주세요
+//                 window.location.href = 'fashionlist'; // 등록 후 이동할 페이지 URL로 변경해주세요
             },
             error: function(error) {
                 // 등록 실패 시 알림 표시

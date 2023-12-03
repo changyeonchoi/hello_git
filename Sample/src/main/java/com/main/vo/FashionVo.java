@@ -23,7 +23,7 @@ public class FashionVo {
 	//판매업체번호
 	private String company_phone;
 	//상세정보(IMG)
-	private String detail_img;
+	private MultipartFile detail_img;
 	//상세정보(URL)
 	private String detail_url;
 	//노출여부
@@ -34,33 +34,29 @@ public class FashionVo {
 	private String user_id;
 	//등록일
 	private String regdate;
-	//섬네일
-	private String gdsThumbImg;
-	//상세이미지
-	private String gdsImg;
 	
 	private String file_Path;
 	
+	private String detailPath;
+	
+	public String getFile_Path() {
+		return file_Path;
+	}
+	public void setFile_Path(String file_Path) {
+		this.file_Path = file_Path;
+	}
+	public String getDetailPath() {
+		return detailPath;
+	}
+	public void setDetailPath(String detailPath) {
+		this.detailPath = detailPath;
+	}
 	public String getFilePath() {
 		return file_Path;
 	}
 	public void setFilePath(String file_Path) {
 		this.file_Path = file_Path;
 	}
-	public String getGdsThumbImg() {
-		return gdsThumbImg;
-	}
-	public void setGdsThumbImg(String gdsThumbImg) {
-		this.gdsThumbImg = gdsThumbImg;
-	}
-	
-	public String getGdsImg() {
-		return gdsImg;
-	}
-	public void setGdsImg(String gdsImg) {
-		this.gdsImg = gdsImg;
-	}
-	
 	public String getSeq_id() {
 		return seq_id;
 	}
@@ -110,10 +106,10 @@ public class FashionVo {
 	public void setCompany_phone(String company_phone) {
 		this.company_phone = company_phone;
 	}
-	public String getDetail_img() {
+	public MultipartFile getDetail_img() {
 		return detail_img;
 	}
-	public void setDetail_img(String detail_img) {
+	public void setDetail_img(MultipartFile detail_img) {
 		this.detail_img = detail_img;
 	}
 	public String getDetail_url() {
@@ -152,17 +148,14 @@ public class FashionVo {
 	public void setProduct_amonut(String product_amount) {
 		this.product_amount = product_amount;
 	}
+	
 	@Override
 	public String toString() {
 		return "FashionVo [seq_id=" + seq_id + ", banner_title=" + banner_title + ", product_name=" + product_name
 				+ ", file_img=" + file_img + ", product_amount=" + product_amount + ", delivery_fee=" + delivery_fee
 				+ ", company_name=" + company_name + ", company_phone=" + company_phone + ", detail_img=" + detail_img
 				+ ", detail_url=" + detail_url + ", company_yn=" + company_yn + ", code=" + code + ", user_id="
-				+ user_id + ", regdate=" + regdate + ", gdsThumbImg=" + gdsThumbImg + ", gdsImg=" + gdsImg
-				+ ", file_Path=" + file_Path + "]";
+				+ user_id + ", regdate=" + regdate + ", file_Path=" + file_Path + ", detailPath=" + detailPath + "]";
 	}
 
-
-
-	
 }

@@ -44,7 +44,7 @@ public class FashionController {
     		@RequestParam(name = "naviSize", defaultValue = "20") int naviSize,
 			@RequestParam(value = "search", defaultValue = "") String search,
 			@RequestParam(value = "file_img", required=false) MultipartFile file_img,
-//	        @RequestParam("detail_img") MultipartFile detail_img,
+	        @RequestParam(value = "detail_img", required=false) MultipartFile detail_img,
 	        @RequestParam(value = "banner_title", required=false) String banner_title,
 	        @RequestParam(value = "product_name", required=false) String product_name,
 	        @RequestParam(value = "product_amount", required=false) String product_amount,
@@ -96,22 +96,29 @@ public class FashionController {
 		} else if("enroll".equals(type)) {
 			
 			String originalFileName = file_img.getOriginalFilename();
+			
+			String detailFileName = detail_img.getOriginalFilename();
 
 			String filePath = uploadPath + originalFileName;
+			
+			String detailPath = uploadPath + detailFileName;
 			 
 			file_img.transferTo(new File(filePath));
 			
-			System.out.println("File Upload Path: " + file_img);
+			detail_img.transferTo(new File(detailPath));
+			
+			System.out.println("File Upload Path: " + detailPath);
+			System.out.println("detail_img " + detail_img);
 			
 			fashionvo.setUser_id(membervo.getUser_id());
 			fashionvo.setBanner_title(banner_title);
 			fashionvo.setProduct_name(product_name);
 			fashionvo.setFilePath(filePath);
-//			fashionvo.setFile_img(file_img.getBytes());
+			fashionvo.setDetailPath(detailPath);
 			fashionvo.setProduct_amonut(product_amount);
 			fashionvo.setDelivery_fee(delivery_fee);
 			fashionvo.setCompany_name(company_name);
-//			fashionvo.setDetail_img(detail_img);
+			fashionvo.setDetail_img(detail_img);
 			fashionvo.setCompany_phone(company_phone);
 			fashionvo.setCompany_yn(company_yn);
 //			fashionvo.setCode(code);
