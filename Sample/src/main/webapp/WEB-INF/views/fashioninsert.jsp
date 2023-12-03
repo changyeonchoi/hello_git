@@ -265,7 +265,7 @@ $(document).ready(function() {
             method: 'POST',
             data: formData,
             dataType: "json",
-            enctype: 'multipart/form-data', // 올바른 스펠링 사용
+            enctype: 'multipart/form-data',
             contentType: false,
             processData: false,
             success: function(response) {

@@ -74,7 +74,7 @@
     	) VALUES (
     	PRODUCT_SEQ.NEXTVAL
     	, SYSDATE
-    	, #{file_img, jdbcType=VARCHAR}
+    	, #{filePath}
     	, #{banner_title, jdbcType=VARCHAR}
     	, #{product_name, jdbcType=VARCHAR}
     	, #{product_amount, jdbcType=VARCHAR}

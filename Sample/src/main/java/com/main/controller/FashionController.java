@@ -106,7 +106,8 @@ public class FashionController {
 			fashionvo.setUser_id(membervo.getUser_id());
 			fashionvo.setBanner_title(banner_title);
 			fashionvo.setProduct_name(product_name);
-			fashionvo.setFile_img(file_img);
+			fashionvo.setFilePath(filePath);
+//			fashionvo.setFile_img(file_img.getBytes());
 			fashionvo.setProduct_amonut(product_amount);
 			fashionvo.setDelivery_fee(delivery_fee);
 			fashionvo.setCompany_name(company_name);

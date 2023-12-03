@@ -13,7 +13,7 @@ public class FashionVo {
 	//상품명
 	private String product_name;
 	//이미지등록
-	private MultipartFile file_img;
+	 private MultipartFile  file_img;
 	//상품가격
 	private String product_amount;
 	//배송비
@@ -39,6 +39,14 @@ public class FashionVo {
 	//상세이미지
 	private String gdsImg;
 	
+	private String file_Path;
+	
+	public String getFilePath() {
+		return file_Path;
+	}
+	public void setFilePath(String file_Path) {
+		this.file_Path = file_Path;
+	}
 	public String getGdsThumbImg() {
 		return gdsThumbImg;
 	}
@@ -71,11 +79,18 @@ public class FashionVo {
 	public void setProduct_name(String product_name) {
 		this.product_name = product_name;
 	}
-	public MultipartFile getFile_img() {
+
+	public MultipartFile  getFile_img() {
 		return file_img;
 	}
-	public void setFile_img(MultipartFile file_img) {
+	public void setFile_img(MultipartFile  file_img) {
 		this.file_img = file_img;
+	}
+	public String getProduct_amount() {
+		return product_amount;
+	}
+	public void setProduct_amount(String product_amount) {
+		this.product_amount = product_amount;
 	}
 	public String getDelivery_fee() {
 		return delivery_fee;
@@ -140,10 +155,11 @@ public class FashionVo {
 	@Override
 	public String toString() {
 		return "FashionVo [seq_id=" + seq_id + ", banner_title=" + banner_title + ", product_name=" + product_name
-				+ ", file_img=" + file_img + ", product_amonut=" + product_amount + ", delivery_fee=" + delivery_fee
+				+ ", file_img=" + file_img + ", product_amount=" + product_amount + ", delivery_fee=" + delivery_fee
 				+ ", company_name=" + company_name + ", company_phone=" + company_phone + ", detail_img=" + detail_img
 				+ ", detail_url=" + detail_url + ", company_yn=" + company_yn + ", code=" + code + ", user_id="
-				+ user_id + ", regdate=" + regdate + "]";
+				+ user_id + ", regdate=" + regdate + ", gdsThumbImg=" + gdsThumbImg + ", gdsImg=" + gdsImg
+				+ ", file_Path=" + file_Path + "]";
 	}
 
 
