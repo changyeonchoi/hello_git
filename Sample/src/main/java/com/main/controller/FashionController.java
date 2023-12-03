@@ -1,18 +1,18 @@
 package com.main.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.io.File;
-import java.io.IOException;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,9 +23,6 @@ import com.main.service.FashionService;
 import com.main.service.PageNavigigationService;
 import com.main.vo.FashionVo;
 import com.main.vo.MemberVo;
-import javax.annotation.Resource;
-
-import com.main.utils.UploadFileUtils;
 
 @Controller
 public class FashionController {   
@@ -46,8 +43,8 @@ public class FashionController {
 			@RequestParam(name = "listSize", defaultValue = "10") int listSize,
     		@RequestParam(name = "naviSize", defaultValue = "20") int naviSize,
 			@RequestParam(value = "search", defaultValue = "") String search,
-			@RequestParam("file_img") MultipartFile file_img,
-	        @RequestParam("detail_img") MultipartFile detail_img,
+			@RequestParam(value = "file_img", required=false) MultipartFile file_img,
+//	        @RequestParam("detail_img") MultipartFile detail_img,
 	        @RequestParam(value = "banner_title", required=false) String banner_title,
 	        @RequestParam(value = "product_name", required=false) String product_name,
 	        @RequestParam(value = "product_amount", required=false) String product_amount,
@@ -57,8 +54,8 @@ public class FashionController {
 	        @RequestParam(value = "company_yn", required=false) String company_yn,
 //	        @RequestParam(value = "code", required=false) String code,
 	        FashionVo fashionvo,
-			@PathVariable String type,
-			MultipartFile file) throws IOException, Exception {
+			@PathVariable String type
+			) throws IOException {
 		
 		String returnUrl = null;
 		
@@ -98,10 +95,18 @@ public class FashionController {
 	    	
 		} else if("enroll".equals(type)) {
 			
+			String originalFileName = file_img.getOriginalFilename();
+
+			String filePath = uploadPath + originalFileName;
+			 
+			file_img.transferTo(new File(filePath));
+			
+			System.out.println("File Upload Path: " + file_img);
+			
 			fashionvo.setUser_id(membervo.getUser_id());
 			fashionvo.setBanner_title(banner_title);
 			fashionvo.setProduct_name(product_name);
-//			fashionvo.setFile_img(file_img);
+			fashionvo.setFile_img(file_img);
 			fashionvo.setProduct_amonut(product_amount);
 			fashionvo.setDelivery_fee(delivery_fee);
 			fashionvo.setCompany_name(company_name);
@@ -110,21 +115,9 @@ public class FashionController {
 			fashionvo.setCompany_yn(company_yn);
 //			fashionvo.setCode(code);
 			
-			String imgUploadPath = uploadPath + File.separator + "FashionImg";
-			String ymdPath = UploadFileUtils.calcPath(imgUploadPath);
-			String fileName = null;
-
-			if(file != null) {
-			 fileName =  UploadFileUtils.fileUpload(imgUploadPath, file.getOriginalFilename(), file.getBytes(), ymdPath); 
-			} else {
-			 fileName = uploadPath + File.separator + "images" + File.separator + "none.png";
-			}
-
-			fashionvo.setGdsImg(File.separator + "imgUpload" + ymdPath + File.separator + fileName);
-			fashionvo.setGdsThumbImg(File.separator + "imgUpload" + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
-			
 			fashionservice.insertfashion(fashionvo);
-			
+			System.out.println("Image Upload Path: " + uploadPath);
+
 			returnUrl = "/fashioninsert";
 		}
 		return returnUrl;

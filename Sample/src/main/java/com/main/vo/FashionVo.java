@@ -23,7 +23,7 @@ public class FashionVo {
 	//판매업체번호
 	private String company_phone;
 	//상세정보(IMG)
-	private MultipartFile detail_img;
+	private String detail_img;
 	//상세정보(URL)
 	private String detail_url;
 	//노출여부
@@ -95,10 +95,10 @@ public class FashionVo {
 	public void setCompany_phone(String company_phone) {
 		this.company_phone = company_phone;
 	}
-	public MultipartFile getDetail_img() {
+	public String getDetail_img() {
 		return detail_img;
 	}
-	public void setDetail_img(MultipartFile detail_img) {
+	public void setDetail_img(String detail_img) {
 		this.detail_img = detail_img;
 	}
 	public String getDetail_url() {

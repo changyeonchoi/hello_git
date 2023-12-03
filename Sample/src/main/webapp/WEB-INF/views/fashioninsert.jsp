@@ -106,6 +106,7 @@
 			<div class="menu-items">
     			<h2>Fashion 상품 등록하기</h2>
     				<div>1. 게시글 정보</div><br>
+        				<form action="fashionenroll" method="post" enctype="multipart/form-data">
         				<table border="1" style="width: 70%;">
             				<tr>
                 				<td class="black-cell">제목*</td>
@@ -113,38 +114,15 @@
             				</tr>
         				</table><br>
         				<div>2.상품 정보</div><br>
-        				<form role="form" method="post" autocomplete="off" enctype="multipart/form-data" action="fashionenroll">
     					<table border="1" style="width: 70%;">
         					<tr>
-                				<td class="black-cell">상품명*</td>
+                				<td class="black-cell">상품명*</td>	
                         		<td><input type="text" class="input_text" id="product_name" value="" maxlength="13"></td>
            					</tr>
             				<tr>
                 				<td class="black-cell">이미지등록*</td>
                        			<td>
-                       			
-<!--                        			<input type="file" class="input_text" id="file_img" value="" maxlength="13"> -->
-                       			<div class="inputArea">
-								   <label for="gdsImg">이미지</label>
-								   <input type="file" id="gdsImg" name="file" />
-								   <div class="select_img"><img src="" /></div>
-								   
-								   <script>
-								    $("#gdsImg").change(function(){
-								     if(this.files &amp;&amp; this.files[0]) {
-								      var reader = new FileReader;
-								      reader.onload = function(data) {
-								       $(".select_img img").attr("src", data.target.result).width(500);          
-								      }
-								      reader.readAsDataURL(this.files[0]);
-								     }
-								    });
-								   </script>
-								   <%=request.getRealPath("/") %>
-								</div>
-                       			
-                       			
-                       			
+                       			<input type="file" class="input_text" name="file_img" id="file_img" value="" maxlength="13">
                        			</td>
             				</tr>
             				<tr>
@@ -161,7 +139,7 @@
             				</tr>
             				<tr>
                 				<td class="black-cell">상세정보 이미지*</td>
-                        		<td><input type="file" class="input_text" id="detail_img" value="" maxlength="10"></td>
+                        		<td><input type="text" class="input_text" id="detail_img" value="" maxlength="10"></td>
             				</tr>
             				<tr>
                 				<td class="black-cell">업체전화번호*</td>
@@ -189,7 +167,7 @@
 		</nav>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script>
+	<script>
 $(document).ready(function() {
     // 상품가격 입력 필드에 대한 이벤트 리스너 추가
     $("#product_amount").on("input", function() {
@@ -211,6 +189,7 @@ $(document).ready(function() {
         // 제한된 값을 다시 입력 필드에 설정
         $(this).val(formattedValue);
     });
+
     // 배송비 입력 필드에 대한 이벤트 리스너 추가
     $("#delivery_fee").on("input", function() {
         // 현재 입력된 값
@@ -228,7 +207,7 @@ $(document).ready(function() {
         // 제한된 값을 다시 입력 필드에 설정
         $(this).val(formattedValue);
     });
-    
+
     $("#detail_phone").on("input", function() {
         var inputText = $(this).val();
         // 숫자와 하이픈만 남기고 모든 문자 제거
@@ -244,66 +223,70 @@ $(document).ready(function() {
 
         // 입력 창에 반영
         $(this).val(sanitizedText);
-    });   
-    
+    });
+
     // 라디오 버튼의 변경 이벤트 리스너 추가
     $("input[name='company_yn']").change(function() {
         // 선택된 라디오 버튼의 값을 가져와서 출력
         var selectedValue = $("input[name='company_yn']:checked").val();
         console.log("선택된 값: " + selectedValue);
     });
-});
 
+    // 등록 버튼 클릭 시 실행될 함수
+    $("#saveButton").click(function() {
+        // 사용자가 입력한 값들을 가져오기
+        var banner_title = $("#banner_title").val();
+        var product_name = $("#product_name").val();
+        var file_img = $("#file_img")[0].files[0]; // Get the file object
+        var product_amount = $("#product_amount").val();
+        var delivery_fee = $("#delivery_fee").val();
+        var company_name = $("#company_name").val();
+        var detail_img = $("#detail_img").val();
+        var detail_phone = $("#detail_phone").val();
+        var company_yn = $("input[name='company_yn']:checked").val(); // Get the selected radio button value
 
+        // Create FormData object
+        var formData = new FormData();
+        formData.append("banner_title", banner_title);
+        formData.append("product_name", product_name);
+        formData.append("file_img", file_img);
+        formData.append("product_amount", product_amount);
+        formData.append("delivery_fee", delivery_fee);
+        formData.append("company_name", company_name);
+        formData.append("detail_img", detail_img);
+        formData.append("detail_phone", detail_phone);
+        formData.append("company_yn", company_yn);
 
-    $(document).ready(function() {
-        // 등록 버튼 클릭 시 실행될 함수
-        $("#saveButton").click(function() {
-            // 사용자가 입력한 값들을 가져오기
-            var banner_title = $("#banner_title").val();
-            var product_name = $("#product_name").val();
-            var file_img = $("#file_img").val();
-            var product_amount = $("#product_amount").val();
-            var delivery_fee = $("#delivery_fee").val();
-            var company_name = $("#company_name").val();
-            var detail_img = $("#detail_img").val();
-            var detail_phone = $("#detail_phone").val();
-            var company_yn = $("#company_yn").val();
+        console.log(formData);
 
-            // 서버에 데이터를 전송하는 Ajax 호출
-            $.ajax({
-                url: '/fashionenroll', 
-                method: 'GET',
-                data: {
-                    banner_title: banner_title,
-                    product_name: product_name,
-                    file_img: file_img,
-                    product_amount: product_amount,
-                    delivery_fee: delivery_fee,
-                    company_name: company_name,
-                    detail_img: detail_img,
-                    detail_phone: detail_phone,
-                    company_yn: company_yn
-                },
-                success: function(response) {
-                    // 등록 성공 시 알림 표시 후 목록 페이지로 이동
-                    alert('상품이 등록되었습니다.');
-                    window.location.href = 'fashionlist'; // 등록 후 이동할 페이지 URL로 변경해주세요
-                },
-                error: function(error) {
-                    // 등록 실패 시 알림 표시
-                    alert('상품 등록에 실패하였습니다. 다시 시도해주세요.');
-                    console.error('Error:', error);
-                }
-            });
-        });
-
-        // 목록 버튼 클릭 시 실행될 함수
-        $("#listButton").click(function() {
-            // 목록 페이지로 이동
-            window.location.href = 'fashionlist'; // 목록 페이지 URL로 변경해주세요
+        // 서버에 데이터를 전송하는 Ajax 호출
+        $.ajax({
+            url: '/fashionenroll',
+            method: 'POST',
+            data: formData,
+            dataType: "json",
+            enctype: 'multipart/form-data', // 올바른 스펠링 사용
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                // 등록 성공 시 알림 표시 후 목록 페이지로 이동
+                alert('상품이 등록되었습니다.');
+                window.location.href = 'fashionlist'; // 등록 후 이동할 페이지 URL로 변경해주세요
+            },
+            error: function(error) {
+                // 등록 실패 시 알림 표시
+                alert('상품 등록에 실패하였습니다. 다시 시도해주세요.');
+                console.error('Error:', error);
+            }
         });
     });
+
+    // 목록 버튼 클릭 시 실행될 함수
+    $("#listButton").click(function() {
+        // 목록 페이지로 이동
+        window.location.href = 'fashionlist'; // 목록 페이지 URL로 변경해주세요
+    });
+});
 </script>
 </body>
 </html>

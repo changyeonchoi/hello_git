@@ -62,6 +62,7 @@
     	INSERT INTO product_table (
     	seq_id
     	, regdate
+    	, file_img
     	, banner_title
     	, product_name
     	, product_amount
@@ -73,6 +74,7 @@
     	) VALUES (
     	PRODUCT_SEQ.NEXTVAL
     	, SYSDATE
+    	, #{file_img, jdbcType=VARCHAR}
     	, #{banner_title, jdbcType=VARCHAR}
     	, #{product_name, jdbcType=VARCHAR}
     	, #{product_amount, jdbcType=VARCHAR}
