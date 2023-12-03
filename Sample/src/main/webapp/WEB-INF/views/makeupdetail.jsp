@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -61,7 +64,7 @@
     	color: white;
     	text-align: center;
 	}
-	#deleteButton {
+	#listButton {
         background-color: white; /* 배경색을 흰색으로 설정 */
         color: black; /* 글자색을 검정색으로 설정 */
         padding: 10px 20px; /* 안쪽 여백 설정 */
@@ -93,50 +96,69 @@
 		<!--헤더시작-->
 		<header>
 			<div class="menu">
-    		<h3><a href="#">상품관리</a></h3>
+    		<h3><a href="#" class="red-text">상품관리</a></h3>
     		<h3><a href="#">배너관리</a></h3>
-    		<h3><a href="#" class="red-text">사용자관리</a></h3>
+    		<h3><a href="#">사용자관리</a></h3>
 			</div>
 		</header>
 		<!--네비게이션-->
 		<nav>
 			<div class="menu-items">
-    			<h2>사용자 상세보기</h2>
-    				<div>1. 사용자정보</div><br>
-        				<table border="1" style="width: 90%;">
+    			<h2>Fashion 상품 등록하기</h2>
+    				<div>1. 게시글 정보</div><br>
+        				<table border="1" style="width: 50%;">
             				<tr>
-                				<td class="black-cell">회원 ID</td>
-                				<td><input type="text" class="input_text" id="user_id" value="${membervo.user_id}" readonly></td>
-            				</tr>
-            				<tr>
-                				<td class="black-cell">이름*</td>
-                        		<td><input type="text" class="input_text" id="user_name" value="${membervo.user_name}" readonly></td>
-           					</tr>
-            				<tr>
-                				<td class="black-cell">패스워드*</td>
-                				<td><input type="password" class="input_text" id="user_pw" value="${membervo.user_pw}" readonly></td>
-            				</tr>
-            				<tr>
-                				<td class="black-cell">연락처*</td>
-                       			<td><input type="text" class="input_text" id="user_phone" value="${membervo.user_phone}" readonly></td>
-            				</tr>
-            				<tr>
-                				<td class="black-cell">주소*</td>
-                       			<td><input type="text" class="input_text" id="user_phone" value="${membervo.user_address}" readonly></td>
+                				<td class="black-cell">제목*</td>
+                				<td><input type="text" class="input_text" id="user_id" value="" placeholder=""></td>
             				</tr>
         				</table><br>
+        				<div>2.상품 정보</div><br>
+    					<table border="1" style="width: 50%;">
+        					<tr>
+                				<td class="black-cell">상품명*</td>
+                        		<td><input type="text" class="input_text" id="user_name" value="" maxlength="10"></td>
+           					</tr>
+            				<tr>
+                				<td class="black-cell">이미지등록*</td>
+                       			<td><input type="text" class="input_text" id="user_phone" value="" maxlength="13"></td>
+            				</tr>
+            				<tr>
+                				<td class="black-cell">상품가격*</td>
+                				<td><input type="password" class="input_text" id="user_pw" value="" maxlength="10"></td>
+            				</tr>
+            				<tr>
+                				<td class="black-cell">배송비*</td>
+                        		<td><input type="password" class="input_text" id="user_pw1" value="" maxlength="10"></td>
+            				</tr>
+            				<tr>
+                				<td class="black-cell">판매업체*</td>
+                        		<td><input type="password" class="input_text" id="user_pw1" value="" maxlength="10"></td>
+            				</tr>
+            				<tr>
+                				<td class="black-cell">상세정보 이미지*</td>
+                        		<td><input type="password" class="input_text" id="user_pw1" value="" maxlength="10"></td>
+            				</tr>
+            				<tr>
+                				<td class="black-cell">업체전화번호*</td>
+                        		<td><input type="text" class="input_text" id="user_name" value="${membervo.user_name}" maxlength="10"></td>
+           					</tr>
+            				<tr>
+                				<td class="black-cell">노출여부*</td>
+                       			<td><input type="text" class="input_text" id="user_phone" value="${membervo.user_phone}" maxlength="13"></td>
+            				</tr>
+    					</table><br>
     				 <!-- 삭제 버튼 -->
                 	<div style="text-align: left; float: left;">
-    					<button id="deleteButton">삭제</button>
+    					<button id="listButton">취소</button>
 					</div>
                 <!-- 목록 버튼 -->
                 	<div style="text-align: right; float: right;">
-                		<button class="custom-button" id="listButton">목록</button>
+    					<button class="custom-button" id="saveButton">등록</button>
 					</div>
 			</div>
 		</nav>
 	</div>
-	    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script>
     	 $(document).ready(function() {
     	        // 삭제 버튼 클릭 시 실행될 함수
@@ -145,7 +167,7 @@
 
     	            // 서버에 삭제 요청을 보내는 Ajax 호출
     	            $.ajax({
-    	                url: '/deleteUser', // 삭제를 처리하는 서버의 엔드포인트 URL로 변경해주세요
+    	                url: '/deleteMember', // 삭제를 처리하는 서버의 엔드포인트 URL로 변경해주세요
     	                method: 'POST',
     	                data: { user_id: user_id }, // 삭제할 사용자 ID를 서버에 전달
     	                success: function(response) {
@@ -164,7 +186,7 @@
                 // 목록 버튼 클릭 시 실행될 함수
                 $("#listButton").click(function() {
                     // adminlist로 이동
-                    window.location.href = 'userlist'; // adminlist.jsp로 이동
+                    window.location.href = 'fashionlist'; // fashionlist.jsp로 이동
                 });
     	 });
     </script>

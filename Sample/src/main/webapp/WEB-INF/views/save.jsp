@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HTML5</title>
+<title>찜 현황</title>
 <style type="text/css">
 	body {
 		text-align: center;
@@ -132,51 +132,38 @@
 			<div class="menu">
     		<h3><a href="#">상품관리</a></h3>
     		<h3><a href="#">배너관리</a></h3>
-    		<h3><a href="#" class="red-text">사용자관리</a></h3>
+    		<h3><a href="#">사용자관리</a></h3>
 			</div>
 		</header>
-		<!--네비게이션-->
-		<nav>
-			<div class="menu-items">
-    			<h3>사용자관리</h3>
-    			<h5><a href="#" class="red-text">관리자 현황</a></h5>		
-    			<h5><a href="#">사용자 현황</a></h5>
-    			<h5><a href="#">사용자 주문현황</a></h5>
-			</div>
-		</nav>
 		<!--콘텐츠부분-->
 		<section>
 			<div class="section-header">
-        		<h3>관리자 현황</h3>
-        			<div class="underline-input">
-            			<input type="text" value="${search}" placeholder="회원 ID를 입력해주세요" name="search" class="input-field"/>
-            			<button onclick="searchDate()" class="search-button"></button>
-        			</div>
-    		</div>
+        		<h3>찜 현황</h3>
+				<select id="product-selection">
+            		<option value="most-selected">가장 많이 선택된 상품</option>
+            		<option value="least-selected">가장 적게 선택된 상품</option>
+        		</select>
+    		</div><br>
 			<table>
         		<tr>
             		<th>NO</th>
-            		<th>회원ID</th>
-            		<th>이름</th>
-            		<th>연락처</th>
+            		<th>상품명</th>
+            		<th>찜횟수</th>
         		</tr>
         		<tr>
             		<td>1</td>
-            		<td>user123</td>
-            		<td>홍길동</td>
-            		<td>010-1234-5678</td>
+            		<td>가을 바람막이</td>
+            		<td>64회</td>
         		</tr>
         		<tr>
             		<td>2</td>
-            		<td>user456</td>
-            		<td>김철수</td>
-            		<td>010-9876-5432</td>
+            		<td>오리털 패딩</td>
+            		<td>34회</td>
         		</tr>
         		<tr>
             		<td>3</td>
-            		<td>user789</td>
-            		<td>이영희</td>
-            		<td>010-1111-2222</td>
+            		<td>럭셔리목걸이</td>
+            		<td>23회</td>
         		</tr>
     		</table>
 		</section>

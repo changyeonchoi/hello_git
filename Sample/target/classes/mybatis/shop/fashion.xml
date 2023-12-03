@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fashionDao">
+
+<resultMap type="com.main.vo.FashionVo" id="fashionvo">
+	<result property="seq_id" column="seq_id"/>
+	<result property="banner_title" column="banner_title"/>
+	<result property="product_name" column="product_name"/>
+	<result property="file_img" column="file_img"/>
+	<result property="product_amount" column="product_amount" />
+	<result property="delivery_fee" column="delivery_fee" />
+	<result property="company_name" column="company_name" />
+	<result property="company_phone" column="company_phone" />
+	<result property="detail_url" column="detail_url" />
+	<result property="company_yn" column="company_yn" />
+	<result property="code" column="code" />
+	<result property="regdate" column="regdate" />
+	<result property="user_id" column="user_id" />
+</resultMap>
+
+    <!-- 전체 회원 수 조회 쿼리 -->
+<!--     <select id="selectTotalCount" parameterType="java.util.HashMap" resultType="int"> -->
+<!--         SELECT COUNT(*) FROM product_table -->
+<!--     </select> -->
+
+	<select id="fashionDao.selectFashionList" parameterType="java.util.HashMap" resultMap="fashionvo">
+        <![CDATA[
+        SELECT *
+        FROM (
+        	SELECT
+            	seq_id,
+            	regdate,
+            	product_name,
+            	company_yn,
+            	user_id,
+            	ROWNUM AS rnum
+        	FROM (
+        		SELECT
+        			seq_id,
+        			regdate,
+        			product_name,
+        			company_yn,
+        			user_id
+        		FROM product_table
+        		WHERE product_name LIKE '%' || #{search, jdbcType=VARCHAR} || '%'
+        		ORDER BY seq_id DESC
+        	) t
+        	WHERE ROWNUM <= #{endRow, jdbcType=INTEGER}
+    	)
+     	WHERE rnum >= #{startRow, jdbcType=INTEGER}
+    ]]>
+	</select>
+
+	<select id="selectTotalCount" parameterType="java.util.HashMap" resultType="int">
+        SELECT COUNT(*) FROM product_table
+        WHERE product_name LIKE '%' || #{search, jdbcType=VARCHAR} || '%'
+    </select>
+    
+	<insert id="fashionDao.insertfashion" parameterType="com.main.vo.FashionVo">
+    	INSERT INTO product_table (
+    	seq_id
+    	, regdate
+    	, banner_title
+    	, product_name
+    	, product_amount
+    	,  delivery_fee
+    	, company_name
+    	, company_phone
+    	, company_yn
+    	, user_id
+    	) VALUES (
+    	PRODUCT_SEQ.NEXTVAL
+    	, SYSDATE
+    	, #{banner_title, jdbcType=VARCHAR}
+    	, #{product_name, jdbcType=VARCHAR}
+    	, #{product_amount, jdbcType=VARCHAR}
+    	, #{delivery_fee, jdbcType=VARCHAR}
+    	, #{company_name, jdbcType=VARCHAR}
+    	, #{company_phone, jdbcType=VARCHAR}
+    	, #{company_yn, jdbcType=VARCHAR}
+    	, #{user_id, jdbcType=VARCHAR})
+	</insert>
+</mapper>

@@ -118,7 +118,7 @@ public class MemberController {
 	    
 	    MemberVo result = memberservice.login(membervo);
 	                    
-	    request.getSession().setAttribute("memberVo", result);
+	    request.getSession().setAttribute("membervo", result);
 
 	    // 리다이렉트할 URL을 포함한 응답 데이터
 	    Map<String, Object> response = new HashMap<>();

@@ -115,6 +115,7 @@ public class PageNavigation {
 	    }
 
 	    if (!this.isFirstRange()) {
+	    	sbHtml.append("<a class='pagination' id='prePage' href='' onclick='goPage(1); return false;'>&#8249; 처음</a>");
 	        sbHtml.append("<a class='pagination' id='prePage' href='' onclick='goPage(" + (startPageNo - 1) + "); return false;'>&lt;</a>");
 	    }
 
@@ -126,6 +127,7 @@ public class PageNavigation {
 
 	    if (!this.isLastRange()) {
 	        sbHtml.append("<a class='pagination' id='nextPage' href='' onclick='goPage(" + (endPageNo + 1) + "); return false;'>&gt;</a>");
+	        sbHtml.append("<a class='pagination' id='nextPage' href='' onclick='goPage(" + totalPageCount + "); return false;'>&끝;</a>");
 	    }
 
 	    return sbHtml.toString();
