@@ -30,4 +30,19 @@ public class FashionDao {
 		return sqlSession.insert("fashionDao.insertfashion", fashionvo);
 	}
 
+	public FashionVo selectfashiondetail(String seq_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("fashionDao.selectfashiondetail",seq_id);
+	}
+
+	public String deletefashion(String seq_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("fashionDao.deletefashion", seq_id);
+	}
+
+	public void updatefashion(FashionVo fashionvo) {
+		// TODO Auto-generated method stub
+		sqlSession.update("fashionDao.updateFashion", fashionvo);
+	}
+
 }

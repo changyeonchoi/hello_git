@@ -13,4 +13,10 @@ public interface FashionService {
 
 	int insertfashion(FashionVo fashionvo);
 
+	FashionVo selectfashiondetail(String seq_id);
+
+	String deletefashion(String seq_id);
+
+	void updatefashion(FashionVo fashionvo);
+
 }

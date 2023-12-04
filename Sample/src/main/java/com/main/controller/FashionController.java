@@ -52,6 +52,7 @@ public class FashionController {
 	        @RequestParam(value = "company_name", required=false) String company_name,
 	        @RequestParam(value = "company_phone", required=false) String company_phone,
 	        @RequestParam(value = "company_yn", required=false) String company_yn,
+	        @RequestParam(value = "seq_id", required=false) String seq_id,
 //	        @RequestParam(value = "code", required=false) String code,
 	        FashionVo fashionvo,
 			@PathVariable String type
@@ -107,9 +108,6 @@ public class FashionController {
 			
 			detail_img.transferTo(new File(detailPath));
 			
-			System.out.println("File Upload Path: " + detailPath);
-			System.out.println("detail_img " + detail_img);
-			
 			fashionvo.setUser_id(membervo.getUser_id());
 			fashionvo.setBanner_title(banner_title);
 			fashionvo.setProduct_name(product_name);
@@ -124,9 +122,34 @@ public class FashionController {
 //			fashionvo.setCode(code);
 			
 			fashionservice.insertfashion(fashionvo);
-			System.out.println("Image Upload Path: " + uploadPath);
 
 			returnUrl = "/fashioninsert";
+			
+		} else if("detail".equals(type)) {
+			
+			fashionvo = fashionservice.selectfashiondetail(seq_id);
+			
+			model.addAttribute("fashionvo", fashionvo);
+			
+			System.out.println("detail" + fashionvo);
+			
+			returnUrl = "/fashiondetail";
+			
+		} else if("delete".equals(type)) {
+			
+			fashionservice.deletefashion(seq_id);
+			
+			returnUrl = "/fashionlist";
+			
+		} else if("update".equals(type)) {
+			
+			
+			
+			fashionservice.updatefashion(fashionvo);
+			
+//			System.out.println("update" + update);
+			
+			returnUrl = "/fashionlist";
 		}
 		return returnUrl;
 	}

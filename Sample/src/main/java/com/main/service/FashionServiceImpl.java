@@ -39,5 +39,23 @@ public class FashionServiceImpl implements FashionService {
 		return fashionDao.insertfashion(fashionvo);
 	}
 
+	@Override
+	public FashionVo selectfashiondetail(String seq_id) {
+		// TODO Auto-generated method stub
+		return fashionDao.selectfashiondetail(seq_id);
+	}
+
+	@Override
+	public String deletefashion(String seq_id) {
+		// TODO Auto-generated method stub
+		return fashionDao.deletefashion(seq_id);
+	}
+
+	@Override
+	public void updatefashion(FashionVo fashionvo) {
+		// TODO Auto-generated method stub
+		fashionDao.updatefashion(fashionvo);
+	}
+
 
 }

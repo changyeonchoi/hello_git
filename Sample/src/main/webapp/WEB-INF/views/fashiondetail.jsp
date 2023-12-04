@@ -64,7 +64,7 @@
     	color: white;
     	text-align: center;
 	}
-	#listButton {
+	.leftButton {
         background-color: white; /* 배경색을 흰색으로 설정 */
         color: black; /* 글자색을 검정색으로 설정 */
         padding: 10px 20px; /* 안쪽 여백 설정 */
@@ -83,11 +83,74 @@
         cursor: pointer; /* 커서를 포인터로 변경하여 버튼임을 나타냄 */
         margin-bottom: 10px; /* 하단 마진 설정 */
     }
-    .input_text {
-/*     	text-align: center; */
-    	width: 90%; 
-    	margin: 0 auto;
+    .filebox {
+        position: relative;
+        display: flex;
+        align-items: center;
     }
+
+    .filebox .file-label {
+        padding: 0px 10px;
+        background-color: #999999;
+        cursor: pointer;
+        margin-left: 10px;
+        border: 1px solid black;
+        border-radius: 1px;
+    }
+
+    .filebox .upload-name {
+        height: 20px;
+        padding: 0 10px;
+        border: 1px solid #dddddd;
+        color: #999999;
+    }
+
+    .filebox .upload-status {
+        color: red;
+        margin-left: 10px;
+    }
+
+    .filebox input[type="file"] {
+        position: absolute;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+        border: 0;
+    }
+    .filebox {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.filebox .file-label {
+    padding: 0px 10px;
+    background-color: #999999;
+    cursor: pointer;
+    margin-left: 10px;
+    border: 1px solid black;
+    border-radius: 1px;
+}
+
+.filebox .upload-name-detail {
+    height: 20px;
+    padding: 0 10px;
+    border: 1px solid #dddddd;
+    color: #999999;
+}
+
+.filebox .upload-status-detail {
+    color: red;
+    margin-left: 10px;
+}
+
+.filebox input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    border: 0;
+}
 </style>
  
 </head>
@@ -106,52 +169,76 @@
 			<div class="menu-items">
     			<h2>Fashion 상품 등록하기</h2>
     				<div>1. 게시글 정보</div><br>
-        				<table border="1" style="width: 50%;">
+    				    <input type="hidden" name="banner_title" id="deleteBannerTitle" value="">
+    				    <form action="fashionupdate" method="post" enctype="multipart/form-data">
+        				<table border="1" style="width: 70%;">
             				<tr>
                 				<td class="black-cell">제목*</td>
-                				<td><input type="text" class="input_text" id="user_id" value="" placeholder=""></td>
+                				<td><input type="text" class="input_text" id="banner_title" value="${fashionvo.banner_title}" placeholder=""></td>
             				</tr>
         				</table><br>
         				<div>2.상품 정보</div><br>
-    					<table border="1" style="width: 50%;">
+    					<table border="1" style="width: 70%;">
         					<tr>
                 				<td class="black-cell">상품명*</td>
-                        		<td><input type="text" class="input_text" id="user_name" value="" maxlength="10"></td>
+                        		<td><input type="text" class="input_text" id="product_name" value="${fashionvo.product_name}" maxlength="10"></td>
            					</tr>
             				<tr>
                 				<td class="black-cell">이미지등록*</td>
-                       			<td><input type="text" class="input_text" id="user_phone" value="" maxlength="13"></td>
+                       			<td>
+									<div class="filebox">
+									    <input class="upload-name" value="파일선택" placeholder="파일선택">
+									    <label for="file_img" class="file-label">이미지 찾기</label> 
+									    <input type="file" id="file_img">
+									    <span class="upload-status"></span>
+									</div>
+                       			</td>
             				</tr>
             				<tr>
                 				<td class="black-cell">상품가격*</td>
-                				<td><input type="password" class="input_text" id="user_pw" value="" maxlength="10"></td>
+                				<td><input type="text" class="input_text" id="product_amount" value="${fashionvo.product_amount}" maxlength="10"></td>
             				</tr>
             				<tr>
                 				<td class="black-cell">배송비*</td>
-                        		<td><input type="password" class="input_text" id="user_pw1" value="" maxlength="10"></td>
+                        		<td><input type="text" class="input_text" id="delivery_fee" value="${fashionvo.delivery_fee}" maxlength="10"></td>
             				</tr>
             				<tr>
                 				<td class="black-cell">판매업체*</td>
-                        		<td><input type="password" class="input_text" id="user_pw1" value="" maxlength="10"></td>
+                        		<td><input type="text" class="input_text" id="company_name" value="${fashionvo.company_name}" maxlength="10"></td>
             				</tr>
             				<tr>
                 				<td class="black-cell">상세정보 이미지*</td>
-                        		<td><input type="password" class="input_text" id="user_pw1" value="" maxlength="10"></td>
+                				<td>
+                        		    <div class="filebox">
+								        <input class="upload-name-detail" value="${fashionvo.detail_img}" placeholder="파일선택" readonly>
+								        <label for="detail_img" class="file-label">이미지 찾기</label> 
+								        <input type="file" id="detail_img">
+								        <span class="upload-status-detail"></span>
+   									 </div>
+   								</td>
             				</tr>
             				<tr>
                 				<td class="black-cell">업체전화번호*</td>
-                        		<td><input type="text" class="input_text" id="user_name" value="${membervo.user_name}" maxlength="10"></td>
+                        		<td><input type="text" class="input_text" id="company_phone" value="${fashionvo.company_phone}" maxlength="13"></td>
            					</tr>
             				<tr>
                 				<td class="black-cell">노출여부*</td>
-                       			<td><input type="text" class="input_text" id="user_phone" value="${membervo.user_phone}" maxlength="13"></td>
+								<td>
+								    <label><input type="radio" name="company_yn" id="radioY" value="Y">노출</label>
+								    <label><input type="radio" name="company_yn" id="radioN" value="N">미노출</label>
+								</td>
             				</tr>
     					</table><br>
-    				 <!-- 삭제 버튼 -->
+    					</form>
+    				<!-- 삭제 버튼 -->
                 	<div style="text-align: left; float: left;">
-    					<button id="listButton">취소</button>
+    					<button id="deleteButton" class="leftButton">삭제</button>
 					</div>
-                <!-- 목록 버튼 -->
+    				 <!-- 목록 버튼 -->
+                	<div style="text-align: left; float: left; margin-left: 10px">
+    					<button id="listButton" class="leftButton">취소</button>
+					</div>
+                	<!-- 등록 버튼 -->
                 	<div style="text-align: right; float: right;">
     					<button class="custom-button" id="saveButton">등록</button>
 					</div>
@@ -160,35 +247,106 @@
 	</div>
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script>
-    	 $(document).ready(function() {
-    	        // 삭제 버튼 클릭 시 실행될 함수
-    	        $("#deleteButton").click(function() {
-    	            var user_id = $("#user_id").val(); // 삭제할 사용자 ID 가져오기
+        
+        // 목록 버튼 클릭 시 실행될 함수
+        $("#listButton").click(function() {
+            // fashionlist로 이동
+            window.location.href = 'fashionlist'; // fashionlist.jsp로 이동
+        });
 
-    	            // 서버에 삭제 요청을 보내는 Ajax 호출
-    	            $.ajax({
-    	                url: '/deleteMember', // 삭제를 처리하는 서버의 엔드포인트 URL로 변경해주세요
-    	                method: 'POST',
-    	                data: { user_id: user_id }, // 삭제할 사용자 ID를 서버에 전달
-    	                success: function(response) {
-    	                    // 삭제 성공 시 알림 표시 후 admin.jsp로 이동
-    	                    alert('관리자가 삭제되었습니다.');
-    	                    window.location.href = 'adminlist'; // admin.jsp로 이동
-    	                },
-    	                error: function(error) {
-    	                    // 삭제 실패 시 알림 표시
-    	                    alert('삭제에 실패하였습니다. 다시 시도해주세요.');
-    	                    console.error('Error:', error);
-    	                }
-    	            });
-    	        });
-    	        
-                // 목록 버튼 클릭 시 실행될 함수
-                $("#listButton").click(function() {
-                    // adminlist로 이동
-                    window.location.href = 'fashionlist'; // fashionlist.jsp로 이동
+        var valueFromDatabase = "${fashionvo.company_yn}"; // 또는 "N"
+
+        // 디비에서 가져온 값에 따라 라디오 버튼 체크
+        $("#radioY").prop('checked', (valueFromDatabase === "Y"));
+        $("#radioN").prop('checked', (valueFromDatabase === "N"));
+
+    $(document).ready(function () {
+        // 삭제 버튼 클릭 시 실행될 함수
+        $('#deleteButton').click(function () {
+            // 확인 메시지 표시
+            var confirmed = confirm('삭제하시겠습니까?');
+            if (confirmed) {
+                // 삭제 요청을 서버로 보냄
+                $.ajax({
+                    type: 'POST', 
+                    url: '/fashiondelete',  // 삭제 기능을 처리하는 컨트롤러의 URL로 수정
+                    data: {
+                        seq_id: '${fashionvo.seq_id}'  // 삭제할 배너 타이틀을 전송
+                    },
+                    success: function (result) {
+                            alert('삭제되었습니다.');
+                            // 삭제 성공 시 이동할 페이지로 리다이렉트 (예: 목록 페이지)
+                            window.location.href = '/fashionlist';
+                    },
+                    error: function () {
+                        alert('서버 오류로 삭제에 실패했습니다.');
+                    }
                 });
-    	 });
+            }
+        });
+        
+        
+        $('#saveButton').click(function () {
+//             let formData = new FormData($('#uploadForm')[0]);
+//             formData.append('seq_id', '${fashionvo.seq_id}');
+		var banner_title = $("#banner_title").val();
+        var product_name = $("#product_name").val();
+        var file_img = $("#file_img")[0].files[0]; // Get the file object
+        var product_amount = $("#product_amount").val();
+        var delivery_fee = $("#delivery_fee").val();
+        var company_name = $("#company_name").val();
+        var detail_img = $("#detail_img")[0].files[0]; // Get the file object
+        var company_phone = $("#company_phone").val();
+        var company_yn = $("input[name='company_yn']:checked").val();
+        
+        var formData = new FormData();
+        formData.append("banner_title", banner_title);
+        formData.append("product_name", product_name);
+        formData.append("file_img", file_img);
+        formData.append("product_amount", product_amount);
+        formData.append("delivery_fee", delivery_fee);
+        formData.append("company_name", company_name);
+        formData.append("detail_img", detail_img);
+        formData.append("company_phone", company_phone);
+        formData.append("company_yn", company_yn);
+
+        console.log("formData" + formData);
+        
+        // 서버에 데이터를 전송하는 Ajax 호출
+        $.ajax({
+            url: '/fashionupdate',
+            method: 'POST',
+            data: formData,
+            dataType: "text",
+            enctype: 'multipart/form-data',
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                // 등록 성공 시 알림 표시 후 목록 페이지로 이동
+                alert('상품이 등록되었습니다.');
+                window.location.href = 'fashionlist'; // 등록 후 이동할 페이지 URL로 변경해주세요
+            },
+            error: function(error) {
+                // 등록 실패 시 알림 표시
+                alert('상품 등록에 실패하였습니다. 다시 시도해주세요.');
+                console.error('Error:', error);
+            }
+        });
+        });
+    });
+    
+    $("#file_img").on('change',function(){
+    	  var fileName = $("#file_img").val();
+    	  $(".upload-name").val(fileName);
+    	  $(".upload-status").text("*업로드 완료");
+    });  
+    
+    $("#detail_img").on('change', function () {
+        var detailName = $("#detail_img").val();
+        $(".upload-name-detail").val(detailName);
+        $(".upload-status-detail").text("*업로드 완료");
+    });
+     
     </script>
 </body>
 </html>

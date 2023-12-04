@@ -33,7 +33,7 @@
         	SELECT
             	seq_id,
             	regdate,
-            	product_name,
+            	banner_title,
             	company_yn,
             	user_id,
             	ROWNUM AS rnum
@@ -41,7 +41,7 @@
         		SELECT
         			seq_id,
         			regdate,
-        			product_name,
+        			banner_title,
         			company_yn,
         			user_id
         		FROM product_table
@@ -68,7 +68,7 @@
     	, banner_title
     	, product_name
     	, product_amount
-    	,  delivery_fee
+    	, delivery_fee
     	, company_name
     	, company_phone
     	, company_yn
@@ -87,4 +87,42 @@
     	, #{company_yn, jdbcType=VARCHAR}
     	, #{user_id, jdbcType=VARCHAR})
 	</insert>
+	
+	<select id="fashionDao.selectfashiondetail" resultMap="fashionvo">
+		select
+			seq_id
+			, user_id
+			, banner_title
+			, product_name
+			, file_img
+			, product_amount
+			, delivery_fee
+			, company_name
+			, detail_img
+			, company_phone
+			, company_yn
+		from product_table
+		where seq_id = #{seq_id, jdbcType=VARCHAR}
+	</select>
+	
+	<delete id="fashionDao.deletefashion">
+	    DELETE FROM product_table
+	    WHERE seq_id = #{seq_id}
+	</delete>
+	
+<update id="fashionDao.updateFashion">
+    UPDATE product_table
+    SET
+        banner_title = #{banner_title, jdbcType=VARCHAR},
+        regdate = CURRENT_TIMESTAMP,
+        product_name = #{product_name, jdbcType=VARCHAR},
+        file_img = #{filePath}, <!-- 파일 경로에 대한 jdbcType 설정 -->
+        product_amount = #{product_amount, jdbcType=VARCHAR},
+        delivery_fee = #{delivery_fee, jdbcType=VARCHAR},
+        company_name = #{company_name, jdbcType=VARCHAR},
+        detail_img = #{detailPath}, <!-- 파일 경로에 대한 jdbcType 설정 -->
+        company_phone = #{company_phone, jdbcType=VARCHAR},
+        company_yn = #{company_yn, jdbcType=VARCHAR}
+    WHERE seq_id = #{seq_id, jdbcType=VARCHAR}
+</update>
 </mapper>

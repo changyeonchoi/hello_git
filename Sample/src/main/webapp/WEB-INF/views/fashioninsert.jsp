@@ -88,6 +88,74 @@
     	width: 90%; 
     	margin: 0 auto;
     }
+        .filebox {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .filebox .file-label {
+        padding: 0px 10px;
+        background-color: #999999;
+        cursor: pointer;
+        margin-left: 10px;
+        border: 1px solid black;
+        border-radius: 1px;
+    }
+
+    .filebox .upload-name {
+        height: 20px;
+        padding: 0 10px;
+        border: 1px solid #dddddd;
+        color: #999999;
+    }
+
+    .filebox .upload-status {
+        color: red;
+        margin-left: 10px;
+    }
+
+    .filebox input[type="file"] {
+        position: absolute;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+        border: 0;
+    }
+    .filebox {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.filebox .file-label {
+    padding: 0px 10px;
+    background-color: #999999;
+    cursor: pointer;
+    margin-left: 10px;
+    border: 1px solid black;
+    border-radius: 1px;
+}
+
+.filebox .upload-name-detail {
+    height: 20px;
+    padding: 0 10px;
+    border: 1px solid #dddddd;
+    color: #999999;
+}
+
+.filebox .upload-status-detail {
+    color: red;
+    margin-left: 10px;
+}
+
+.filebox input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    border: 0;
+}
 </style>
  
 </head>
@@ -122,8 +190,13 @@
             				<tr>
                 				<td class="black-cell">이미지등록*</td>
                        			<td>
-                       			<input type="file" class="input_text" name="file_img" id="file_img" value="" maxlength="13">
-                       			</td>
+									<div class="filebox">
+									    <input class="upload-name" value="파일선택" placeholder="파일선택">
+									    <label for="file_img" class="file-label">이미지 찾기</label> 
+									    <input type="file" id="file_img">
+									    <span class="upload-status"></span>
+									</div>
+								</td>
             				</tr>
             				<tr>
                 				<td class="black-cell">상품가격*</td>
@@ -139,11 +212,18 @@
             				</tr>
             				<tr>
                 				<td class="black-cell">상세정보 이미지*</td>
-                        		<td><input type="file" class="input_text" id="detail_img" name="detail_img" value="" maxlength="10"></td>
+                        		<td>
+                        			<div class="filebox">
+								        <input class="upload-name-detail" value="${fashionvo.detail_img}" placeholder="파일선택" readonly>
+								        <label for="detail_img" class="file-label">이미지 찾기</label> 
+								        <input type="file" id="detail_img">
+								        <span class="upload-status-detail"></span>
+   									 </div>
+   								</td>
             				</tr>
             				<tr>
                 				<td class="black-cell">업체전화번호*</td>
-                        		<td><input type="text" class="input_text" id="detail_phone" value="" maxlength="13"></td>
+                        		<td><input type="text" class="input_text" id="company_phone" value="" maxlength="13"></td>
            					</tr>
             				<tr>
     						<td class="black-cell">노출여부*</td>
@@ -208,7 +288,7 @@ $(document).ready(function() {
         $(this).val(formattedValue);
     });
 
-    $("#detail_phone").on("input", function() {
+    $("#company_phone").on("input", function() {
         var inputText = $(this).val();
         // 숫자와 하이픈만 남기고 모든 문자 제거
         var sanitizedText = inputText.replace(/[^\d-]/g, '');
@@ -242,9 +322,15 @@ $(document).ready(function() {
         var delivery_fee = $("#delivery_fee").val();
         var company_name = $("#company_name").val();
         var detail_img = $("#detail_img")[0].files[0]; // Get the file object
-        var detail_phone = $("#detail_phone").val();
+        var company_phone = $("#company_phone").val();
         var company_yn = $("input[name='company_yn']:checked").val(); // Get the selected radio button value
 
+        // 필수 입력 필드 체크
+        if (!banner_title || !product_name || !file_img || !product_amount || !delivery_fee || !company_name || !detail_img || !company_phone || !company_yn) {
+            alert("모든 항목을 입력해주세요.");
+            return; // 필수 입력 필드 중 하나라도 빈 값이면 함수 종료
+        }
+        
         // Create FormData object
         var formData = new FormData();
         formData.append("banner_title", banner_title);
@@ -254,7 +340,7 @@ $(document).ready(function() {
         formData.append("delivery_fee", delivery_fee);
         formData.append("company_name", company_name);
         formData.append("detail_img", detail_img);
-        formData.append("detail_phone", detail_phone);
+        formData.append("company_phone", company_phone);
         formData.append("company_yn", company_yn);
 
         console.log(formData);
@@ -271,7 +357,7 @@ $(document).ready(function() {
             success: function(response) {
                 // 등록 성공 시 알림 표시 후 목록 페이지로 이동
                 alert('상품이 등록되었습니다.');
-//                 window.location.href = 'fashionlist'; // 등록 후 이동할 페이지 URL로 변경해주세요
+                window.location.href = 'fashionlist'; // 등록 후 이동할 페이지 URL로 변경해주세요
             },
             error: function(error) {
                 // 등록 실패 시 알림 표시
@@ -286,6 +372,18 @@ $(document).ready(function() {
         // 목록 페이지로 이동
         window.location.href = 'fashionlist'; // 목록 페이지 URL로 변경해주세요
     });
+    
+    $("#file_img").on('change',function(){
+  	  var fileName = $("#file_img").val();
+  	  $(".upload-name").val(fileName);
+  	  $(".upload-status").text("*업로드 완료");
+  });  
+  
+  $("#detail_img").on('change', function () {
+      var detailName = $("#detail_img").val();
+      $(".upload-name-detail").val(detailName);
+      $(".upload-status-detail").text("*업로드 완료");
+  });
 });
 </script>
 </body>

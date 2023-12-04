@@ -185,7 +185,7 @@
             			<button onclick="goSearch()" class="search-button"></button>
         			</div>
     		</div>
-		<table border="1">
+		<table border="1" id="tableContainer">
     <tr>
         <th>NO</th>
         <th>등록일</th>
@@ -202,7 +202,11 @@
             <fmt:formatDate value="${regdate}" pattern="yyyy.mm.dd"/>
             </td>
             
-            <td>${fashion.product_name}</td>
+            <td>
+            <a href="#" class="detail-link" data-seq-id="${fashion.seq_id}">
+                ${fashion.banner_title}
+            </a>
+            </td>
             <td>${fashion.company_yn}</td>
             <td>${fashion.user_id}</td>
         </tr>
@@ -216,6 +220,21 @@
 	</div>
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script>
+    // jQuery를 사용하여 클릭 이벤트 처리
+    $(document).ready(function() {
+        // 클래스가 detail-link인 요소를 클릭했을 때의 동작 정의
+        $('.detail-link').click(function() {
+            // data-seq-id 속성을 통해 seq_id 값을 가져옴
+            var seqId = $(this).data('seq-id');
+            
+            // seq_id 값을 사용하여 detail 페이지로 이동
+            window.location.href = 'fashiondetail?seq_id=' + seqId;
+        });
+    });
+//     $(document).on('click', '#tableContainer td:nth-child(3)', function() {
+//         var user_id = $(this).text(); // 클릭한 행의 user_id 값을 가져옴
+//         window.location.href = '/adminupdate?user_id=' + banner_title; // adminupdate.jsp로 이동하면서 user_id를 파라미터로 전달
+//     });
     // 목록 버튼 클릭 시 실행될 함수
     $("#insertButton").click(function() {
     	// adminlist로 이동
