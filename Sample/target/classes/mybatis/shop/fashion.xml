@@ -8,8 +8,8 @@
 	<result property="seq_id" column="seq_id"/>
 	<result property="banner_title" column="banner_title"/>
 	<result property="product_name" column="product_name"/>
-	<result property="file_img" column="file_img"/>
-	<result property="detail_img" column="detail_img"/>
+	<result property="file_img" column="file_img" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result property="detail_img" column="detail_img" javaType="java.lang.String" jdbcType="VARCHAR"/>
 	<result property="product_amount" column="product_amount" />
 	<result property="delivery_fee" column="delivery_fee" />
 	<result property="company_name" column="company_name" />
@@ -76,8 +76,8 @@
     	) VALUES (
     	PRODUCT_SEQ.NEXTVAL
     	, SYSDATE
-    	, #{filePath}
-    	, #{detailPath}
+    	, #{file_img}
+    	, #{detail_img}
     	, #{banner_title, jdbcType=VARCHAR}
     	, #{product_name, jdbcType=VARCHAR}
     	, #{product_amount, jdbcType=VARCHAR}
@@ -110,19 +110,19 @@
 	    WHERE seq_id = #{seq_id}
 	</delete>
 	
-<update id="fashionDao.updateFashion">
-    UPDATE product_table
-    SET
-        banner_title = #{banner_title, jdbcType=VARCHAR},
-        regdate = CURRENT_TIMESTAMP,
-        product_name = #{product_name, jdbcType=VARCHAR},
-        file_img = #{filePath}, <!-- 파일 경로에 대한 jdbcType 설정 -->
-        product_amount = #{product_amount, jdbcType=VARCHAR},
-        delivery_fee = #{delivery_fee, jdbcType=VARCHAR},
-        company_name = #{company_name, jdbcType=VARCHAR},
-        detail_img = #{detailPath}, <!-- 파일 경로에 대한 jdbcType 설정 -->
-        company_phone = #{company_phone, jdbcType=VARCHAR},
-        company_yn = #{company_yn, jdbcType=VARCHAR}
-    WHERE seq_id = #{seq_id, jdbcType=VARCHAR}
-</update>
+	<update id="fashionDao.updateFashion">
+	    UPDATE product_table
+	    SET
+	        banner_title = #{banner_title, jdbcType=VARCHAR},
+	        regdate = CURRENT_TIMESTAMP,
+	        product_name = #{product_name, jdbcType=VARCHAR},
+	    	file_img = #{file_img, jdbcType=VARCHAR},
+	        product_amount = #{product_amount, jdbcType=VARCHAR},
+	        delivery_fee = #{delivery_fee, jdbcType=VARCHAR},
+	        company_name = #{company_name, jdbcType=VARCHAR},
+	        detail_img = #{detail_img, jdbcType=VARCHAR},
+	        company_phone = #{company_phone, jdbcType=VARCHAR},
+	        company_yn = #{company_yn, jdbcType=VARCHAR}
+	    WHERE seq_id = #{seq_id, jdbcType=VARCHAR}
+	</update>
 </mapper>

@@ -216,7 +216,7 @@
                         			<div class="filebox">
 								        <input class="upload-name-detail" value="${fashionvo.detail_img}" placeholder="파일선택" readonly>
 								        <label for="detail_img" class="file-label">이미지 찾기</label> 
-								        <input type="file" id="detail_img">
+								        <input type="file" id="detail_img" >
 								        <span class="upload-status-detail"></span>
    									 </div>
    								</td>

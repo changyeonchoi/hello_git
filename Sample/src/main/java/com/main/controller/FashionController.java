@@ -2,6 +2,10 @@ package com.main.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -96,27 +101,28 @@ public class FashionController {
 	    	
 		} else if("enroll".equals(type)) {
 			
-			String originalFileName = file_img.getOriginalFilename();
-			
-			String detailFileName = detail_img.getOriginalFilename();
-
-			String filePath = uploadPath + originalFileName;
-			
-			String detailPath = uploadPath + detailFileName;
-			 
-			file_img.transferTo(new File(filePath));
-			
-			detail_img.transferTo(new File(detailPath));
+//			String originalFileName = file_img.getOriginalFilename();
+//			
+//			String detailFileName = detail_img.getOriginalFilename();
+//
+//			String filePath = uploadPath + originalFileName;
+//			
+//			String detailPath = uploadPath + detailFileName;
+//			 
+//			file_img.transferTo(new File(filePath));
+//			
+//			detail_img.transferTo(new File(detailPath));
 			
 			fashionvo.setUser_id(membervo.getUser_id());
 			fashionvo.setBanner_title(banner_title);
 			fashionvo.setProduct_name(product_name);
-			fashionvo.setFilePath(filePath);
-			fashionvo.setDetailPath(detailPath);
+//			fashionvo.setFilePath(filePath);
+//			fashionvo.setDetailPath(detailPath);
 			fashionvo.setProduct_amonut(product_amount);
 			fashionvo.setDelivery_fee(delivery_fee);
 			fashionvo.setCompany_name(company_name);
-			fashionvo.setDetail_img(detail_img);
+			fashionvo.setFile_img(file_img, uploadPath, fashionvo.getFile_img());
+			fashionvo.setDetail_img(detail_img, uploadPath, fashionvo.getDetail_img());
 			fashionvo.setCompany_phone(company_phone);
 			fashionvo.setCompany_yn(company_yn);
 //			fashionvo.setCode(code);
@@ -131,7 +137,7 @@ public class FashionController {
 			
 			model.addAttribute("fashionvo", fashionvo);
 			
-			System.out.println("detail" + fashionvo);
+//			System.out.println("detail" + fashionvo);
 			
 			returnUrl = "/fashiondetail";
 			
@@ -142,14 +148,24 @@ public class FashionController {
 			returnUrl = "/fashionlist";
 			
 		} else if("update".equals(type)) {
-			
-			
-			
-			fashionservice.updatefashion(fashionvo);
-			
-//			System.out.println("update" + update);
-			
-			returnUrl = "/fashionlist";
+
+			        fashionvo.setUser_id(membervo.getUser_id());
+			        fashionvo.setSeq_id(seq_id);
+			        fashionvo.setBanner_title(banner_title);
+			        fashionvo.setProduct_name(product_name);
+			        fashionvo.setProduct_amonut(product_amount);
+			        fashionvo.setDelivery_fee(delivery_fee);
+			        fashionvo.setCompany_name(company_name);
+			        fashionvo.setCompany_phone(company_phone);
+			        fashionvo.setCompany_yn(company_yn);
+			        fashionvo.setFile_img(file_img, uploadPath, fashionvo.getFile_img());
+					fashionvo.setDetail_img(detail_img, uploadPath, fashionvo.getDetail_img());
+
+			        fashionservice.updatefashion(fashionvo);
+
+			        System.out.println("update" + fashionvo);
+			        
+			        returnUrl = "/fashionlist";
 		}
 		return returnUrl;
 	}

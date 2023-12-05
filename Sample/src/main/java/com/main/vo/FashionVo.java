@@ -1,5 +1,8 @@
 package com.main.vo;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -13,7 +16,7 @@ public class FashionVo {
 	//상품명
 	private String product_name;
 	//이미지등록
-	 private MultipartFile  file_img;
+	 private String  file_img;
 	//상품가격
 	private String product_amount;
 	//배송비
@@ -23,7 +26,7 @@ public class FashionVo {
 	//판매업체번호
 	private String company_phone;
 	//상세정보(IMG)
-	private MultipartFile detail_img;
+	private String detail_img;
 	//상세정보(URL)
 	private String detail_url;
 	//노출여부
@@ -39,6 +42,36 @@ public class FashionVo {
 	
 	private String detailPath;
 	
+	
+	
+	public String getFile_img() {
+		return file_img;
+	}
+	public void setFile_img(MultipartFile file, String uploadPath, String file_img) throws IOException {
+	    if (file != null && !file.isEmpty()) {
+	        // 새로운 파일이 전달된 경우
+	        String originalFileName = file.getOriginalFilename();
+	        String filePath = uploadPath + originalFileName;
+	        file.transferTo(new File(filePath));
+	        this.file_img = filePath;
+	    } else {
+	    	this.file_img = getFile_img();
+	    }
+	}
+	public String getDetail_img() {
+		return detail_img;
+	}
+    public void setDetail_img(MultipartFile file, String uploadPath, String detail_img) throws IOException {
+    	if (file != null && !file.isEmpty()) {
+    		String originalFileName = file.getOriginalFilename();
+    		String detailPath = uploadPath + originalFileName;
+    		file.transferTo(new File(detailPath));
+    		this.detail_img = detailPath;
+    	} else {
+    		this.file_img = getDetail_img();
+    	}
+    }
+
 	public String getFile_Path() {
 		return file_Path;
 	}
@@ -76,12 +109,6 @@ public class FashionVo {
 		this.product_name = product_name;
 	}
 
-	public MultipartFile  getFile_img() {
-		return file_img;
-	}
-	public void setFile_img(MultipartFile  file_img) {
-		this.file_img = file_img;
-	}
 	public String getProduct_amount() {
 		return product_amount;
 	}
@@ -105,12 +132,6 @@ public class FashionVo {
 	}
 	public void setCompany_phone(String company_phone) {
 		this.company_phone = company_phone;
-	}
-	public MultipartFile getDetail_img() {
-		return detail_img;
-	}
-	public void setDetail_img(MultipartFile detail_img) {
-		this.detail_img = detail_img;
 	}
 	public String getDetail_url() {
 		return detail_url;

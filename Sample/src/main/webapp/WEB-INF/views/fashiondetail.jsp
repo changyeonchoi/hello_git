@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HTML5</title>
+<title>fashion</title>
 <style type="text/css">
 	body {
 		text-align: center;
@@ -167,7 +167,7 @@
 		<!--네비게이션-->
 		<nav>
 			<div class="menu-items">
-    			<h2>Fashion 상품 등록하기</h2>
+    			<h2>Fashion 상품 상세보기</h2>
     				<div>1. 게시글 정보</div><br>
     				    <input type="hidden" name="banner_title" id="deleteBannerTitle" value="">
     				    <form action="fashionupdate" method="post" enctype="multipart/form-data">
@@ -187,9 +187,9 @@
                 				<td class="black-cell">이미지등록*</td>
                        			<td>
 									<div class="filebox">
-									    <input class="upload-name" value="파일선택" placeholder="파일선택">
+									    <input class="upload-name" value="${fashionvo.file_img}" placeholder="파일선택" readonly>
 									    <label for="file_img" class="file-label">이미지 찾기</label> 
-									    <input type="file" id="file_img">
+									    <input type="file" id="file_img" value="${fashionvo.file_img}">
 									    <span class="upload-status"></span>
 									</div>
                        			</td>
@@ -212,7 +212,7 @@
                         		    <div class="filebox">
 								        <input class="upload-name-detail" value="${fashionvo.detail_img}" placeholder="파일선택" readonly>
 								        <label for="detail_img" class="file-label">이미지 찾기</label> 
-								        <input type="file" id="detail_img">
+								        <input type="file" id="detail_img" value="${fashionvo.detail_img}">
 								        <span class="upload-status-detail"></span>
    									 </div>
    								</td>
@@ -247,7 +247,69 @@
 	</div>
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script>
-        
+    $(document).ready(function() {
+        // 상품가격 입력 필드에 대한 이벤트 리스너 추가
+        $("#product_amount").on("input", function() {
+            // 현재 입력된 값
+            var inputValue = $(this).val();
+
+            // 입력된 값에서 숫자와 소수점을 제외한 문자 제거
+            var sanitizedValue = inputValue.replace(/[^0-9.]/g, '');
+
+            // 소수점이 여러 개인 경우 첫 번째 소수점만 유지
+            var dotIndex = sanitizedValue.indexOf('.');
+            if (dotIndex !== -1) {
+                sanitizedValue = sanitizedValue.slice(0, dotIndex + 1) + sanitizedValue.slice(dotIndex + 1).replace(/\./g, '');
+            }
+
+            // 숫자에 콤마 추가하여 표시
+            var formattedValue = Number(sanitizedValue).toLocaleString('en-US', { maximumFractionDigits: 2 });
+
+            // 제한된 값을 다시 입력 필드에 설정
+            $(this).val(formattedValue);
+        });
+
+        // 배송비 입력 필드에 대한 이벤트 리스너 추가
+        $("#delivery_fee").on("input", function() {
+            // 현재 입력된 값
+            var inputValue = $(this).val();
+
+            // 입력된 값에서 숫자와 띄어쓰기만 남기고 나머지 문자 제거
+            var sanitizedValue = inputValue.replace(/[^0-9\s]/g, '');
+
+            // 띄어쓰기를 제거하여 숫자만 남김
+            var numericValue = sanitizedValue.replace(/\s/g, '');
+
+            // 숫자에 콤마 추가하여 표시
+            var formattedValue = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+            // 제한된 값을 다시 입력 필드에 설정
+            $(this).val(formattedValue);
+        });
+
+        $("#company_phone").on("input", function() {
+            var inputText = $(this).val();
+            // 숫자와 하이픈만 남기고 모든 문자 제거
+            var sanitizedText = inputText.replace(/[^\d-]/g, '');
+
+            // 하이픈이 자동으로 추가되도록 처리
+            if (sanitizedText.length > 3 && sanitizedText.charAt(3) !== '-') {
+                sanitizedText = sanitizedText.slice(0, 3) + '-' + sanitizedText.slice(3);
+            }
+            if (sanitizedText.length > 8 && sanitizedText.charAt(8) !== '-') {
+                sanitizedText = sanitizedText.slice(0, 8) + '-' + sanitizedText.slice(8);
+            }
+
+            // 입력 창에 반영
+            $(this).val(sanitizedText);
+        });
+
+        // 라디오 버튼의 변경 이벤트 리스너 추가
+        $("input[name='company_yn']").change(function() {
+            // 선택된 라디오 버튼의 값을 가져와서 출력
+            var selectedValue = $("input[name='company_yn']:checked").val();
+            console.log("선택된 값: " + selectedValue);
+        });
         // 목록 버튼 클릭 시 실행될 함수
         $("#listButton").click(function() {
             // fashionlist로 이동
@@ -260,7 +322,6 @@
         $("#radioY").prop('checked', (valueFromDatabase === "Y"));
         $("#radioN").prop('checked', (valueFromDatabase === "N"));
 
-    $(document).ready(function () {
         // 삭제 버튼 클릭 시 실행될 함수
         $('#deleteButton').click(function () {
             // 확인 메시지 표시
@@ -288,7 +349,6 @@
         
         $('#saveButton').click(function () {
 //             let formData = new FormData($('#uploadForm')[0]);
-//             formData.append('seq_id', '${fashionvo.seq_id}');
 		var banner_title = $("#banner_title").val();
         var product_name = $("#product_name").val();
         var file_img = $("#file_img")[0].files[0]; // Get the file object
@@ -298,6 +358,14 @@
         var detail_img = $("#detail_img")[0].files[0]; // Get the file object
         var company_phone = $("#company_phone").val();
         var company_yn = $("input[name='company_yn']:checked").val();
+        
+        console.log("asd" + file_img);
+        console.log("123" + detail_img);
+        
+        if (!banner_title || !product_name || !product_amount || !delivery_fee || !company_name || !company_phone || !company_yn) {
+            alert("모든 항목을 입력해주세요.");
+            return; // 필수 입력 필드 중 하나라도 빈 값이면 함수 종료
+        }
         
         var formData = new FormData();
         formData.append("banner_title", banner_title);
@@ -309,29 +377,46 @@
         formData.append("detail_img", detail_img);
         formData.append("company_phone", company_phone);
         formData.append("company_yn", company_yn);
+        formData.append('seq_id', '${fashionvo.seq_id}');
+
 
         console.log("formData" + formData);
         
-        // 서버에 데이터를 전송하는 Ajax 호출
-        $.ajax({
-            url: '/fashionupdate',
-            method: 'POST',
-            data: formData,
-            dataType: "text",
-            enctype: 'multipart/form-data',
-            contentType: false,
-            processData: false,
-            success: function(response) {
-                // 등록 성공 시 알림 표시 후 목록 페이지로 이동
-                alert('상품이 등록되었습니다.');
-                window.location.href = 'fashionlist'; // 등록 후 이동할 페이지 URL로 변경해주세요
-            },
-            error: function(error) {
-                // 등록 실패 시 알림 표시
-                alert('상품 등록에 실패하였습니다. 다시 시도해주세요.');
-                console.error('Error:', error);
-            }
-        });
+     // 이미지 파일이 선택된 경우에만 새로운 파일로 업데이트
+        var file_img = $("#file_img")[0].files[0];
+        if (file_img) {
+            formData.append("file_img", file_img);
+        } else {
+            // 이미지 파일이 선택되지 않은 경우 기존 파일 경로 추가
+            formData.append("file_img", '${fashionvo.file_img}');
+        }
+
+        var detail_img = $("#detail_img")[0].files[0];
+        if (detail_img) {
+            formData.append("detail_img", detail_img);
+        } else {
+            // 이미지 파일이 선택되지 않은 경우 기존 파일 경로 추가
+            formData.append("detail_img", '${fashionvo.detail_img}');
+        }
+	        $.ajax({
+	            url: '/fashionupdate',
+	            method: 'POST',
+	            data: formData,
+	            dataType: "text",
+	            contentType: false,
+	            processData: false,
+	            success: function(response) {
+	                // 등록 성공 시 알림 표시 후 목록 페이지로 이동
+	                alert('상품이 등록되었습니다.');
+	                console.log("response" + response);
+// 	                window.location.href = 'fashionlist'; // 등록 후 이동할 페이지 URL로 변경해주세요
+	            },
+	            error: function(error) {
+	                // 등록 실패 시 알림 표시
+	                alert('에러에러');
+	                console.error('Error:', error);
+	            }
+	        });
         });
     });
     
