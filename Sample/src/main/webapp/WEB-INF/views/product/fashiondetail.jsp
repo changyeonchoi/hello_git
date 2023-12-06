@@ -161,7 +161,7 @@
 			<div class="menu">
     		<h3><a href="#" class="red-text">상품관리</a></h3>
     		<h3><a href="#">배너관리</a></h3>
-    		<h3><a href="#">사용자관리</a></h3>
+    		<h3><a href="adminlist">사용자관리</a></h3>
 			</div>
 		</header>
 		<!--네비게이션-->
@@ -313,7 +313,7 @@
         // 목록 버튼 클릭 시 실행될 함수
         $("#listButton").click(function() {
             // fashionlist로 이동
-            window.location.href = 'fashionlist'; // fashionlist.jsp로 이동
+            window.location.href = '/product/fashionlist'; // fashionlist.jsp로 이동
         });
 
         var valueFromDatabase = "${fashionvo.company_yn}"; // 또는 "N"
@@ -330,14 +330,14 @@
                 // 삭제 요청을 서버로 보냄
                 $.ajax({
                     type: 'POST', 
-                    url: '/fashiondelete',  // 삭제 기능을 처리하는 컨트롤러의 URL로 수정
+                    url: '/product/fashiondelete',  // 삭제 기능을 처리하는 컨트롤러의 URL로 수정
                     data: {
                         seq_id: '${fashionvo.seq_id}'  // 삭제할 배너 타이틀을 전송
                     },
                     success: function (result) {
                             alert('삭제되었습니다.');
                             // 삭제 성공 시 이동할 페이지로 리다이렉트 (예: 목록 페이지)
-                            window.location.href = '/fashionlist';
+                            window.location.href = '/product/fashionlist';
                     },
                     error: function () {
                         alert('서버 오류로 삭제에 실패했습니다.');
@@ -359,9 +359,6 @@
         var company_phone = $("#company_phone").val();
         var company_yn = $("input[name='company_yn']:checked").val();
         
-        console.log("asd" + file_img);
-        console.log("123" + detail_img);
-        
         if (!banner_title || !product_name || !product_amount || !delivery_fee || !company_name || !company_phone || !company_yn) {
             alert("모든 항목을 입력해주세요.");
             return; // 필수 입력 필드 중 하나라도 빈 값이면 함수 종료
@@ -379,36 +376,17 @@
         formData.append("company_yn", company_yn);
         formData.append('seq_id', '${fashionvo.seq_id}');
 
-
-        console.log("formData" + formData);
-        
-     // 이미지 파일이 선택된 경우에만 새로운 파일로 업데이트
-        var file_img = $("#file_img")[0].files[0];
-        if (file_img) {
-            formData.append("file_img", file_img);
-        } else {
-            // 이미지 파일이 선택되지 않은 경우 기존 파일 경로 추가
-            formData.append("file_img", '${fashionvo.file_img}');
-        }
-
-        var detail_img = $("#detail_img")[0].files[0];
-        if (detail_img) {
-            formData.append("detail_img", detail_img);
-        } else {
-            // 이미지 파일이 선택되지 않은 경우 기존 파일 경로 추가
-            formData.append("detail_img", '${fashionvo.detail_img}');
-        }
 	        $.ajax({
-	            url: '/fashionupdate',
+	            url: '/product/fashionupdate',
 	            method: 'POST',
 	            data: formData,
 	            dataType: "text",
+	
 	            contentType: false,
 	            processData: false,
 	            success: function(response) {
 	                // 등록 성공 시 알림 표시 후 목록 페이지로 이동
 	                alert('상품이 등록되었습니다.');
-	                console.log("response" + response);
 // 	                window.location.href = 'fashionlist'; // 등록 후 이동할 페이지 URL로 변경해주세요
 	            },
 	            error: function(error) {

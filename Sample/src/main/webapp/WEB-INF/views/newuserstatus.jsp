@@ -68,7 +68,7 @@
 <body>
 <%
     // 세션에서 회원 정보를 가져옴
-    MemberVo memberVo = (MemberVo) request.getSession().getAttribute("memberVo");
+    MemberVo memberVo = (MemberVo) request.getSession().getAttribute("membervo");
 %>
 <div class="center-align">
     <form>

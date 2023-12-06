@@ -211,7 +211,7 @@
             <td>${fashion.user_id}</td>
         </tr>
     </c:forEach>
-</table>
+		</table>
 		<div class="center-div">${navigation}</div>
     		<div style="text-align: right; float: right;">
             	<button class="custom-button" id="insertButton">등록</button>
@@ -228,27 +228,26 @@
             var seqId = $(this).data('seq-id');
             
             // seq_id 값을 사용하여 detail 페이지로 이동
-            window.location.href = 'fashiondetail?seq_id=' + seqId;
+            window.location.href = '/product/fashiondetail?seq_id=' + seqId;
         });
     });
 //     $(document).on('click', '#tableContainer td:nth-child(3)', function() {
 //         var user_id = $(this).text(); // 클릭한 행의 user_id 값을 가져옴
 //         window.location.href = '/adminupdate?user_id=' + banner_title; // adminupdate.jsp로 이동하면서 user_id를 파라미터로 전달
 //     });
-    // 목록 버튼 클릭 시 실행될 함수
+
     $("#insertButton").click(function() {
-    	// adminlist로 이동
-    	window.location.href = 'fashioninsert'; // fashioninsert.jsp로 이동
+    	window.location.href = '/product/fashioninsert'; // fashioninsert.jsp로 이동
     });
     
     function goSearch(){
     	let search = $("#searchInput").val();
     	console.log("search" + search);
-    	$(location).attr('href',"<c:url value='/fashionlist?search="+search+"'/>");
+    	$(location).attr('href',"<c:url value='/product/fashionlist?search="+search+"'/>");
     }
     function goPage(pageNo){
     	let searchInputValue = $("#searchInput").val();
-    	$(location).attr('href',"<c:url value='/fashionlist?pageNo="+pageNo+"'/>");
+    	$(location).attr('href',"<c:url value='/product/fashionlist?pageNo="+pageNo+"'/>");
     }
     </script>
 </body>

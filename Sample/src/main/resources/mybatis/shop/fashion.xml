@@ -73,6 +73,7 @@
     	, company_phone
     	, company_yn
     	, user_id
+    	, code
     	) VALUES (
     	PRODUCT_SEQ.NEXTVAL
     	, SYSDATE
@@ -85,7 +86,8 @@
     	, #{company_name, jdbcType=VARCHAR}
     	, #{company_phone, jdbcType=VARCHAR}
     	, #{company_yn, jdbcType=VARCHAR}
-    	, #{user_id, jdbcType=VARCHAR})
+    	, #{user_id, jdbcType=VARCHAR}
+    	, #{code, jdbcType=VARCHAR})
 	</insert>
 	
 	<select id="fashionDao.selectfashiondetail" resultMap="fashionvo">
@@ -116,13 +118,14 @@
 	        banner_title = #{banner_title, jdbcType=VARCHAR},
 	        regdate = CURRENT_TIMESTAMP,
 	        product_name = #{product_name, jdbcType=VARCHAR},
-	    	file_img = #{file_img, jdbcType=VARCHAR},
 	        product_amount = #{product_amount, jdbcType=VARCHAR},
 	        delivery_fee = #{delivery_fee, jdbcType=VARCHAR},
 	        company_name = #{company_name, jdbcType=VARCHAR},
-	        detail_img = #{detail_img, jdbcType=VARCHAR},
 	        company_phone = #{company_phone, jdbcType=VARCHAR},
-	        company_yn = #{company_yn, jdbcType=VARCHAR}
+	        company_yn = #{company_yn, jdbcType=VARCHAR},
+	        detail_img = COALESCE(#{detail_img, jdbcType=VARCHAR}, detail_img),
+	        file_img = COALESCE(#{file_img, jdbcType=VARCHAR}, file_img)
 	    WHERE seq_id = #{seq_id, jdbcType=VARCHAR}
 	</update>
+
 </mapper>

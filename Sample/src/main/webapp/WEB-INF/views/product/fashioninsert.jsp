@@ -166,7 +166,7 @@
 			<div class="menu">
     		<h3><a href="#" class="red-text">상품관리</a></h3>
     		<h3><a href="#">배너관리</a></h3>
-    		<h3><a href="#">사용자관리</a></h3>
+    		<h3><a href="adminlist">사용자관리</a></h3>
 			</div>
 		</header>
 		<!--네비게이션-->
@@ -333,6 +333,7 @@ $(document).ready(function() {
         
         // Create FormData object
         var formData = new FormData();
+        formData.append("code", "fashion");
         formData.append("banner_title", banner_title);
         formData.append("product_name", product_name);
         formData.append("file_img", file_img);
@@ -357,7 +358,7 @@ $(document).ready(function() {
             success: function(response) {
                 // 등록 성공 시 알림 표시 후 목록 페이지로 이동
                 alert('상품이 등록되었습니다.');
-                window.location.href = 'fashionlist'; // 등록 후 이동할 페이지 URL로 변경해주세요
+                window.location.href = '/product/fashionlist';
             },
             error: function(error) {
                 // 등록 실패 시 알림 표시
@@ -370,7 +371,7 @@ $(document).ready(function() {
     // 목록 버튼 클릭 시 실행될 함수
     $("#listButton").click(function() {
         // 목록 페이지로 이동
-        window.location.href = 'fashionlist'; // 목록 페이지 URL로 변경해주세요
+        window.location.href = '/product/fashionlist'; // 목록 페이지 URL로 변경해주세요
     });
     
     $("#file_img").on('change',function(){

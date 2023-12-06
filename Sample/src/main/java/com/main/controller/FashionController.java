@@ -30,6 +30,7 @@ import com.main.vo.FashionVo;
 import com.main.vo.MemberVo;
 
 @Controller
+@RequestMapping(value = "/product")
 public class FashionController {   
 	
 	@Autowired
@@ -42,7 +43,7 @@ public class FashionController {
 	private String uploadPath;
 	
 	
-	@RequestMapping(value = "/fashion{type}", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value = "/{type}", method = {RequestMethod.GET, RequestMethod.POST})
 	public String fashion(Model model, HttpSession session, HttpServletRequest request,
 			@RequestParam(value="pageNo"		, defaultValue="1" , required=true) int pageNo,
 			@RequestParam(name = "listSize", defaultValue = "10") int listSize,
@@ -58,7 +59,7 @@ public class FashionController {
 	        @RequestParam(value = "company_phone", required=false) String company_phone,
 	        @RequestParam(value = "company_yn", required=false) String company_yn,
 	        @RequestParam(value = "seq_id", required=false) String seq_id,
-//	        @RequestParam(value = "code", required=false) String code,
+	        @RequestParam(value = "code", required=false) String code,
 	        FashionVo fashionvo,
 			@PathVariable String type
 			) throws IOException {
@@ -69,7 +70,7 @@ public class FashionController {
 		
 		fashionvo.setUser_id(membervo.getUser_id());
 		
-		if("list".equals(type)) {
+		if("fashionlist".equals(type)) {
 			
 			Map<String, Object> keyword = new HashMap<String, Object>();
 	    	keyword.put("search", search);
@@ -97,9 +98,9 @@ public class FashionController {
 	    	
 	    	model.addAttribute("fashion", fashionList);
 	    	
-	    	returnUrl = "/fashionlist";
+	    	returnUrl = "/product/fashionlist";
 	    	
-		} else if("enroll".equals(type)) {
+		} else if("fashionenroll".equals(type)) {
 			
 //			String originalFileName = file_img.getOriginalFilename();
 //			
@@ -125,13 +126,13 @@ public class FashionController {
 			fashionvo.setDetail_img(detail_img, uploadPath, fashionvo.getDetail_img());
 			fashionvo.setCompany_phone(company_phone);
 			fashionvo.setCompany_yn(company_yn);
-//			fashionvo.setCode(code);
+			fashionvo.setCode("fashion");
 			
 			fashionservice.insertfashion(fashionvo);
-
-			returnUrl = "/fashioninsert";
 			
-		} else if("detail".equals(type)) {
+			returnUrl = "/product/fashioninsert";
+			
+		} else if("fashiondetail".equals(type)) {
 			
 			fashionvo = fashionservice.selectfashiondetail(seq_id);
 			
@@ -139,15 +140,15 @@ public class FashionController {
 			
 //			System.out.println("detail" + fashionvo);
 			
-			returnUrl = "/fashiondetail";
+			returnUrl = "/product/fashiondetail";
 			
-		} else if("delete".equals(type)) {
+		} else if("fashiondelete".equals(type)) {
 			
 			fashionservice.deletefashion(seq_id);
 			
-			returnUrl = "/fashionlist";
+			returnUrl = "/product/fashionlist";
 			
-		} else if("update".equals(type)) {
+		} else if("fashionupdate".equals(type)) {
 
 			        fashionvo.setUser_id(membervo.getUser_id());
 			        fashionvo.setSeq_id(seq_id);
@@ -161,11 +162,13 @@ public class FashionController {
 			        fashionvo.setFile_img(file_img, uploadPath, fashionvo.getFile_img());
 					fashionvo.setDetail_img(detail_img, uploadPath, fashionvo.getDetail_img());
 
+					  System.out.println(fashionvo);
+					  
 			        fashionservice.updatefashion(fashionvo);
-
-			        System.out.println("update" + fashionvo);
 			        
-			        returnUrl = "/fashionlist";
+			        System.out.println(fashionvo);
+
+			        returnUrl = "/product/fashionlist";
 		}
 		return returnUrl;
 	}

@@ -74,7 +74,7 @@
     	                                    	console.log("user_auth", data.user_auth);
     	                                    	 if (data.user_auth === "사용") {
     	                                                // 사용 중인 경우에 대한 동작 추가
-    	                                    		 window.location.href = "fashionlist";
+    	                                    		 window.location.href = "product/fashionlist";
     	                                            } else if (data.user_auth === "미사용") {
     	                                                // 미사용 중인 경우에 대한 동작 추가
     	                                            	window.open("newuserstatus", "_blank", "width=800, height=600");

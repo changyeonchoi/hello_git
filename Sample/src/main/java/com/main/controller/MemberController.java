@@ -117,7 +117,10 @@ public class MemberController {
 	    membervo.setUser_pw(user_pw);
 	    
 	    MemberVo result = memberservice.login(membervo);
-	                    
+	    
+	    System.out.println(result);
+	    
+	    // 세션에 "memberVo" 속성을 설정
 	    request.getSession().setAttribute("membervo", result);
 
 	    // 리다이렉트할 URL을 포함한 응답 데이터
