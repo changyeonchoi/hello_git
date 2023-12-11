@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>fashion</title>
+<title>Accessory</title>
 <style type="text/css">
 	body {
 		text-align: center;
@@ -159,7 +159,7 @@
 		<!--헤더시작-->
 		<header>
 			<div class="menu">
-    		<h3><a href="#" class="red-text">상품관리</a></h3>
+    		<h3><a href="fashionlist" class="red-text">상품관리</a></h3>
     		<h3><a href="#">배너관리</a></h3>
     		<h3><a href="adminlist">사용자관리</a></h3>
 			</div>
@@ -174,52 +174,52 @@
         				<table border="1" style="width: 70%;">
             				<tr>
                 				<td class="black-cell">제목*</td>
-                				<td><input type="text" class="input_text" id="banner_title" value="${fashionvo.banner_title}" placeholder=""></td>
+                				<td><input type="text" class="input_text" id="banner_title" value="${accessory.banner_title}" placeholder=""></td>
             				</tr>
         				</table><br>
-        				<div>2.상품 정보</div><br>
+        				<div>2. 상품 정보</div><br>
     					<table border="1" style="width: 70%;">
         					<tr>
                 				<td class="black-cell">상품명*</td>
-                        		<td><input type="text" class="input_text" id="product_name" value="${fashionvo.product_name}" maxlength="10"></td>
+                        		<td><input type="text" class="input_text" id="product_name" value="${accessory.product_name}" maxlength="10"></td>
            					</tr>
             				<tr>
                 				<td class="black-cell">이미지등록*</td>
                        			<td>
 									<div class="filebox">
-									    <input class="upload-name" value="${fashionvo.file_img}" placeholder="파일선택" readonly>
+									    <input class="upload-name" value="${accessory.file_img}" placeholder="파일선택" readonly>
 									    <label for="file_img" class="file-label">이미지 찾기</label> 
-									    <input type="file" id="file_img" value="${fashionvo.file_img}">
+									    <input type="file" id="file_img" value="${accessory.file_img}">
 									    <span class="upload-status"></span>
 									</div>
                        			</td>
             				</tr>
             				<tr>
                 				<td class="black-cell">상품가격*</td>
-                				<td><input type="text" class="input_text" id="product_amount" value="${fashionvo.product_amount}" maxlength="10"></td>
+                				<td><input type="text" class="input_text" id="product_amount" value="${accessory.product_amount}" maxlength="10"></td>
             				</tr>
             				<tr>
                 				<td class="black-cell">배송비*</td>
-                        		<td><input type="text" class="input_text" id="delivery_fee" value="${fashionvo.delivery_fee}" maxlength="10"></td>
+                        		<td><input type="text" class="input_text" id="delivery_fee" value="${accessory.delivery_fee}" maxlength="10"></td>
             				</tr>
             				<tr>
                 				<td class="black-cell">판매업체*</td>
-                        		<td><input type="text" class="input_text" id="company_name" value="${fashionvo.company_name}" maxlength="10"></td>
+                        		<td><input type="text" class="input_text" id="company_name" value="${accessory.company_name}" maxlength="10"></td>
             				</tr>
             				<tr>
                 				<td class="black-cell">상세정보 이미지*</td>
                 				<td>
                         		    <div class="filebox">
-								        <input class="upload-name-detail" value="${fashionvo.detail_img}" placeholder="파일선택" readonly>
+								        <input class="upload-name-detail" value="${accessory.detail_img}" placeholder="파일선택" readonly>
 								        <label for="detail_img" class="file-label">이미지 찾기</label> 
-								        <input type="file" id="detail_img" value="${fashionvo.detail_img}">
+								        <input type="file" id="detail_img" value="${accessory.detail_img}">
 								        <span class="upload-status-detail"></span>
    									 </div>
    								</td>
             				</tr>
             				<tr>
                 				<td class="black-cell">업체전화번호*</td>
-                        		<td><input type="text" class="input_text" id="company_phone" value="${fashionvo.company_phone}" maxlength="13"></td>
+                        		<td><input type="text" class="input_text" id="company_phone" value="${accessory.company_phone}" maxlength="13"></td>
            					</tr>
             				<tr>
                 				<td class="black-cell">노출여부*</td>
@@ -313,10 +313,10 @@
         // 목록 버튼 클릭 시 실행될 함수
         $("#listButton").click(function() {
             // fashionlist로 이동
-            window.location.href = '/product/fashionlist'; // fashionlist.jsp로 이동
+            window.location.href = '/accessorylist'; // fashionlist.jsp로 이동
         });
 
-        var valueFromDatabase = "${fashionvo.company_yn}"; // 또는 "N"
+        var valueFromDatabase = "${accessory.company_yn}"; // 또는 "N"
 
         // 디비에서 가져온 값에 따라 라디오 버튼 체크
         $("#radioY").prop('checked', (valueFromDatabase === "Y"));
@@ -330,14 +330,14 @@
                 // 삭제 요청을 서버로 보냄
                 $.ajax({
                     type: 'POST', 
-                    url: '/product/fashiondelete',  // 삭제 기능을 처리하는 컨트롤러의 URL로 수정
+                    url: '/fashiondelete',  // 삭제 기능을 처리하는 컨트롤러의 URL로 수정
                     data: {
                         seq_id: '${fashionvo.seq_id}'  // 삭제할 배너 타이틀을 전송
                     },
                     success: function (result) {
                             alert('삭제되었습니다.');
                             // 삭제 성공 시 이동할 페이지로 리다이렉트 (예: 목록 페이지)
-                            window.location.href = '/product/fashionlist';
+                            window.location.href = '/accessorylist';
                     },
                     error: function () {
                         alert('서버 오류로 삭제에 실패했습니다.');
@@ -374,10 +374,10 @@
         formData.append("detail_img", detail_img);
         formData.append("company_phone", company_phone);
         formData.append("company_yn", company_yn);
-        formData.append('seq_id', '${fashionvo.seq_id}');
+        formData.append('seq_id', '${accessory.seq_id}');
 
 	        $.ajax({
-	            url: '/product/fashionupdate',
+	            url: '/accessoryupdate',
 	            method: 'POST',
 	            data: formData,
 	            dataType: "text",
@@ -386,8 +386,8 @@
 	            processData: false,
 	            success: function(response) {
 	                // 등록 성공 시 알림 표시 후 목록 페이지로 이동
-	                alert('상품이 등록되었습니다.');
-// 	                window.location.href = 'fashionlist'; // 등록 후 이동할 페이지 URL로 변경해주세요
+	                alert('저장되었습니다.');
+	                window.location.href = '/accessorylist'; // 등록 후 이동할 페이지 URL로 변경해주세요
 	            },
 	            error: function(error) {
 	                // 등록 실패 시 알림 표시

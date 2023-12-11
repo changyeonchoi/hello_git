@@ -192,16 +192,12 @@ public class MemberController {
     	
     	int totalCount = memberservice.selectTotalCount(keyword);
     	
-    	System.out.println("totalCount" +totalCount);
-    	
     	Map<String, Object> map = new HashMap<String, Object>();
     	map.put("pageNo", pageNo);
     	map.put("totalCount", totalCount);
     	map.put("listSize", listSize);
     	map.put("naviSize", naviSize);
     	map.put("search", search);
-    	System.out.println("search" + search);
-    	System.out.println("map" + map);
 
     	// 계산된 startRow와 endRow를 Map에 추가
         PageNavigation pageNavigation = new PageNavigation(map);

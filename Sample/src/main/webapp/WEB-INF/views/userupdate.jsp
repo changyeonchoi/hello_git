@@ -109,19 +109,19 @@
                 				<td><input type="text" class="input_text" id="user_id" value="${membervo.user_id}" readonly></td>
             				</tr>
             				<tr>
-                				<td class="black-cell">이름*</td>
+                				<td class="black-cell">이름</td>
                         		<td><input type="text" class="input_text" id="user_name" value="${membervo.user_name}" readonly></td>
            					</tr>
             				<tr>
-                				<td class="black-cell">패스워드*</td>
+                				<td class="black-cell">패스워드</td>
                 				<td><input type="password" class="input_text" id="user_pw" value="${membervo.user_pw}" readonly></td>
             				</tr>
             				<tr>
-                				<td class="black-cell">연락처*</td>
+                				<td class="black-cell">연락처</td>
                        			<td><input type="text" class="input_text" id="user_phone" value="${membervo.user_phone}" readonly></td>
             				</tr>
             				<tr>
-                				<td class="black-cell">주소*</td>
+                				<td class="black-cell">주소</td>
                        			<td><input type="text" class="input_text" id="user_phone" value="${membervo.user_address}" readonly></td>
             				</tr>
         				</table><br>

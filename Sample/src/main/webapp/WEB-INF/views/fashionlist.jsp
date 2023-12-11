@@ -9,6 +9,25 @@
 <meta charset="UTF-8">
 <title>Fashion</title>
 <style type="text/css">
+	.center-div {
+    	width: 100%;
+    	text-align: center;
+    	margin-top: 20px; /* 필요에 따라 조절 가능한 상단 여백 */
+	}
+	.pagination {
+    	margin: 0 5px; /* 페이지 번호와 부등호 사이의 간격을 조절할 수 있습니다. */
+	}
+
+	.page-number {
+    	text-decoration: none;
+    	padding: 3px 5px; /* 페이지 번호의 간격 및 여백을 조절할 수 있습니다. */
+    	border: 1px solid #ccc; /* 페이지 번호의 테두리를 추가할 수 있습니다. */
+    	color: #333; /* 페이지 번호의 글자색을 조절할 수 있습니다. */
+	}
+
+	.page-number:hover {
+    	background-color: #f5f5f5; /* 마우스 오버 시 배경색을 변경할 수 있습니다. */
+	}
 	body {
 		text-align: center;
 /* 		color: #FFF; */
@@ -143,7 +162,7 @@
 		<!--헤더시작-->
 		<header>
 			<div class="menu">
-    		<h3><a href="#" class="red-text">상품관리</a></h3>
+    		<h3><a href="fashionlist" class="red-text">상품관리</a></h3>
     		<h3><a href="#">배너관리</a></h3>
     		<h3><a href="adminlist">사용자관리</a></h3>
 			</div>
@@ -151,9 +170,9 @@
 		<!--네비게이션-->
 		<nav>
 			<div class="menu-items">
-    			<h3>사용자관리</h3>
-    			<h5><a href="fashionlist">Fashion</a></h5>		
-    			<h5><a href="#" class="red-text">Make Up</a></h5>
+    			<h3>상품관리</h3>
+    			<h5><a href="#" class="red-text" onclick="golist()">Fashion</a></h5>		
+    			<h5><a href="makeuplist">Make Up</a></h5>
     			<h5><a href="accessorylist">Accessory</a></h5>	
 			</div>
 		</nav>
@@ -162,40 +181,38 @@
 			<div class="section-header">
         		<h3>Fashion 상품 리스트 목록</h3>
         			<div class="underline-input">
-            			<input type="text" value="${search}" placeholder="제목을 입력해주세요" name="search" class="input-field"/>
-            			<button onclick="searchDate()" class="search-button"></button>
+            			<input type="text" id="searchInput" placeholder="제목을 입력해주세요" class="input-field"/>
+            			<button onclick="goSearch()" class="search-button"></button>
         			</div>
     		</div>
-			<table>
-        		<tr>
-            		<th>NO</th>
-            		<th>등록일</th>
-            		<th>제목</th>
-            		<th>노출여부</th>
-            		<th>등록자ID</th>
-        		</tr>
-        		<tr>
-            		<td>1</td>
-            		<td>2023.11.20</td>
-            		<td>겨울 맞춤코디</td>
-            		<td>미노출</td>
-            		<td>tjdms476</td>
-        		</tr>
-        		<tr>
-            		<td>2</td>
-            		<td>2023.11.20</td>
-            		<td>자켓</td>
-            		<td>노출</td>
-            		<td>gkgk22</td>
-        		</tr>
-        		<tr>
-            		<td>3</td>
-            		<td>2023.11.20</td>
-            		<td>여름 반팔</td>
-            		<td>노출</td>
-            		<td>tprny2</td>
-        		</tr>
-    		</table><br><br>
+		<table border="1" id="tableContainer">
+    <tr>
+        <th>NO</th>
+        <th>등록일</th>
+        <th>제목</th>
+        <th>노출여부</th>
+        <th>등록자ID</th>
+    </tr>
+
+    <c:forEach var="fashion" items="${fashion}" varStatus="status">
+        <tr>
+            <td>${status.index + 1}</td>
+            <td>
+            <fmt:parseDate value="${fashion.regdate}" var="regdate" pattern="yyyy-mm-dd"/>
+            <fmt:formatDate value="${regdate}" pattern="yyyy.mm.dd"/>
+            </td>
+            
+            <td>
+            <a href="#" class="detail-link" data-seq-id="${fashion.seq_id}">
+                ${fashion.banner_title}
+            </a>
+            </td>
+            <td>${fashion.company_yn}</td>
+            <td>${fashion.user_id}</td>
+        </tr>
+    </c:forEach>
+		</table>
+		<div class="center-div">${navigation}</div>
     		<div style="text-align: right; float: right;">
             	<button class="custom-button" id="insertButton">등록</button>
             </div>
@@ -203,11 +220,39 @@
 	</div>
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script>
-    // 목록 버튼 클릭 시 실행될 함수
-    $("#insertButton").click(function() {
-    	// adminlist로 이동
-    	window.location.href = 'fashioninsert'; // fashioninsert.jsp로 이동
+    // jQuery를 사용하여 클릭 이벤트 처리
+    $(document).ready(function() {
+        // 클래스가 detail-link인 요소를 클릭했을 때의 동작 정의
+        $('.detail-link').click(function() {
+            // data-seq-id 속성을 통해 seq_id 값을 가져옴
+            var seqId = $(this).data('seq-id');
+            
+            // seq_id 값을 사용하여 detail 페이지로 이동
+            window.location.href = '/fashiondetail?seq_id=' + seqId;
+        });
     });
+//     $(document).on('click', '#tableContainer td:nth-child(3)', function() {
+//         var user_id = $(this).text(); // 클릭한 행의 user_id 값을 가져옴
+//         window.location.href = '/adminupdate?user_id=' + banner_title; // adminupdate.jsp로 이동하면서 user_id를 파라미터로 전달
+//     });
+
+    $("#insertButton").click(function() {
+    	window.location.href = '/fashioninsert'; // fashioninsert.jsp로 이동
+    });
+    
+    function goPage(pageNo){
+    	let searchInputValue = $("#searchInput").val();
+    	$(location).attr('href',"<c:url value='/fashionlist?pageNo="+pageNo+"'/>");
+    }
+    function goSearch(){
+    	let search = $("#searchInput").val();
+    	console.log("search" + search);
+    	$(location).attr('href',"<c:url value='/fashionlist?search="+search+"'/>");
+    }
+    function golist() {
+        // Fashion 링크 클릭 시 검색어를 제외하고 이동
+        $(location).attr('href', "<c:url value='/fashionlist'/>");
+    }
     </script>
 </body>
 </html>

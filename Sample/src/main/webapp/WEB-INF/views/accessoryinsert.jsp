@@ -164,7 +164,7 @@
 		<!--헤더시작-->
 		<header>
 			<div class="menu">
-    		<h3><a href="#" class="red-text">상품관리</a></h3>
+    		<h3><a href="fashionlist" class="red-text">상품관리</a></h3>
     		<h3><a href="#">배너관리</a></h3>
     		<h3><a href="adminlist">사용자관리</a></h3>
 			</div>
@@ -214,7 +214,7 @@
                 				<td class="black-cell">상세정보 이미지*</td>
                         		<td>
                         			<div class="filebox">
-								        <input class="upload-name-detail" value="${fashionvo.detail_img}" placeholder="파일선택" readonly>
+								        <input class="upload-name-detail" placeholder="파일선택" readonly>
 								        <label for="detail_img" class="file-label">이미지 찾기</label> 
 								        <input type="file" id="detail_img" >
 								        <span class="upload-status-detail"></span>
@@ -228,8 +228,8 @@
             				<tr>
     						<td class="black-cell">노출여부*</td>
    								<td>
-        						<label><input type="radio" name="company_yn" value="Y">노출</label>
-        						<label><input type="radio" name="company_yn" value="N">미노출</label>
+        						<label><input type="radio" name="company_yn" value="노출">노출</label>
+        						<label><input type="radio" name="company_yn" value="미노출">미노출</label>
     							</td>
             				</tr>
     					</table>
@@ -325,7 +325,7 @@ $(document).ready(function() {
         var company_phone = $("#company_phone").val();
         var company_yn = $("input[name='company_yn']:checked").val(); // Get the selected radio button value
 
-        // 필수 입력 필드 체크
+         // 필수 입력 필드 체크
         if (!banner_title || !product_name || !file_img || !product_amount || !delivery_fee || !company_name || !detail_img || !company_phone || !company_yn) {
             alert("모든 항목을 입력해주세요.");
             return; // 필수 입력 필드 중 하나라도 빈 값이면 함수 종료
@@ -348,7 +348,7 @@ $(document).ready(function() {
 
         // 서버에 데이터를 전송하는 Ajax 호출
         $.ajax({
-            url: '/fashionenroll',
+            url: '/accessoryenroll',
             method: 'POST',
             data: formData,
             dataType: "text",
@@ -358,7 +358,7 @@ $(document).ready(function() {
             success: function(response) {
                 // 등록 성공 시 알림 표시 후 목록 페이지로 이동
                 alert('상품이 등록되었습니다.');
-                window.location.href = '/product/fashionlist';
+                window.location.href = '/accessorylist';
             },
             error: function(error) {
                 // 등록 실패 시 알림 표시
@@ -371,7 +371,7 @@ $(document).ready(function() {
     // 목록 버튼 클릭 시 실행될 함수
     $("#listButton").click(function() {
         // 목록 페이지로 이동
-        window.location.href = '/product/fashionlist'; // 목록 페이지 URL로 변경해주세요
+        window.location.href = '/accessorylist'; // 목록 페이지 URL로 변경해주세요
     });
     
     $("#file_img").on('change',function(){

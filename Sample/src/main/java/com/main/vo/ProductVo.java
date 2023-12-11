@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 
-public class FashionVo {
+public class ProductVo {
 	
 	//pk
 	private String seq_id;

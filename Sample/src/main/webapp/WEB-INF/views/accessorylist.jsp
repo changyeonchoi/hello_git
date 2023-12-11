@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Fashion</title>
+<title>Accessory</title>
 <style type="text/css">
 	.center-div {
     	width: 100%;
@@ -162,26 +162,26 @@
 		<!--헤더시작-->
 		<header>
 			<div class="menu">
-    		<h3><a href="#" class="red-text">상품관리</a></h3>
-    		<h3><a href="#">배너관리</a></h3>
+    		<h3><a href="fashionlist" class="red-text">상품관리</a></h3>
+    		<h3><a href="makeuplist">배너관리</a></h3>
     		<h3><a href="adminlist">사용자관리</a></h3>
 			</div>
 		</header>
 		<!--네비게이션-->
 		<nav>
 			<div class="menu-items">
-    			<h3>사용자관리</h3>
-    			<h5><a href="#" class="red-text">Fashion</a></h5>		
+    			<h3>상품관리</h3>
+    			<h5><a href="fashionlist">Fashion</a></h5>		
     			<h5><a href="makeuplist">Make Up</a></h5>
-    			<h5><a href="accessorylist">Accessory</a></h5>	
+    			<h5><a href="accessorylist" class="red-text" onclick="golist()">Accessory</a></h5>	
 			</div>
 		</nav>
 		<!--콘텐츠부분-->
 		<section>
 			<div class="section-header">
-        		<h3>Fashion 상품 리스트 목록</h3>
+        		<h3>Accessory 상품 리스트 목록</h3>
         			<div class="underline-input">
-            			<input type="text" id="searchInput" placeholder="회원 ID를 입력해주세요" class="input-field"/>
+            			<input type="text" id="searchInput" placeholder="제목을 입력해주세요" class="input-field"/>
             			<button onclick="goSearch()" class="search-button"></button>
         			</div>
     		</div>
@@ -194,21 +194,21 @@
         <th>등록자ID</th>
     </tr>
 
-    <c:forEach var="fashion" items="${fashion}" varStatus="status">
+    <c:forEach var="accessory" items="${accessory}" varStatus="status">
         <tr>
             <td>${status.index + 1}</td>
             <td>
-            <fmt:parseDate value="${fashion.regdate}" var="regdate" pattern="yyyy-mm-dd"/>
+            <fmt:parseDate value="${accessory.regdate}" var="regdate" pattern="yyyy-mm-dd"/>
             <fmt:formatDate value="${regdate}" pattern="yyyy.mm.dd"/>
             </td>
             
             <td>
-            <a href="#" class="detail-link" data-seq-id="${fashion.seq_id}">
-                ${fashion.banner_title}
+            <a href="#" class="detail-link" data-seq-id="${accessory.seq_id}">
+                ${accessory.banner_title}
             </a>
             </td>
-            <td>${fashion.company_yn}</td>
-            <td>${fashion.user_id}</td>
+            <td>${accessory.company_yn}</td>
+            <td>${accessory.user_id}</td>
         </tr>
     </c:forEach>
 		</table>
@@ -227,8 +227,10 @@
             // data-seq-id 속성을 통해 seq_id 값을 가져옴
             var seqId = $(this).data('seq-id');
             
+            console.log("seqId" + seqId);
+            
             // seq_id 값을 사용하여 detail 페이지로 이동
-            window.location.href = '/product/fashiondetail?seq_id=' + seqId;
+            window.location.href = '/accessorydetail?seq_id=' + seqId;
         });
     });
 //     $(document).on('click', '#tableContainer td:nth-child(3)', function() {
@@ -237,17 +239,21 @@
 //     });
 
     $("#insertButton").click(function() {
-    	window.location.href = '/product/fashioninsert'; // fashioninsert.jsp로 이동
+    	window.location.href = '/accessoryinsert'; // fashioninsert.jsp로 이동
     });
     
     function goSearch(){
     	let search = $("#searchInput").val();
     	console.log("search" + search);
-    	$(location).attr('href',"<c:url value='/product/fashionlist?search="+search+"'/>");
+    	$(location).attr('href',"<c:url value='/accessorylist?search="+search+"'/>");
     }
     function goPage(pageNo){
     	let searchInputValue = $("#searchInput").val();
-    	$(location).attr('href',"<c:url value='/product/fashionlist?pageNo="+pageNo+"'/>");
+    	$(location).attr('href',"<c:url value='/accessorylist?pageNo="+pageNo+"'/>");
+    }
+    function golist() {
+        // Fashion 링크 클릭 시 검색어를 제외하고 이동
+        $(location).attr('href', "<c:url value='/fashionlist'/>");
     }
     </script>
 </body>
