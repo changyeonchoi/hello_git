@@ -224,8 +224,8 @@
             				<tr>
                 				<td class="black-cell">노출여부*</td>
 								<td>
-								    <label><input type="radio" name="company_yn" id="radioY" value="Y">노출</label>
-								    <label><input type="radio" name="company_yn" id="radioN" value="N">미노출</label>
+								    <label><input type="radio" name="company_yn" id="radioY" value="노출">노출</label>
+								    <label><input type="radio" name="company_yn" id="radioN" value="미노출">미노출</label>
 								</td>
             				</tr>
     					</table><br>
@@ -319,8 +319,8 @@
         var valueFromDatabase = "${fashionvo.company_yn}"; // 또는 "N"
 
         // 디비에서 가져온 값에 따라 라디오 버튼 체크
-        $("#radioY").prop('checked', (valueFromDatabase === "Y"));
-        $("#radioN").prop('checked', (valueFromDatabase === "N"));
+        $("#radioY").prop('checked', (valueFromDatabase === "노출"));
+        $("#radioN").prop('checked', (valueFromDatabase === "미노출"));
 
         // 삭제 버튼 클릭 시 실행될 함수
         $('#deleteButton').click(function () {

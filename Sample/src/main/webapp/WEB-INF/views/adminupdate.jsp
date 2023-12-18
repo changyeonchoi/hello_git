@@ -93,7 +93,7 @@
 		<!--헤더시작-->
 		<header>
 			<div class="menu">
-    		<h3><a href="#">상품관리</a></h3>
+    		<h3><a href="fashionlist">상품관리</a></h3>
     		<h3><a href="#">배너관리</a></h3>
     		<h3><a href="#" class="red-text">사용자관리</a></h3>
 			</div>
@@ -125,7 +125,7 @@
                         		<td><input type="password" class="input_text" id="user_pw1" value="${membervo.user_pw}" maxlength="10"></td>
             				</tr>
         				</table><br>
-        				<div>1.관리자 상태</div><br>
+        				<div>2. 관리자 상태</div><br>
     					<table border="1" style="width: 90%;">
         					<tr>
             					<td class="black-cell">상태</td>

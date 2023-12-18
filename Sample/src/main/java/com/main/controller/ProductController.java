@@ -55,7 +55,7 @@ public class ProductController {
 	        @RequestParam(value = "detail_url", required=false) String detail_url,
 	        @RequestParam(value = "code", required=false) String code,
 	        ProductVo productvo,
-			@PathVariable String type
+	        @PathVariable(name = "type") String type
 			) throws IOException {
 		
 		 	String returnUrl = null;

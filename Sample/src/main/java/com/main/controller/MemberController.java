@@ -31,13 +31,7 @@ public class MemberController {
 	MemberService memberservice;
 	@Autowired
 	PageNavigigationService pagenavigigationservice;
-	private MemberVo membervo;
-	
-	@RequestMapping("/index")
-	public String index() {
-		return "index";
-	}
-	
+
 	@RequestMapping("/save")
 	public String save() {
 		return "save";
@@ -84,28 +78,6 @@ public class MemberController {
 		return "login";
 	}
 	
-//	@RequestMapping(value = "/login", method = RequestMethod.POST)
-//	public @ResponseBody String login(
-//			@RequestParam("user_id") String user_id,
-//			@RequestParam("user_pw") String user_pw,
-//			HttpServletRequest request) {
-//		
-//		String login;
-//		MemberVo membervo = new MemberVo();
-//		
-//	
-//		membervo.setUser_id(user_id);
-//		membervo.setUser_pw(user_pw);
-//		
-//		MemberVo result = memberservice.login(membervo);
-//		
-//		System.out.println("result" + result);
-//				
-//		request.getSession().setAttribute("memberVo", result);
-//		login = "redirect:/index";
-//		
-//		return "";
-//	}
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public @ResponseBody Map<String, Object> login(
 	        @RequestParam("user_id") String user_id,
@@ -219,44 +191,6 @@ public class MemberController {
     	return mv;
     }
 	
-	// 관리자현황 검색
-//    @RequestMapping(value = "/adminlist", method = RequestMethod.POST)
-//    public ResponseEntity<List<MemberVo>> searchMembers(@RequestParam(value = "search", required = false) String search) {
-//        
-//    	Map<String, Object> map = new HashMap<String, Object>();
-//    	map.put("search", search);
-//    	
-//    	
-//    	List<MemberVo> memberList = memberservice.selectMemberList(map);
-//    	System.out.println("memberList" + memberList);
-//    	
-//        return ResponseEntity.ok(memberList);
-//    }
-//	   @RequestMapping(value = "/adminlist", method = RequestMethod.POST)
-//	    public ResponseEntity<Object> handleAdminRequest(
-//	            @RequestParam(name = "page", defaultValue = "1") int page,
-//	            @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
-//	            @RequestParam(value = "search", required = false) String search) {
-//
-//	        if (search != null) {
-//	            // POST 요청에서 검색을 수행하고 JSON 응답 반환
-//	            List<MemberVo> memberList = memberservice.selectMemberList(search);
-//	            return ResponseEntity.ok(memberList);
-//	        } else {
-//	            // POST 요청에서 페이지 로딩 처리 후 JSON 응답 반환
-//	            PagingVo pagingVo = memberservice.createPagingVo(page, pageSize);
-//	            List<MemberVo> memberList = memberservice.getMemberListPaging(pagingVo.getStartIndex(), pagingVo.getPageSize());
-//	            int totalMembers = memberservice.getTotalMembers();
-//	            
-//	            Map<String, Object> responseData = new HashMap<>();
-//	            responseData.put("member", memberList);
-//	            responseData.put("pagingVO", pagingVo);
-//	            responseData.put("totalMembers", totalMembers);
-//	            System.out.println("responseData" + responseData);
-//	            return ResponseEntity.ok(responseData);
-//	        }
-//	    }
-    
     // 관리자현황 상세보기
     @RequestMapping(value = "/adminupdate", method = RequestMethod.GET)
     public String update(String user_id, String user_name,Model model) {
@@ -295,11 +229,6 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"status\":\"error\",\"message\":\"" + e.getMessage() + "\"}");
         }
     }
-    
-//    @RequestMapping(value = "/user", method = RequestMethod.GET)
-//    public String user() {
-//    	return "user";
-//    }
     
     @RequestMapping(value = "/userlist", method = RequestMethod.GET)
     public @ResponseBody ModelAndView user(Model model, HttpServletRequest request,

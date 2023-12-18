@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HTML5</title>
+<title>Accessory</title>
 <style type="text/css">
 	body {
 		text-align: center;
@@ -165,14 +165,14 @@
 		<header>
 			<div class="menu">
     		<h3><a href="fashionlist" class="red-text">상품관리</a></h3>
-    		<h3><a href="#">배너관리</a></h3>
+    		<h3><a href="bannerlist">배너관리</a></h3>
     		<h3><a href="adminlist">사용자관리</a></h3>
 			</div>
 		</header>
 		<!--네비게이션-->
 		<nav>
 			<div class="menu-items">
-    			<h2>Fashion 상품 등록하기</h2>
+    			<h2>Accessory 상품 등록하기</h2>
     				<div>1. 게시글 정보</div><br>
         				<form action="fashionenroll" method="post" enctype="multipart/form-data">
         				<table border="1" style="width: 70%;">
@@ -228,7 +228,7 @@
             				<tr>
     						<td class="black-cell">노출여부*</td>
    								<td>
-        						<label><input type="radio" name="company_yn" value="노출">노출</label>
+        						<label><input type="radio" name="company_yn" value="노출" checked>노출</label>
         						<label><input type="radio" name="company_yn" value="미노출">미노출</label>
     							</td>
             				</tr>

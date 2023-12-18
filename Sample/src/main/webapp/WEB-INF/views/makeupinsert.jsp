@@ -213,7 +213,7 @@
             				<tr>
     						<td class="black-cell">노출여부*</td>
    								<td>
-        						<label><input type="radio" name="company_yn" value="노출">노출</label>
+        						<label><input type="radio" name="company_yn" value="노출" checked>노출</label>
         						<label><input type="radio" name="company_yn" value="미노출">미노출</label>
     							</td>
             				</tr>

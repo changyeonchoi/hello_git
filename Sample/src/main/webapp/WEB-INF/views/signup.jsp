@@ -214,14 +214,7 @@
 					contentType: 'application/json; charset=UTF-8',
 					success : function(data){
 							alert("신청되었습니다.");
-							let popupUrl = "http://localhost:8080/userstatus?" +
-						    "user_id=" + encodeURIComponent(user_id) +
-						    "&user_pw=" + encodeURIComponent(user_pw) +
-						    "&user_name=" + encodeURIComponent(user_name) +
-						    "&user_phone=" + encodeURIComponent(user_phone) +
-						    "&user_auth=" + encodeURIComponent(user_auth);
-
-						window.open(popupUrl, "_blank", "width=800, height=600");
+							window.close();
 					},
 					fail : function(data){
 						console.log("fail, "+data);

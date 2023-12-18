@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Fashion</title>
+<title>banner</title>
 <style type="text/css">
 	.center-div {
     	width: 100%;
@@ -162,26 +162,25 @@
 		<!--헤더시작-->
 		<header>
 			<div class="menu">
-    		<h3><a href="fashionlist" class="red-text">상품관리</a></h3>
-    		<h3><a href="bannerlist">배너관리</a></h3>
+    		<h3><a href="fashionlist">상품관리</a></h3>
+    		<h3><a href="bannerlist" class="red-text">배너관리</a></h3>
     		<h3><a href="adminlist">사용자관리</a></h3>
 			</div>
 		</header>
 		<!--네비게이션-->
 		<nav>
 			<div class="menu-items">
-    			<h3>상품관리</h3>
-    			<h5><a href="#" class="red-text" onclick="golist()">Fashion</a></h5>		
-    			<h5><a href="makeuplist">Make Up</a></h5>
-    			<h5><a href="accessorylist">Accessory</a></h5>	
+    			<h3>배너관리</h3>
+    			<h5><a href="bannerlist" class="red-text">메인빅배너 관리</a></h5>		
+    			<h5><a href="">쿠폰 관리</a></h5>
 			</div>
 		</nav>
 		<!--콘텐츠부분-->
 		<section>
 			<div class="section-header">
-        		<h3>Fashion 상품 리스트 목록</h3>
+        		<h3>Makeup 상품 리스트 목록</h3>
         			<div class="underline-input">
-            			<input type="text" id="searchInput" placeholder="제목을 입력해주세요" class="input-field"/>
+            			<input type="text" id="searchInput" placeholder="배너명을 입력하세요" class="input-field"/>
             			<button onclick="goSearch()" class="search-button"></button>
         			</div>
     		</div>
@@ -189,26 +188,27 @@
     <tr>
         <th>NO</th>
         <th>등록일</th>
-        <th>제목</th>
+        <th>배너명</th>
         <th>노출여부</th>
         <th>등록자ID</th>
+        <th>영역2</th>
     </tr>
 
-    <c:forEach var="fashion" items="${fashion}" varStatus="status">
+    <c:forEach var="banner" items="${banner}" varStatus="status">
         <tr>
             <td>${status.index + 1}</td>
             <td>
-            <fmt:parseDate value="${fashion.regdate}" var="regdate" pattern="yyyy-mm-dd"/>
-            <fmt:formatDate value="${regdate}" pattern="yyyy.mm.dd"/>
+            <fmt:parseDate value="${banner.redate}" var="redate" pattern="yyyy-mm-dd"/>
+            <fmt:formatDate value="${redate}" pattern="yyyy.mm.dd"/>
             </td>
-            
             <td>
-            <a href="#" class="detail-link" data-seq-id="${fashion.seq_id}">
-                ${fashion.banner_title}
+            <a href="#" class="detail-link" data-seq-id="${banner.seq_id}">
+                ${banner.banner_name}
             </a>
             </td>
-            <td>${fashion.company_yn}</td>
-            <td>${fashion.user_id}</td>
+            <td>${banner.banner_yn}</td>
+            <td>${banner.user_id}</td>
+            <td>${banner.banner_area}</td>
         </tr>
     </c:forEach>
 		</table>
@@ -227,8 +227,10 @@
             // data-seq-id 속성을 통해 seq_id 값을 가져옴
             var seqId = $(this).data('seq-id');
             
+            console.log("seqId" + seqId);
+            
             // seq_id 값을 사용하여 detail 페이지로 이동
-            window.location.href = '/fashiondetail?seq_id=' + seqId;
+            window.location.href = '/bannerdetail?seq_id=' + seqId;
         });
     });
 //     $(document).on('click', '#tableContainer td:nth-child(3)', function() {
@@ -237,21 +239,21 @@
 //     });
 
     $("#insertButton").click(function() {
-    	window.location.href = '/fashioninsert'; // fashioninsert.jsp로 이동
+    	window.location.href = '/bannerinsert'; 
     });
     
-    function goPage(pageNo){
-    	let searchInputValue = $("#searchInput").val();
-    	$(location).attr('href',"<c:url value='/fashionlist?pageNo="+pageNo+"'/>");
-    }
     function goSearch(){
     	let search = $("#searchInput").val();
     	console.log("search" + search);
-    	$(location).attr('href',"<c:url value='/fashionlist?search="+search+"'/>");
+    	$(location).attr('href',"<c:url value='/bannerlist?search="+search+"'/>");
+    }
+    function goPage(pageNo){
+    	let searchInputValue = $("#searchInput").val();
+    	$(location).attr('href',"<c:url value='/bannerlist?pageNo="+pageNo+"'/>");
     }
     function golist() {
         // Fashion 링크 클릭 시 검색어를 제외하고 이동
-        $(location).attr('href', "<c:url value='/fashionlist'/>");
+        $(location).attr('href', "<c:url value='/bannerlist'/>");
     }
     </script>
 </body>

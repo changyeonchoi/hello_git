@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="bannerDao">
+
+<resultMap type="com.main.vo.BannerVo" id="bannervo">
+	<result property="seq_id" column="seq_id"/>
+	<result property="banner_name" column="banner_name"/>
+	<result property="file_img" column="file_img"/>
+	<result property="banner_area" column="banner_area"/>
+	<result property="banner_yn" column="banner_yn"/>
+	<result property="user_id" column="user_id"/>
+	<result property="redate" column="redate"/>
+	<result property="code" column="code"/>
+	<result property="land_url" column="land_url"/>
+</resultMap>
+
+<select id="selectTotalCount" parameterType="java.util.HashMap" resultType="int">
+	    SELECT COUNT(*) FROM banner_table
+	    WHERE
+	        banner_name LIKE '%' || #{search, jdbcType=VARCHAR} || '%'
+	        AND
+	        code = #{code, jdbcType=VARCHAR}
+</select>
+	
+<select id="bannerDao.selectbannerList" parameterType="java.util.HashMap" resultMap="bannervo">
+        <![CDATA[
+        SELECT *
+        FROM (
+        	SELECT 
+                	seq_id, 
+                	redate, 
+                	banner_name, 
+                	banner_yn,
+                	user_id,
+                	banner_area,
+                	ROWNUM AS rnum
+        	FROM (
+        		SELECT
+        			seq_id,
+        			redate,
+        			banner_name,
+        			banner_yn,
+        			user_id,
+        			banner_area
+        		FROM banner_table
+        		WHERE banner_name LIKE '%' || #{search, jdbcType=VARCHAR} || '%'
+        		ORDER BY seq_id DESC
+        	) t
+        	WHERE ROWNUM <= #{endRow, jdbcType=INTEGER}
+    	)
+     	WHERE rnum >= #{startRow, jdbcType=INTEGER}
+    ]]>
+</select>
+
+<insert id="bannerDao.insertbanner" parameterType="com.main.vo.BannerVo">
+    INSERT INTO banner_table (
+        seq_id
+        , redate
+        , file_img
+        , banner_name
+        , banner_yn
+        , banner_area
+        , user_id
+        , land_url
+        , code
+    ) VALUES (
+        BANNER_SEQ.NEXTVAL
+        , SYSDATE
+        , #{file_img, jdbcType=VARCHAR}
+        , #{banner_name, jdbcType=VARCHAR}
+        , #{banner_yn, jdbcType=VARCHAR}
+        , #{banner_area, jdbcType=VARCHAR}
+        , #{user_id, jdbcType=VARCHAR}
+        , #{land_url, jdbcType=VARCHAR}
+        , #{code, jdbcType=VARCHAR}
+    )
+</insert>
+
+	<select id="bannerDao.selectbannerdetail" resultMap="bannervo">
+		select
+			banner_name
+			, file_img
+			, banner_area
+			, land_url
+			, banner_yn
+		from banner_table
+		where seq_id = #{seq_id, jdbcType=VARCHAR}
+	</select>
+</mapper>

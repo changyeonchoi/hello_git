@@ -163,7 +163,7 @@
 		<header>
 			<div class="menu">
     		<h3><a href="fashionlist" class="red-text">상품관리</a></h3>
-    		<h3><a href="makeuplist">배너관리</a></h3>
+    		<h3><a href="bannerlist">배너관리</a></h3>
     		<h3><a href="adminlist">사용자관리</a></h3>
 			</div>
 		</header>

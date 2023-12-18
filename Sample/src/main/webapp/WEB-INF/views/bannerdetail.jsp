@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>makeup</title>
+<title>banner</title>
 <style type="text/css">
 	body {
 		text-align: center;
@@ -167,50 +167,47 @@
 		<!--네비게이션-->
 		<nav>
 			<div class="menu-items">
-    			<h2>Makup 상품 상세보기</h2>
+    			<h2>Fashion 상품 상세보기</h2>
     				<div>1. 게시글 정보</div><br>
     				    <input type="hidden" name="banner_title" id="deleteBannerTitle" value="">
     				    <form action="fashionupdate" method="post" enctype="multipart/form-data">
-        				<table border="1" style="width: 70%;">
-            				<tr>
-                				<td class="black-cell">제목*</td>
-                				<td><input type="text" class="input_text" id="banner_title" value="${makeup.banner_title}" placeholder=""></td>
-            				</tr>
-        				</table><br>
-        				<div>2. 상품 정보</div><br>
+        				<div class="red-text">*한 개의 이미지만 등록 가능합니다.</div><br>
     					<table border="1" style="width: 70%;">
         					<tr>
-                				<td class="black-cell">메이크업명*</td>
-                        		<td><input type="text" class="input_text" id="product_name" value="${makeup.product_name}" maxlength="10"></td>
+                				<td class="black-cell">배너명*</td>
+                        		<td><input type="text" class="input_text" id="banner_name" value="${banner.banner_name}" maxlength="10"></td>
            					</tr>
             				<tr>
                 				<td class="black-cell">이미지등록*</td>
                        			<td>
 									<div class="filebox">
-									    <input class="upload-name" value="${makeup.file_img}" placeholder="파일선택" readonly>
+									    <input class="upload-name" value="${banner.file_img}" placeholder="파일선택" readonly>
 									    <label for="file_img" class="file-label">이미지 찾기</label> 
-									    <input type="file" id="file_img" value="${makeup.file_img}">
+									    <input type="file" id="file_img" value="${banner.file_img}">
 									    <span class="upload-status"></span>
 									</div>
                        			</td>
             				</tr>
             				<tr>
-                				<td class="black-cell">업체사이트*</td>
-                				<td><a href="${makeup.detail_url}" target="_blank">${makeup.detail_url}</a></td>
+                				<td class="black-cell">노출영역*</td>
+                				<td>	                				
+                					<select class="input_text" id="banner_area">
+									    <option value="Home">Home</option>
+									    <option value="Fashion">Fashion</option>
+									    <option value="Make Up">Maek Up</option>
+									    <option value="Accessory">Accessory</option>
+	        						</select>
+	        					</td>
             				</tr>
             				<tr>
-                				<td class="black-cell">업체명*</td>
-                        		<td><input type="text" class="input_text" id="company_name" value="${makeup.company_name}" maxlength="10"></td>
+                				<td class="black-cell">랜딩URL*</td>
+                        		<td><input type="text" class="input_text" id="land_url" value="${banner.land_url}" maxlength="10"></td>
             				</tr>
-            				<tr>
-                				<td class="black-cell">업체전화번호*</td>
-                        		<td><input type="text" class="input_text" id="company_phone" value="${makeup.company_phone}" maxlength="13"></td>
-           					</tr>
             				<tr>
                 				<td class="black-cell">노출여부*</td>
 								<td>
-								    <label><input type="radio" name="company_yn" id="radioY" value="노출">노출</label>
-								    <label><input type="radio" name="company_yn" id="radioN" value="미노출">미노출</label>
+								    <label><input type="radio" name="banner_yn" id="radioY" value="노출">노출</label>
+								    <label><input type="radio" name="banner_yn" id="radioN" value="미노출">미노출</label>
 								</td>
             				</tr>
     					</table><br>
@@ -233,73 +230,20 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script>
     $(document).ready(function() {
-        // 상품가격 입력 필드에 대한 이벤트 리스너 추가
-        $("#product_amount").on("input", function() {
-            // 현재 입력된 값
-            var inputValue = $(this).val();
-
-            // 입력된 값에서 숫자와 소수점을 제외한 문자 제거
-            var sanitizedValue = inputValue.replace(/[^0-9.]/g, '');
-
-            // 소수점이 여러 개인 경우 첫 번째 소수점만 유지
-            var dotIndex = sanitizedValue.indexOf('.');
-            if (dotIndex !== -1) {
-                sanitizedValue = sanitizedValue.slice(0, dotIndex + 1) + sanitizedValue.slice(dotIndex + 1).replace(/\./g, '');
-            }
-
-            // 숫자에 콤마 추가하여 표시
-            var formattedValue = Number(sanitizedValue).toLocaleString('en-US', { maximumFractionDigits: 2 });
-
-            // 제한된 값을 다시 입력 필드에 설정
-            $(this).val(formattedValue);
-        });
-
-        // 배송비 입력 필드에 대한 이벤트 리스너 추가
-        $("#delivery_fee").on("input", function() {
-            // 현재 입력된 값
-            var inputValue = $(this).val();
-
-            // 입력된 값에서 숫자와 띄어쓰기만 남기고 나머지 문자 제거
-            var sanitizedValue = inputValue.replace(/[^0-9\s]/g, '');
-
-            // 띄어쓰기를 제거하여 숫자만 남김
-            var numericValue = sanitizedValue.replace(/\s/g, '');
-
-            // 숫자에 콤마 추가하여 표시
-            var formattedValue = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
-            // 제한된 값을 다시 입력 필드에 설정
-            $(this).val(formattedValue);
-        });
-
-        $("#company_phone").on("input", function() {
-            var inputText = $(this).val();
-            // 숫자와 하이픈만 남기고 모든 문자 제거
-            var sanitizedText = inputText.replace(/[^\d-]/g, '');
-
-            // 하이픈이 자동으로 추가되도록 처리
-            if (sanitizedText.length > 3 && sanitizedText.charAt(3) !== '-') {
-                sanitizedText = sanitizedText.slice(0, 3) + '-' + sanitizedText.slice(3);
-            }
-            if (sanitizedText.length > 8 && sanitizedText.charAt(8) !== '-') {
-                sanitizedText = sanitizedText.slice(0, 8) + '-' + sanitizedText.slice(8);
-            }
-
-            // 입력 창에 반영
-            $(this).val(sanitizedText);
-        });
 
         // 라디오 버튼의 변경 이벤트 리스너 추가
-        $("input[name='company_yn']").change(function() {
+        $("input[name='banner_yn']").change(function() {
             // 선택된 라디오 버튼의 값을 가져와서 출력
-            var selectedValue = $("input[name='company_yn']:checked").val();
+            var selectedValue = $("input[name='banner_yn']:checked").val();
+            console.log("선택된 값: " + selectedValue);
         });
         // 목록 버튼 클릭 시 실행될 함수
         $("#listButton").click(function() {
-            window.location.href = '/makeuplist';
+            // fashionlist로 이동
+            window.location.href = '/bannerlist'; // fashionlist.jsp로 이동
         });
 
-        var valueFromDatabase = "${makeup.company_yn}"; // 또는 "N"
+        var valueFromDatabase = "${banner.banner_yn}"; // 또는 "N"
 
         // 디비에서 가져온 값에 따라 라디오 버튼 체크
         $("#radioY").prop('checked', (valueFromDatabase === "노출"));
@@ -315,12 +259,12 @@
                     type: 'POST', 
                     url: '/fashiondelete',  // 삭제 기능을 처리하는 컨트롤러의 URL로 수정
                     data: {
-                        seq_id: '${makeup.seq_id}'  // 삭제할 배너 타이틀을 전송
+                        seq_id: '${fashionvo.seq_id}'  // 삭제할 배너 타이틀을 전송
                     },
                     success: function (result) {
                             alert('삭제되었습니다.');
                             // 삭제 성공 시 이동할 페이지로 리다이렉트 (예: 목록 페이지)
-                            window.location.href = '/makeuplist';
+                            window.location.href = '/bannerlist';
                     },
                     error: function () {
                         alert('서버 오류로 삭제에 실패했습니다.');
@@ -331,16 +275,18 @@
         
         
         $('#saveButton').click(function () {
+//             let formData = new FormData($('#uploadForm')[0]);
 		var banner_title = $("#banner_title").val();
         var product_name = $("#product_name").val();
         var file_img = $("#file_img")[0].files[0]; // Get the file object
         var product_amount = $("#product_amount").val();
         var delivery_fee = $("#delivery_fee").val();
         var company_name = $("#company_name").val();
+        var detail_img = $("#detail_img")[0].files[0]; // Get the file object
         var company_phone = $("#company_phone").val();
         var company_yn = $("input[name='company_yn']:checked").val();
         
-        if (!banner_title || !product_name || !company_name || !company_phone || !company_yn) {
+        if (!banner_title || !product_name || !product_amount || !delivery_fee || !company_name || !company_phone || !company_yn) {
             alert("모든 항목을 입력해주세요.");
             return; // 필수 입력 필드 중 하나라도 빈 값이면 함수 종료
         }
@@ -349,22 +295,26 @@
         formData.append("banner_title", banner_title);
         formData.append("product_name", product_name);
         formData.append("file_img", file_img);
+        formData.append("product_amount", product_amount);
+        formData.append("delivery_fee", delivery_fee);
         formData.append("company_name", company_name);
+        formData.append("detail_img", detail_img);
         formData.append("company_phone", company_phone);
         formData.append("company_yn", company_yn);
-        formData.append('seq_id', '${makeup.seq_id}');
+        formData.append('seq_id', '${accessory.seq_id}');
 
 	        $.ajax({
-	            url: '/makeupupdate',
+	            url: '/accessoryupdate',
 	            method: 'POST',
 	            data: formData,
 	            dataType: "text",
+	
 	            contentType: false,
 	            processData: false,
 	            success: function(response) {
 	                // 등록 성공 시 알림 표시 후 목록 페이지로 이동
 	                alert('저장되었습니다.');
-	                window.location.href = '/makeuplist'; // 등록 후 이동할 페이지 URL로 변경해주세요
+	                window.location.href = '/bannerlist'; // 등록 후 이동할 페이지 URL로 변경해주세요
 	            },
 	            error: function(error) {
 	                // 등록 실패 시 알림 표시
@@ -380,6 +330,21 @@
     	  $(".upload-name").val(fileName);
     	  $(".upload-status").text("*업로드 완료");
     });  
+    
+    // 페이지 로드 시 실행되는 함수
+    window.onload = function() {
+        // 가져올 값
+        var existingValue = "Fashion"; // 예시로 "Fashion"을 기준으로 설정
+
+        // banner_area 셀렉트 박스에서 해당 값을 가진 옵션을 찾아서 선택
+        var bannerAreaSelect = document.getElementById("banner_area");
+        for (var i = 0; i < bannerAreaSelect.options.length; i++) {
+            if (bannerAreaSelect.options[i].value === existingValue) {
+                bannerAreaSelect.options[i].selected = true;
+                break;
+            }
+        }
+    };
      
     </script>
 </body>
