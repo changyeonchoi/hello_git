@@ -197,9 +197,13 @@ public class ProductController {
 				productvo.setCompany_name(company_name);
 				productvo.setCompany_phone(company_phone);
 				productvo.setCompany_yn(company_yn);
+				productvo.setDetail_url(detail_url);
 				productvo.setFile_img(file_img, uploadPath, productvo.getFile_img());
+				
 	
 				productservice.updatemakeup(productvo);
+				
+				System.out.println("productvo" + productvo);
 				
 				returnUrl = "/makeuplist";
 			} 

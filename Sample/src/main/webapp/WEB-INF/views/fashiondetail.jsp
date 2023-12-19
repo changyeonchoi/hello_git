@@ -240,7 +240,7 @@
 					</div>
                 	<!-- 등록 버튼 -->
                 	<div style="text-align: right; float: right;">
-    					<button class="custom-button" id="saveButton">등록</button>
+    					<button class="custom-button" id="saveButton">저장</button>
 					</div>
 			</div>
 		</nav>
@@ -293,12 +293,12 @@
             var sanitizedText = inputText.replace(/[^\d-]/g, '');
 
             // 하이픈이 자동으로 추가되도록 처리
-            if (sanitizedText.length > 3 && sanitizedText.charAt(3) !== '-') {
-                sanitizedText = sanitizedText.slice(0, 3) + '-' + sanitizedText.slice(3);
-            }
-            if (sanitizedText.length > 8 && sanitizedText.charAt(8) !== '-') {
-                sanitizedText = sanitizedText.slice(0, 8) + '-' + sanitizedText.slice(8);
-            }
+//             if (sanitizedText.length > 3 && sanitizedText.charAt(3) !== '-') {
+//                 sanitizedText = sanitizedText.slice(0, 3) + '-' + sanitizedText.slice(3);
+//             }
+//             if (sanitizedText.length > 8 && sanitizedText.charAt(8) !== '-') {
+//                 sanitizedText = sanitizedText.slice(0, 8) + '-' + sanitizedText.slice(8);
+//             }
 
             // 입력 창에 반영
             $(this).val(sanitizedText);

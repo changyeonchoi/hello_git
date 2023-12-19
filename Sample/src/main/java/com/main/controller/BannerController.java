@@ -119,5 +119,13 @@ public class BannerController {
 		
 		return "/bannerdetail";
 	}
+	
+	@RequestMapping(value = "/bannerupdate", method = {RequestMethod.GET, RequestMethod.POST})
+	public String bannerupdate (Model model, String seq_id) {
+		
+		
+		
+		return "/bannerupdate";
+	}
 }
 

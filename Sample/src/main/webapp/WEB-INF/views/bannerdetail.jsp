@@ -194,7 +194,7 @@
                 					<select class="input_text" id="banner_area">
 									    <option value="Home">Home</option>
 									    <option value="Fashion">Fashion</option>
-									    <option value="Make Up">Maek Up</option>
+									    <option value="Make Up">Make Up</option>
 									    <option value="Accessory">Accessory</option>
 	        						</select>
 	        					</td>
@@ -304,7 +304,7 @@
         formData.append('seq_id', '${accessory.seq_id}');
 
 	        $.ajax({
-	            url: '/accessoryupdate',
+	            url: '/bannerupdate',
 	            method: 'POST',
 	            data: formData,
 	            dataType: "text",

@@ -167,7 +167,7 @@
 		<!--네비게이션-->
 		<nav>
 			<div class="menu-items">
-    			<h2>Makup 상품 상세보기</h2>
+    			<h2>Make Up 상품 상세보기</h2>
     				<div>1. 게시글 정보</div><br>
     				    <input type="hidden" name="banner_title" id="deleteBannerTitle" value="">
     				    <form action="fashionupdate" method="post" enctype="multipart/form-data">
@@ -196,7 +196,11 @@
             				</tr>
             				<tr>
                 				<td class="black-cell">업체사이트*</td>
-                				<td><a href="${makeup.detail_url}" target="_blank">${makeup.detail_url}</a></td>
+                				<td>
+                					<a href="${makeup.detail_url}" target="_blank" id="redirectToSite" >
+        								<input type="text"  value="${makeup.detail_url}" id="detail_url" onclick="return false;">
+        							</a>
+    							</td>
             				</tr>
             				<tr>
                 				<td class="black-cell">업체명*</td>
@@ -225,7 +229,7 @@
 					</div>
                 	<!-- 등록 버튼 -->
                 	<div style="text-align: right; float: right;">
-    					<button class="custom-button" id="saveButton">등록</button>
+    					<button class="custom-button" id="saveButton">저장</button>
 					</div>
 			</div>
 		</nav>
@@ -278,12 +282,12 @@
             var sanitizedText = inputText.replace(/[^\d-]/g, '');
 
             // 하이픈이 자동으로 추가되도록 처리
-            if (sanitizedText.length > 3 && sanitizedText.charAt(3) !== '-') {
-                sanitizedText = sanitizedText.slice(0, 3) + '-' + sanitizedText.slice(3);
-            }
-            if (sanitizedText.length > 8 && sanitizedText.charAt(8) !== '-') {
-                sanitizedText = sanitizedText.slice(0, 8) + '-' + sanitizedText.slice(8);
-            }
+//             if (sanitizedText.length > 3 && sanitizedText.charAt(3) !== '-') {
+//                 sanitizedText = sanitizedText.slice(0, 3) + '-' + sanitizedText.slice(3);
+//             }
+//             if (sanitizedText.length > 8 && sanitizedText.charAt(8) !== '-') {
+//                 sanitizedText = sanitizedText.slice(0, 8) + '-' + sanitizedText.slice(8);
+//             }
 
             // 입력 창에 반영
             $(this).val(sanitizedText);
@@ -338,6 +342,7 @@
         var delivery_fee = $("#delivery_fee").val();
         var company_name = $("#company_name").val();
         var company_phone = $("#company_phone").val();
+        var detail_url = $("#detail_url").val();
         var company_yn = $("input[name='company_yn']:checked").val();
         
         if (!banner_title || !product_name || !company_name || !company_phone || !company_yn) {
@@ -352,6 +357,7 @@
         formData.append("company_name", company_name);
         formData.append("company_phone", company_phone);
         formData.append("company_yn", company_yn);
+        formData.append("detail_url", detail_url);
         formData.append('seq_id', '${makeup.seq_id}');
 
 	        $.ajax({
@@ -374,13 +380,26 @@
 	        });
         });
     });
-    
-    $("#file_img").on('change',function(){
-    	  var fileName = $("#file_img").val();
-    	  $(".upload-name").val(fileName);
-    	  $(".upload-status").text("*업로드 완료");
-    });  
-     
+	    $("#file_img").on('change',function(){
+	    	  var fileName = $("#file_img").val();
+	    	  $(".upload-name").val(fileName);
+	    	  $(".upload-status").text("*업로드 완료");
+	    });  
+   
+	    function redirectToSite() {
+	        var dynamicUrl = $('#redirectToSite').attr('href');
+
+	        // URL에 프로토콜이 포함되어 있지 않으면 기본적으로 "http://"을 추가
+	        if (!dynamicUrl.startsWith('http://') && !dynamicUrl.startsWith('https://')) {
+	            dynamicUrl = 'http://' + dynamicUrl;
+	        }
+
+	        // 새 탭에서 열고자 할 경우
+	        window.open(dynamicUrl, '_blank');
+	    }
+
+	    // 이벤트 리스너를 등록하여 클릭 이벤트 발생 시 redirectToSite 함수 실행
+	    $('#redirectToSite').on('click', redirectToSite);
     </script>
 </body>
 </html>

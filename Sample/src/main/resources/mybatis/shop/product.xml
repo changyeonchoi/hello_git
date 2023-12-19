@@ -142,7 +142,8 @@
 	        company_phone = #{company_phone, jdbcType=VARCHAR},
 	        company_yn = #{company_yn, jdbcType=VARCHAR},
 	        detail_img = COALESCE(#{detail_img, jdbcType=VARCHAR}, detail_img),
-	        file_img = COALESCE(#{file_img, jdbcType=VARCHAR}, file_img)
+	        file_img = COALESCE(#{file_img, jdbcType=VARCHAR}, file_img),
+	        detail_url = #{detail_url, jdbcType=VARCHAR}
 	    WHERE seq_id = #{seq_id, jdbcType=VARCHAR}
 	</update>
 

@@ -181,7 +181,7 @@
                 				<td><input type="text" class="input_text" id="banner_title" value="" maxlength="15"></td>
             				</tr>
         				</table><br>
-        				<div>2.상품 정보</div><br>
+        				<div>2. 상품 정보</div><br>
     					<table border="1" style="width: 70%;">
         					<tr>
                 				<td class="black-cell">상품명*</td>	
@@ -294,12 +294,12 @@ $(document).ready(function() {
         var sanitizedText = inputText.replace(/[^\d-]/g, '');
 
         // 하이픈이 자동으로 추가되도록 처리
-        if (sanitizedText.length > 3 && sanitizedText.charAt(3) !== '-') {
-            sanitizedText = sanitizedText.slice(0, 3) + '-' + sanitizedText.slice(3);
-        }
-        if (sanitizedText.length > 8 && sanitizedText.charAt(8) !== '-') {
-            sanitizedText = sanitizedText.slice(0, 8) + '-' + sanitizedText.slice(8);
-        }
+//         if (sanitizedText.length > 3 && sanitizedText.charAt(3) !== '-') {
+//             sanitizedText = sanitizedText.slice(0, 3) + '-' + sanitizedText.slice(3);
+//         }
+//         if (sanitizedText.length > 8 && sanitizedText.charAt(8) !== '-') {
+//             sanitizedText = sanitizedText.slice(0, 8) + '-' + sanitizedText.slice(8);
+//         }
 
         // 입력 창에 반영
         $(this).val(sanitizedText);

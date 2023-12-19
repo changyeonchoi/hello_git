@@ -172,7 +172,7 @@
 		<!--네비게이션-->
 		<nav>
 			<div class="menu-items">
-    			<h2>Makeup 상품 등록하기</h2>
+    			<h2>Make Up 상품 등록하기</h2>
     				<div>1. 게시글 정보</div><br>
         				<form action="makeupenroll" method="post" enctype="multipart/form-data">
         				<table border="1" style="width: 70%;">
@@ -181,7 +181,7 @@
                 				<td><input type="text" class="input_text" id="banner_title" value="" maxlength="15"></td>
             				</tr>
         				</table><br>
-        				<div>2.상품 정보</div><br>
+        				<div>2. 상품 정보</div><br>
     					<table border="1" style="width: 70%;">
         					<tr>
                 				<td class="black-cell">메이크업명*</td>	
@@ -279,12 +279,12 @@ $(document).ready(function() {
         var sanitizedText = inputText.replace(/[^\d-]/g, '');
 
         // 하이픈이 자동으로 추가되도록 처리
-        if (sanitizedText.length > 3 && sanitizedText.charAt(3) !== '-') {
-            sanitizedText = sanitizedText.slice(0, 3) + '-' + sanitizedText.slice(3);
-        }
-        if (sanitizedText.length > 8 && sanitizedText.charAt(8) !== '-') {
-            sanitizedText = sanitizedText.slice(0, 8) + '-' + sanitizedText.slice(8);
-        }
+//         if (sanitizedText.length > 3 && sanitizedText.charAt(3) !== '-') {
+//             sanitizedText = sanitizedText.slice(0, 3) + '-' + sanitizedText.slice(3);
+//         }
+//         if (sanitizedText.length > 8 && sanitizedText.charAt(8) !== '-') {
+//             sanitizedText = sanitizedText.slice(0, 8) + '-' + sanitizedText.slice(8);
+//         }
 
         // 입력 창에 반영
         $(this).val(sanitizedText);
@@ -309,10 +309,10 @@ $(document).ready(function() {
         var company_yn = $("input[name='company_yn']:checked").val(); // Get the selected radio button value
 
          // 필수 입력 필드 체크
-//         if (!banner_title || !product_name || !file_img || !company_name || !detail_img ||  || !detail_url || !company_phone || !company_yn) {
-//             alert("모든 항목을 입력해주세요.");
-//             return; // 필수 입력 필드 중 하나라도 빈 값이면 함수 종료
-//         }
+        if (!banner_title || !product_name || !file_img || !company_name || !detail_img ||  || !detail_url || !company_phone || !company_yn) {
+            alert("모든 항목을 입력해주세요.");
+            return; // 필수 입력 필드 중 하나라도 빈 값이면 함수 종료
+        }
         
         // Create FormData object
         var formData = new FormData();
