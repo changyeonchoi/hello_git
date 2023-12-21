@@ -35,5 +35,15 @@ public class BannerDao {
 		return sqlSession.selectOne("bannerDao.selectbannerdetail", seq_id);
 	}
 
+	public void bannerupdate(BannerVo bannervo) {
+		// TODO Auto-generated method stub
+		sqlSession.update("bannerDao.bannerupdate", bannervo);
+	}
+
+	public String bannerdelete(String seq_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("bannerDao.bannerdelete", seq_id);
+	}
+
 
 }

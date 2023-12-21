@@ -357,7 +357,6 @@
         formData.append("company_name", company_name);
         formData.append("company_phone", company_phone);
         formData.append("company_yn", company_yn);
-        formData.append("detail_url", detail_url);
         formData.append('seq_id', '${makeup.seq_id}');
 
 	        $.ajax({

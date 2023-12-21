@@ -7,22 +7,25 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class BannerVo {
 
+	//pk
 	private String seq_id;
-	
+	//배너명
 	private String banner_name;
-	
-	private String file_img;
-
-	private String banner_area;
-	
+	//파일 이미지
+	private String banner_img;
+	//노출영역1
+	private String banner_area1;
+	//노출영역2
+	private String banner_area2;
+	//노출여부
 	private String banner_yn;
-	
+	//회원ID
 	private String user_id;
-	
+	//등록일
 	private String redate;
-	
+	//CODE
 	private String code;
-	
+	//랜딩_URL
 	private String land_url;
 
 	public String getLand_url() {
@@ -49,26 +52,38 @@ public class BannerVo {
 		this.banner_name = banner_name;
 	}
 
-	public String getFile_img() {
-		return file_img;
-	}
-	public void setFile_img(MultipartFile file, String uploadPath, String file_img) throws IOException {
-	    if (file != null && !file.isEmpty()) {
-	        // 새로운 파일이 전달된 경우
-	        String originalFileName = file.getOriginalFilename();
-	        String filePath = uploadPath + originalFileName;
-	        file.transferTo(new File(filePath));
-	        this.file_img = filePath;
-	    } else {
-	    	this.file_img = getFile_img();
-	    }
-	}
-	public String getBanner_area() {
-		return banner_area;
+	
+	public String getBanner_img() {
+		return banner_img;
 	}
 
-	public void setBanner_area(String banner_area) {
-		this.banner_area = banner_area;
+	public void setBanner_img(MultipartFile file, String uploadPath, String banner_img) throws IOException {
+		if (file != null && !file.isEmpty()) {
+			// 새로운 파일이 전달된 경우
+			String originalFileName = file.getOriginalFilename();
+			String filePath = uploadPath + originalFileName;
+			file.transferTo(new File(filePath));
+			this.banner_img = filePath;
+		} else {
+			this.banner_img = getBanner_img();
+		}
+	}
+
+
+	public String getBanner_area1() {
+		return banner_area1;
+	}
+
+	public void setBanner_area1(String banner_area1) {
+		this.banner_area1 = banner_area1;
+	}
+
+	public String getBanner_area2() {
+		return banner_area2;
+	}
+
+	public void setBanner_area2(String banner_area2) {
+		this.banner_area2 = banner_area2;
 	}
 
 	public String getBanner_yn() {
@@ -105,10 +120,9 @@ public class BannerVo {
 
 	@Override
 	public String toString() {
-		return "BannerVo [seq_id=" + seq_id + ", banner_name=" + banner_name + ", file_img=" + file_img
-				+ ", banner_area=" + banner_area + ", banner_yn=" + banner_yn + ", user_id=" + user_id + ", redate="
-				+ redate + ", code=" + code + ", land_url=" + land_url + "]";
+		return "BannerVo [seq_id=" + seq_id + ", banner_name=" + banner_name + ", banner_img=" + banner_img
+				+ ", banner_area1=" + banner_area1 + ", banner_area2=" + banner_area2 + ", banner_yn=" + banner_yn
+				+ ", user_id=" + user_id + ", redate=" + redate + ", code=" + code + ", land_url=" + land_url + "]";
 	}
 
-	
 }

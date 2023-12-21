@@ -57,7 +57,7 @@
         		FROM product_table
         		WHERE product_name LIKE '%' || #{search, jdbcType=VARCHAR} || '%'
         		AND code = #{code, jdbcType=VARCHAR}
-        		ORDER BY seq_id DESC
+        		ORDER BY REGDATE DESC
         	) t
         	WHERE ROWNUM <= #{endRow, jdbcType=INTEGER}
     	)

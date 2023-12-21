@@ -186,7 +186,7 @@
     				alert("이름을 입력해주세요.")
     				return;
     			}else if(user_phone == ""){
-    				alert("번호를 입력해주세요.")
+    				alert("연락처를 입력해주세요.")
     				return;
     			}
     			

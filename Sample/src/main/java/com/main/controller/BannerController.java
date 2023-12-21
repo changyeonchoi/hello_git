@@ -44,11 +44,13 @@ public class BannerController {
 			, @RequestParam(value="pageNo"		, defaultValue="1" , required=true) int pageNo
 			, @RequestParam(name = "listSize", defaultValue = "10") int listSize
     		, @RequestParam(name = "naviSize", defaultValue = "20") int naviSize
-    		, @RequestParam(value = "file_img", required=false) MultipartFile file_img
+    		, @RequestParam(value = "banner_img", required=false) MultipartFile banner_img
     		, @RequestParam(value = "banner_name", required=false) String banner_name
-    		, @RequestParam(value = "banner_area", required=false) String banner_area
+    		, @RequestParam(value = "banner_area2", required=false) String banner_area2
     		, @RequestParam(value = "banner_yn", required=false) String banner_yn
     		, @RequestParam(value = "user_id", required=false) String user_id
+	        , @RequestParam(value = "seq_id", required=false) String seq_id
+
     		) throws IOException {
 		
 				MemberVo membervo = (MemberVo) request.getSession().getAttribute("membervo");
@@ -60,8 +62,6 @@ public class BannerController {
 		    	keyword.put("code", code);
 		    	
 		    	int totalCount = bannerservice.selectTotalCount(keyword);
-		    	
-		    	System.out.println(totalCount);
 		    	
 		    	Map<String, Object> map = new HashMap<String, Object>();
 		    	map.put("pageNo", pageNo);
@@ -88,12 +88,14 @@ public class BannerController {
 	
 	@RequestMapping(value = "/bannerenroll", method = {RequestMethod.GET, RequestMethod.POST})
 	public String bannerinsert (Model model
-    		, @RequestParam(value = "file_img") MultipartFile file_img
+    		, @RequestParam(value = "banner_img") MultipartFile banner_img
     		, @RequestParam(value = "banner_name") String banner_name
-    		, @RequestParam(value = "banner_area") String banner_area
+    		, @RequestParam(value = "banner_area1") String banner_area1
+    		, @RequestParam(value = "banner_area2") String banner_area2
     		, @RequestParam(value = "banner_yn") String banner_yn
     		, @RequestParam(value = "land_url") String land_url
     		, @RequestParam(value = "code") String code
+    		, @RequestParam(value = "seq_id", required=false) String seq_id
     		, BannerVo bannervo
     		, HttpServletRequest request) throws IOException {
 		
@@ -101,11 +103,14 @@ public class BannerController {
 		
 		bannervo.setUser_id(membervo.getUser_id());
 		bannervo.setBanner_name(banner_name);
-		bannervo.setFile_img(file_img, uploadPath, bannervo.getFile_img());
-		bannervo.setBanner_area(banner_area);
+		bannervo.setBanner_img(banner_img, uploadPath, bannervo.getBanner_img());
+		bannervo.setBanner_area1(banner_area1);
+		bannervo.setBanner_area2(banner_area2);
 		bannervo.setLand_url(land_url);
 		bannervo.setBanner_yn(banner_yn);
 		bannervo.setCode(code);
+		
+		bannerservice.insertbanner(bannervo);
 		
 		return "/bannerinsert";
 	}
@@ -121,11 +126,40 @@ public class BannerController {
 	}
 	
 	@RequestMapping(value = "/bannerupdate", method = {RequestMethod.GET, RequestMethod.POST})
-	public String bannerupdate (Model model, String seq_id) {
+	public String bannerupdate (Model model
+    		, @RequestParam(value = "banner_img", required=false) MultipartFile banner_img
+    		, @RequestParam(value = "seq_id") String seq_id
+    		, @RequestParam(value = "banner_name") String banner_name
+    		, @RequestParam(value = "banner_area1") String banner_area1
+    		, @RequestParam(value = "banner_area2") String banner_area2
+    		, @RequestParam(value = "banner_yn") String banner_yn
+    		, @RequestParam(value = "land_url") String land_url
+    		, BannerVo bannervo
+    		, HttpServletRequest request) throws IOException {
 		
+		MemberVo membervo = (MemberVo) request.getSession().getAttribute("membervo");
 		
+		bannervo.setUser_id(membervo.getUser_id());
+		bannervo.setSeq_id(seq_id);
+		bannervo.setBanner_name(banner_name);
+		bannervo.setBanner_img(banner_img, uploadPath, bannervo.getBanner_img());
+		bannervo.setBanner_area1(banner_area1);
+		bannervo.setBanner_area2(banner_area2);
+		bannervo.setLand_url(land_url);
+		bannervo.setBanner_yn(banner_yn);
 		
-		return "/bannerupdate";
+		bannerservice.bannerupdate(bannervo);
+		
+		return "/bannerlist";
 	}
+	
+	@RequestMapping(value = "/bannerdelete", method = {RequestMethod.GET, RequestMethod.POST})
+	public String bannerdelete (Model model, String seq_id) {
+		
+		bannerservice.bannerdelete(seq_id);
+		
+		return "/bannerlist";
+	}
+
 }
 

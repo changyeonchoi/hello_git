@@ -188,8 +188,8 @@
                        			<td>
 									<div class="filebox">
 									    <input class="upload-name" value="파일선택" placeholder="파일선택">
-									    <label for="file_img" class="file-label">이미지 찾기</label> 
-									    <input type="file" id="file_img">
+									    <label for="banner_img" class="file-label">이미지 찾기</label> 
+									    <input type="file" id="banner_img">
 									    <span class="upload-status"></span>
 									</div>
 								</td>
@@ -197,10 +197,13 @@
             				<tr>
                 				<td class="black-cell">노출영역*</td>
                 				<td>
-	                				<select class="input_text" id="banner_area">
+	                				<select class="input_text_selected" id="banner_area1">
+							            <option value="PC영역값 노출">PC영역값 노출</option>
+	        						</select>
+	                				<select class="input_text_selected" id="banner_area2">
 							            <option value="Home">Home</option>
 							            <option value="Fashion">Fashion</option>
-							            <option value="Make Up">Maek Up</option>
+							            <option value="Make Up">Make Up</option>
 							            <option value="Accessory">Accessory</option>
 	        						</select>
         						</td>
@@ -212,7 +215,7 @@
             				<tr>
     						<td class="black-cell">노출여부*</td>
    								<td>
-        						<label><input type="radio" name="banner_yn" value="노출">노출</label>
+        						<label><input type="radio" name="banner_yn" value="노출" checked>노출</label>
         						<label><input type="radio" name="banner_yn" value="미노출">미노출</label>
     							</td>
             				</tr>
@@ -244,13 +247,14 @@ $(document).ready(function() {
     $("#saveButton").click(function() {
         // 사용자가 입력한 값들을 가져오기
         var banner_name = $("#banner_name").val();
-        var file_img = $("#file_img")[0].files[0]; // Get the file object
-        var banner_area = $("#banner_area").val();
+        var banner_img = $("#banner_img")[0].files[0]; // Get the file object
+        var banner_area1 = $("#banner_area1").val();
+        var banner_area2 = $("#banner_area2").val();
         var land_url = $("#land_url").val();
         var banner_yn = $("input[name='banner_yn']:checked").val(); // Get the selected radio button value
 
          // 필수 입력 필드 체크
-        if (!banner_name || !file_img || !banner_area || !land_url || !banner_yn) {
+        if (!banner_name || !banner_img || !banner_area1 || !banner_area2 || !land_url || !banner_yn) {
             alert("모든 항목을 입력해주세요.");
             return; // 필수 입력 필드 중 하나라도 빈 값이면 함수 종료
         }
@@ -258,13 +262,12 @@ $(document).ready(function() {
         // Create FormData object
         var formData = new FormData();
         formData.append("code", "banner");
-        formData.append("file_img", file_img);
-        formData.append("banner_area", banner_area);
+        formData.append("banner_img", banner_img);
+        formData.append("banner_area1", banner_area1);
+        formData.append("banner_area2", banner_area2);
         formData.append("banner_name", banner_name);
         formData.append("land_url", land_url);
         formData.append("banner_yn", banner_yn);
-
-        console.log(formData);
 
         // 서버에 데이터를 전송하는 Ajax 호출
         $.ajax({
@@ -294,8 +297,8 @@ $(document).ready(function() {
         window.location.href = '/bannerlist'; // 목록 페이지 URL로 변경해주세요
     });
     
-    $("#file_img").on('change',function(){
-  	  var fileName = $("#file_img").val();
+    $("#banner_img").on('change',function(){
+  	  var fileName = $("#banner_img").val();
   	  $(".upload-name").val(fileName);
   	  $(".upload-status").text("*업로드 완료");
   });  

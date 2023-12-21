@@ -208,7 +208,7 @@
             </td>
             <td>${banner.banner_yn}</td>
             <td>${banner.user_id}</td>
-            <td>${banner.banner_area}</td>
+            <td>${banner.banner_area2}</td>
         </tr>
     </c:forEach>
 		</table>

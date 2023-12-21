@@ -56,6 +56,9 @@
     .menu h3 a.red-text {
         color: red; /* 특정 클래스가 적용된 경우에만 텍스트 색상을 빨간색으로 변경합니다. */
     }
+    .red-text {
+    	color: red;
+    }
     .menu h3 a:hover {
         color: red; /* 마우스를 올렸을 때 텍스트 색상을 빨간색으로 변경합니다. */
     }
@@ -167,23 +170,21 @@
 		<!--네비게이션-->
 		<nav>
 			<div class="menu-items">
-    			<h2>Fashion 상품 상세보기</h2>
-    				<div>1. 게시글 정보</div><br>
-    				    <input type="hidden" name="banner_title" id="deleteBannerTitle" value="">
+    			<h2>메인빅매너 상세보기</h2>
     				    <form action="fashionupdate" method="post" enctype="multipart/form-data">
         				<div class="red-text">*한 개의 이미지만 등록 가능합니다.</div><br>
     					<table border="1" style="width: 70%;">
         					<tr>
                 				<td class="black-cell">배너명*</td>
-                        		<td><input type="text" class="input_text" id="banner_name" value="${banner.banner_name}" maxlength="10"></td>
+                        		<td><input type="text" class="input_text" id="banner_name" value="${banner.banner_name}" maxlength="15"></td>
            					</tr>
             				<tr>
                 				<td class="black-cell">이미지등록*</td>
                        			<td>
 									<div class="filebox">
-									    <input class="upload-name" value="${banner.file_img}" placeholder="파일선택" readonly>
+									    <input class="upload-name" value="${banner.banner_img}" placeholder="파일선택" readonly>
 									    <label for="file_img" class="file-label">이미지 찾기</label> 
-									    <input type="file" id="file_img" value="${banner.file_img}">
+									    <input type="file" id="banner_img" value="${banner.banner_img}">
 									    <span class="upload-status"></span>
 									</div>
                        			</td>
@@ -191,7 +192,10 @@
             				<tr>
                 				<td class="black-cell">노출영역*</td>
                 				<td>	                				
-                					<select class="input_text" id="banner_area">
+                					<select class="input_text_selected" id="banner_area1">
+									    <option value="PC영역값 노출">PC영역값 노출</option>
+	        						</select>
+                					<select class="input_text_selected" id="banner_area2">
 									    <option value="Home">Home</option>
 									    <option value="Fashion">Fashion</option>
 									    <option value="Make Up">Make Up</option>
@@ -201,7 +205,7 @@
             				</tr>
             				<tr>
                 				<td class="black-cell">랜딩URL*</td>
-                        		<td><input type="text" class="input_text" id="land_url" value="${banner.land_url}" maxlength="10"></td>
+                        		<td><input type="text" class="input_text" id="land_url" value="${banner.land_url}"></td>
             				</tr>
             				<tr>
                 				<td class="black-cell">노출여부*</td>
@@ -222,7 +226,7 @@
 					</div>
                 	<!-- 등록 버튼 -->
                 	<div style="text-align: right; float: right;">
-    					<button class="custom-button" id="saveButton">등록</button>
+    					<button class="custom-button" id="saveButton">저장</button>
 					</div>
 			</div>
 		</nav>
@@ -257,9 +261,9 @@
                 // 삭제 요청을 서버로 보냄
                 $.ajax({
                     type: 'POST', 
-                    url: '/fashiondelete',  // 삭제 기능을 처리하는 컨트롤러의 URL로 수정
+                    url: '/bannerdelete',  // 삭제 기능을 처리하는 컨트롤러의 URL로 수정
                     data: {
-                        seq_id: '${fashionvo.seq_id}'  // 삭제할 배너 타이틀을 전송
+                        seq_id: '${banner.seq_id}'  // 삭제할 배너 타이틀을 전송
                     },
                     success: function (result) {
                             alert('삭제되었습니다.');
@@ -275,40 +279,32 @@
         
         
         $('#saveButton').click(function () {
-//             let formData = new FormData($('#uploadForm')[0]);
-		var banner_title = $("#banner_title").val();
-        var product_name = $("#product_name").val();
-        var file_img = $("#file_img")[0].files[0]; // Get the file object
-        var product_amount = $("#product_amount").val();
-        var delivery_fee = $("#delivery_fee").val();
-        var company_name = $("#company_name").val();
-        var detail_img = $("#detail_img")[0].files[0]; // Get the file object
-        var company_phone = $("#company_phone").val();
-        var company_yn = $("input[name='company_yn']:checked").val();
+		var banner_name = $("#banner_name").val();
+        var banner_img = $("#banner_img")[0].files[0]; // Get the file object
+        var banner_area1 = $("#banner_area1").val();
+        var banner_area2 = $("#banner_area2").val();
+        var land_url = $("#land_url").val();
+        var banner_yn = $("input[name='banner_yn']:checked").val();
         
-        if (!banner_title || !product_name || !product_amount || !delivery_fee || !company_name || !company_phone || !company_yn) {
+        if (!banner_name || !banner_area1 || !banner_area2 || !land_url || !banner_yn) {
             alert("모든 항목을 입력해주세요.");
             return; // 필수 입력 필드 중 하나라도 빈 값이면 함수 종료
         }
         
         var formData = new FormData();
-        formData.append("banner_title", banner_title);
-        formData.append("product_name", product_name);
-        formData.append("file_img", file_img);
-        formData.append("product_amount", product_amount);
-        formData.append("delivery_fee", delivery_fee);
-        formData.append("company_name", company_name);
-        formData.append("detail_img", detail_img);
-        formData.append("company_phone", company_phone);
-        formData.append("company_yn", company_yn);
-        formData.append('seq_id', '${accessory.seq_id}');
+        formData.append("banner_name", banner_name);
+        formData.append("banner_img", banner_img);
+        formData.append("banner_area1", banner_area1);
+        formData.append("banner_area2", banner_area2);
+        formData.append("land_url", land_url);
+        formData.append("banner_yn", banner_yn);
+        formData.append('seq_id', '${banner.seq_id}');
 
 	        $.ajax({
 	            url: '/bannerupdate',
 	            method: 'POST',
 	            data: formData,
 	            dataType: "text",
-	
 	            contentType: false,
 	            processData: false,
 	            success: function(response) {
@@ -325,26 +321,19 @@
         });
     });
     
-    $("#file_img").on('change',function(){
-    	  var fileName = $("#file_img").val();
+    $("#banner_img").on('change',function(){
+    	  var fileName = $("#banner_img").val();
     	  $(".upload-name").val(fileName);
     	  $(".upload-status").text("*업로드 완료");
     });  
     
-    // 페이지 로드 시 실행되는 함수
-    window.onload = function() {
+    $(document).ready(function() {
         // 가져올 값
-        var existingValue = "Fashion"; // 예시로 "Fashion"을 기준으로 설정
+        var existingValue = '${banner.banner_area2}';
 
-        // banner_area 셀렉트 박스에서 해당 값을 가진 옵션을 찾아서 선택
-        var bannerAreaSelect = document.getElementById("banner_area");
-        for (var i = 0; i < bannerAreaSelect.options.length; i++) {
-            if (bannerAreaSelect.options[i].value === existingValue) {
-                bannerAreaSelect.options[i].selected = true;
-                break;
-            }
-        }
-    };
+        // banner_area 셀렉트 박스에서 해당 값을 가진 옵션을 선택
+        $('#banner_area2').val(existingValue);
+    });
      
     </script>
 </body>

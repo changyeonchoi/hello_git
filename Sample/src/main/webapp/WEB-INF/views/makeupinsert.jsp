@@ -193,7 +193,7 @@
 									<div class="filebox">
 									    <input class="upload-name" value="파일선택" placeholder="파일선택">
 									    <label for="file_img" class="file-label">이미지 찾기</label> 
-									    <input type="file" id="file_img">
+    									<input type="file" id="file_img" accept=".png, .jpeg, .jpg" data-width="540" data-height="500">
 									    <span class="upload-status"></span>
 									</div>
 								</td>
@@ -309,7 +309,7 @@ $(document).ready(function() {
         var company_yn = $("input[name='company_yn']:checked").val(); // Get the selected radio button value
 
          // 필수 입력 필드 체크
-        if (!banner_title || !product_name || !file_img || !company_name || !detail_img ||  || !detail_url || !company_phone || !company_yn) {
+        if (!banner_title || !product_name || !file_img || !detail_url || !company_name || !company_phone || !company_yn) {
             alert("모든 항목을 입력해주세요.");
             return; // 필수 입력 필드 중 하나라도 빈 값이면 함수 종료
         }
@@ -355,13 +355,49 @@ $(document).ready(function() {
         window.location.href = '/makeuplist'; // 목록 페이지 URL로 변경해주세요
     });
     
-    $("#file_img").on('change',function(){
-  	  var fileName = $("#file_img").val();
-  	  $(".upload-name").val(fileName);
-  	  $(".upload-status").text("*업로드 완료");
-  });  
-  
+    $(document).ready(function () {
+        $("#file_img").on('change', function () {
+            var fileInput = this;
+            var fileName = fileInput.value;
+            var allowedExtensions = /(\.png|\.jpeg|\.jpg)$/i;
+
+            if (!allowedExtensions.exec(fileName)) {
+                alert('허용되지 않는 파일 형식입니다. PNG, JPG 또는 JPEG 파일을 선택해주세요.');
+                fileInput.value = ''; // 파일 입력값 초기화
+                $(".upload-name").val('파일선택'); // 업로드 이름 초기화
+                $(".upload-status").text(""); // 업로드 상태 메시지 초기화
+                return false;
+            }
+
+            // Read the selected image file
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var img = new Image();
+                img.onload = function () {
+                    var maxWidth = parseInt($("#file_img").data('width'));
+                    var maxHeight = parseInt($("#file_img").data('height'));
+
+                    // Check image dimensions
+                    if (img.width > maxWidth || img.height > maxHeight) {
+                        alert('이미지 크기가 허용된 최대 크기를 초과합니다. 가로 최대 ' + maxWidth + 'px, 세로 최대 ' + maxHeight + 'px로 선택해주세요.');
+                        fileInput.value = ''; // 파일 입력값 초기화
+                        $(".upload-name").val('파일선택'); // 업로드 이름 초기화
+                        $(".upload-status").text(""); // 업로드 상태 메시지 초기화
+                        return false;
+                    } else {
+                        // Display the image name and upload status
+                        $(".upload-name").val(fileName);
+                        $(".upload-status").text("*업로드 완료");
+                    }
+                };
+                img.src = e.target.result;
+            };
+
+            reader.readAsDataURL(fileInput.files[0]);
+        });
+    });
 });
+    
 </script>
 </body>
 </html>

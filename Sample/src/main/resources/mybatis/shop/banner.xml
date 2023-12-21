@@ -8,8 +8,8 @@
 <resultMap type="com.main.vo.BannerVo" id="bannervo">
 	<result property="seq_id" column="seq_id"/>
 	<result property="banner_name" column="banner_name"/>
-	<result property="file_img" column="file_img"/>
-	<result property="banner_area" column="banner_area"/>
+	<result property="banner_img" column="banner_img"/>
+	<result property="banner_area2" column="banner_area2"/>
 	<result property="banner_yn" column="banner_yn"/>
 	<result property="user_id" column="user_id"/>
 	<result property="redate" column="redate"/>
@@ -35,7 +35,7 @@
                 	banner_name, 
                 	banner_yn,
                 	user_id,
-                	banner_area,
+                	banner_area2,
                 	ROWNUM AS rnum
         	FROM (
         		SELECT
@@ -44,7 +44,7 @@
         			banner_name,
         			banner_yn,
         			user_id,
-        			banner_area
+        			banner_area2
         		FROM banner_table
         		WHERE banner_name LIKE '%' || #{search, jdbcType=VARCHAR} || '%'
         		ORDER BY seq_id DESC
@@ -59,20 +59,20 @@
     INSERT INTO banner_table (
         seq_id
         , redate
-        , file_img
+        , banner_img
         , banner_name
         , banner_yn
-        , banner_area
+        , banner_area2
         , user_id
         , land_url
         , code
     ) VALUES (
         BANNER_SEQ.NEXTVAL
         , SYSDATE
-        , #{file_img, jdbcType=VARCHAR}
+        , #{banner_img, jdbcType=VARCHAR}
         , #{banner_name, jdbcType=VARCHAR}
         , #{banner_yn, jdbcType=VARCHAR}
-        , #{banner_area, jdbcType=VARCHAR}
+        , #{banner_area2, jdbcType=VARCHAR}
         , #{user_id, jdbcType=VARCHAR}
         , #{land_url, jdbcType=VARCHAR}
         , #{code, jdbcType=VARCHAR}
@@ -81,12 +81,30 @@
 
 	<select id="bannerDao.selectbannerdetail" resultMap="bannervo">
 		select
-			banner_name
-			, file_img
-			, banner_area
+			seq_id
+			, banner_name
+			, banner_img
+			, banner_area1
+			, banner_area2
 			, land_url
 			, banner_yn
 		from banner_table
 		where seq_id = #{seq_id, jdbcType=VARCHAR}
 	</select>
+	
+	<update id="bannerDao.bannerupdate">
+	    UPDATE banner_table
+	    SET
+	        banner_name = #{banner_name, jdbcType=VARCHAR}, 
+	        banner_img = COALESCE(#{banner_img, jdbcType=VARCHAR}, banner_img),
+	        banner_area2 = #{banner_area2, jdbcType=VARCHAR},
+	        banner_yn = #{banner_yn, jdbcType=VARCHAR},
+	        land_url = #{land_url, jdbcType=VARCHAR}
+	    WHERE seq_id = #{seq_id}
+	</update>
+	
+	<delete id="bannerDao.bannerdelete">
+	    DELETE FROM banner_table
+	    WHERE seq_id = #{seq_id}
+	</delete>
 </mapper>

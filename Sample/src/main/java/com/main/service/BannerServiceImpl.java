@@ -44,5 +44,17 @@ public class BannerServiceImpl implements BannerService {
 		return bannerDao.selectbannerdetail(seq_id);
 	}
 
+	@Override
+	public void bannerupdate(BannerVo bannervo) {
+		// TODO Auto-generated method stub
+		bannerDao.bannerupdate(bannervo);
+	}
+
+	@Override
+	public String bannerdelete(String seq_id) {
+		// TODO Auto-generated method stub
+		return bannerDao.bannerdelete(seq_id);
+	}
+
 
 }

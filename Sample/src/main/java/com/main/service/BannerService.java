@@ -14,4 +14,8 @@ public interface BannerService {
 	int insertbanner(BannerVo bannervo);
 
 	BannerVo selectbannerdetail(String seq_id);
+
+	void bannerupdate(BannerVo bannervo);
+
+	String bannerdelete(String seq_id);
 }
