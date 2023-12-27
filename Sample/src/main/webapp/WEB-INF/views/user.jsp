@@ -183,7 +183,7 @@
         		</tr>
         	<c:forEach var="member" items="${member}" varStatus="status">
             	<tr>            	
-                    <td>${status.index + 1}</td>
+                    <td>${member.rnum}</td>
                 	<td>${member.user_id}</td>
                 	<td>${member.user_name}</td>
                 	<td>${member.user_phone}</td>

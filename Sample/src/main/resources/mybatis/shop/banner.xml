@@ -21,8 +21,8 @@
 	    SELECT COUNT(*) FROM banner_table
 	    WHERE
 	        banner_name LIKE '%' || #{search, jdbcType=VARCHAR} || '%'
-	        AND
-	        code = #{code, jdbcType=VARCHAR}
+<!-- 	        AND -->
+<!-- 	        code = #{code, jdbcType=VARCHAR} -->
 </select>
 	
 <select id="bannerDao.selectbannerList" parameterType="java.util.HashMap" resultMap="bannervo">

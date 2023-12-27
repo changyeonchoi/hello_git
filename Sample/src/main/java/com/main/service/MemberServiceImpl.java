@@ -117,4 +117,10 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return memberDao.deleteUserId(user_id);
 	}
+
+	@Override
+	public int selectTotalCountUser(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return memberDao.selectTotalCountUser(map);
+	}
 }

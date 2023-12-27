@@ -165,7 +165,7 @@
 		<header>
 			<div class="menu">
     		<h3><a href="fashionlist" class="red-text">상품관리</a></h3>
-    		<h3><a href="#">배너관리</a></h3>
+    		<h3><a href="bannerlist">배너관리</a></h3>
     		<h3><a href="adminlist">사용자관리</a></h3>
 			</div>
 		</header>
@@ -214,7 +214,7 @@
                 				<td class="black-cell">상세정보 이미지*</td>
                         		<td>
                         			<div class="filebox">
-								        <input class="upload-name-detail" value="${fashionvo.detail_img}" placeholder="파일선택" readonly>
+								        <input class="upload-name-detail" placeholder="파일선택" readonly>
 								        <label for="detail_img" class="file-label">이미지 찾기</label> 
 								        <input type="file" id="detail_img" accept=".png, .jpeg, .jpg">
 								        <span class="upload-status-detail"></span>

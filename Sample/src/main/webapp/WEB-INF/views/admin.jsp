@@ -154,7 +154,7 @@
 		<header>
 			<div class="menu">
     		<h3><a href="fashionlist">상품관리</a></h3>
-    		<h3><a href="#">배너관리</a></h3>
+    		<h3><a href="bannerlist">배너관리</a></h3>
     		<h3><a href="#" class="red-text">사용자관리</a></h3>
 			</div>
 		</header>
@@ -185,7 +185,7 @@
         		</tr>
         	<c:forEach var="member" items="${member}" varStatus="status">
             	<tr>            	
-                    <td>${status.index + 1}</td>
+                    <td>${member.rnum}</td>
                 	<td>${member.user_id}</td>
                 	<td>${member.user_name}</td>
                 	<td>${member.user_auth}</td>

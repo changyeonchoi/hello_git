@@ -118,6 +118,11 @@ public class MemberDao {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("memberDao.deleteUserId", user_id);
 	}
+
+	public int selectTotalCountUser(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberDao.selectTotalCountUser", map);
+	}
     
 //    public List<MemberVo> selectMemberListPaging(int startIndex, int pageSize) {
 //        Map<String, Integer> params = new HashMap<>();

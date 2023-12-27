@@ -162,8 +162,8 @@
 		<!--헤더시작-->
 		<header>
 			<div class="menu">
-    		<h3><a href="fashionlist" class="red-text">상품관리</a></h3>
-    		<h3><a href="#">배너관리</a></h3>
+    		<h3><a href="fashionlist">상품관리</a></h3>
+    		<h3><a href="bannerlist" class="red-text">배너관리</a></h3>
     		<h3><a href="adminlist">사용자관리</a></h3>
 			</div>
 		</header>
@@ -183,8 +183,8 @@
                        			<td>
 									<div class="filebox">
 									    <input class="upload-name" value="${banner.banner_img}" placeholder="파일선택" readonly>
-									    <label for="file_img" class="file-label">이미지 찾기</label> 
-									    <input type="file" id="banner_img" value="${banner.banner_img}">
+									    <label for="banner_img" class="file-label">이미지 찾기</label> 
+    									<input type="file" id="banner_img" value="${banner.banner_img}" accept=".png, .jpeg, .jpg" data-width="2000" data-height="500">
 									    <span class="upload-status"></span>
 									</div>
                        			</td>
@@ -193,7 +193,7 @@
                 				<td class="black-cell">노출영역*</td>
                 				<td>	                				
                 					<select class="input_text_selected" id="banner_area1">
-									    <option value="PC영역값 노출">PC영역값 노출</option>
+									    <option value="PC">PC</option>
 	        						</select>
                 					<select class="input_text_selected" id="banner_area2">
 									    <option value="Home">Home</option>
@@ -333,6 +333,46 @@
 
         // banner_area 셀렉트 박스에서 해당 값을 가진 옵션을 선택
         $('#banner_area2').val(existingValue);
+        
+        $("#banner_img").on('change', function () {
+            var fileInput = this;
+            var fileName = fileInput.value;
+            var allowedExtensions = /(\.png|\.jpeg|\.jpg)$/i;
+
+            if (!allowedExtensions.exec(fileName)) {
+                alert('허용되지 않는 파일 형식입니다. PNG, JPG 또는 JPEG 파일을 선택해주세요.');
+                fileInput.value = ''; // 파일 입력값 초기화
+                $(".upload-name").val('파일선택'); // 업로드 이름 초기화
+                $(".upload-status").text(""); // 업로드 상태 메시지 초기화
+                return false;
+            }
+
+            // Read the selected image file
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var img = new Image();
+                img.onload = function () {
+                    var maxWidth = parseInt($("#banner_img").data('width'));
+                    var maxHeight = parseInt($("#banner_img").data('height'));
+
+                    // Check image dimensions
+                    if (img.width > maxWidth || img.height > maxHeight) {
+                        alert('이미지 크기가 허용된 최대 크기를 초과합니다. 가로 최대 ' + maxWidth + 'px, 세로 최대 ' + maxHeight + 'px로 선택해주세요.');
+                        fileInput.value = ''; // 파일 입력값 초기화
+                        $(".upload-name").val('파일선택'); // 업로드 이름 초기화
+                        $(".upload-status").text(""); // 업로드 상태 메시지 초기화
+                        return false;
+                    } else {
+                        // Display the image name and upload status
+                        $(".upload-name").val(fileName);
+                        $(".upload-status").text("*업로드 완료");
+                    }
+                };
+                img.src = e.target.result;
+            };
+
+            reader.readAsDataURL(fileInput.files[0]);
+        });
     });
      
     </script>

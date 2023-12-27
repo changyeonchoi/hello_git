@@ -42,20 +42,41 @@ public class ProductVo {
 	
 	private String detailPath;
 	
+	private int rnum;
 	
 	
+	
+	
+	public int getRnum() {
+		return rnum;
+	}
+	public void setRnum(int rnum) {
+		this.rnum = rnum;
+	}
 	public String getFile_img() {
 		return file_img;
 	}
 	public void setFile_img(MultipartFile file, String uploadPath, String file_img) throws IOException {
+	    // 만약 전달된 파일이 존재하고 비어있지 않다면
 	    if (file != null && !file.isEmpty()) {
 	        // 새로운 파일이 전달된 경우
+
+	        // 전달된 파일의 원본 파일명을 가져옴
 	        String originalFileName = file.getOriginalFilename();
+	        
+	        // 파일을 저장할 경로를 지정 (uploadPath + 원본 파일명)
 	        String filePath = uploadPath + originalFileName;
+	        
+	        // 파일을 지정된 경로에 저장
 	        file.transferTo(new File(filePath));
+	        
+	        // 객체 내의 file_img 변수에 저장된 파일 경로를 업데이트
 	        this.file_img = filePath;
 	    } else {
-	    	this.file_img = getFile_img();
+	        // 전달된 파일이 없거나 비어있는 경우
+
+	        // 기존의 file_img 변수 값을 유지
+	        this.file_img = getFile_img();
 	    }
 	}
 	public String getDetail_img() {

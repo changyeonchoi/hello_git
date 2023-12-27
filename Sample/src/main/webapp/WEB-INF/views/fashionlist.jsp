@@ -196,7 +196,7 @@
 
     <c:forEach var="fashion" items="${fashion}" varStatus="status">
         <tr>
-            <td>${status.index + 1}</td>
+            <td>${fashion.rnum}</td>
             <td>
             <fmt:parseDate value="${fashion.regdate}" var="regdate" pattern="yyyy-mm-dd"/>
             <fmt:formatDate value="${regdate}" pattern="yyyy.mm.dd"/>
@@ -204,7 +204,7 @@
             
             <td>
             <a href="#" class="detail-link" data-seq-id="${fashion.seq_id}">
-                ${fashion.banner_title}
+                ${fashion.product_name}
             </a>
             </td>
             <td>${fashion.company_yn}</td>

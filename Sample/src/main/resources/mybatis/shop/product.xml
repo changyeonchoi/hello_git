@@ -26,16 +26,16 @@
 	    SELECT COUNT(*) FROM product_table
 	    WHERE
 	        product_name LIKE '%' || #{search, jdbcType=VARCHAR} || '%'
-	        AND
+	    AND
 	        code = #{code, jdbcType=VARCHAR}
 	</select>
-    
+    <!-- 상품 삭제 -->
     <delete id="productDao.deletefashion">
 	    DELETE FROM product_table
 	    WHERE seq_id = #{seq_id}
 	</delete>
 
-	<!-- fashion -->
+	<!-- code별 list -->
 	<select id="productDao.selectFashionList" parameterType="java.util.HashMap" resultMap="productvo">
         <![CDATA[
         SELECT *
@@ -43,7 +43,7 @@
         	SELECT 
                 	seq_id, 
                 	regdate, 
-                	banner_title, 
+                	product_name, 
                 	company_yn,
                 	user_id,
                 	ROWNUM AS rnum
@@ -51,7 +51,7 @@
         		SELECT
         			seq_id,
         			regdate,
-        			banner_title,
+        			product_name,
         			company_yn,
         			user_id
         		FROM product_table

@@ -151,6 +151,12 @@
         WHERE user_id LIKE '%' || #{search, jdbcType=VARCHAR} || '%'
     </select>
     
+    <!-- 전체 회원 수 조회 쿼리 -->
+    <select id="selectTotalCountUser" parameterType="java.util.HashMap" resultType="int">
+        SELECT COUNT(*) FROM bt_member_table
+        WHERE user_id LIKE '%' || #{search, jdbcType=VARCHAR} || '%'
+    </select>
+    
 	<select id="memberDao.selectuserlist" parameterType="java.util.HashMap" resultMap="membervo">
     <![CDATA[
     SELECT *

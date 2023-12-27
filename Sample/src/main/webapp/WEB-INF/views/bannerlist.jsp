@@ -178,7 +178,7 @@
 		<!--콘텐츠부분-->
 		<section>
 			<div class="section-header">
-        		<h3>Makeup 상품 리스트 목록</h3>
+        		<h3>메인빅매너 리스트 목록</h3>
         			<div class="underline-input">
             			<input type="text" id="searchInput" placeholder="배너명을 입력하세요" class="input-field"/>
             			<button onclick="goSearch()" class="search-button"></button>

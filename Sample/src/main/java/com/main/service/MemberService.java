@@ -36,4 +36,6 @@ public interface MemberService {
 	
 	int deleteUserId(String user_id);
 
+	int selectTotalCountUser(Map<String, Object> map);
+
 }

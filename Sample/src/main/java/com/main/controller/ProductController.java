@@ -35,12 +35,12 @@ public class ProductController {
 	@Resource(name="uploadPath")
 	private String uploadPath;
 	
-	
+	//type별 api 지정
 	@RequestMapping(value = "/{type}", method = {RequestMethod.GET, RequestMethod.POST})
 	public String product(Model model, HttpSession session, HttpServletRequest request,
 			@RequestParam(value="pageNo"		, defaultValue="1" , required=true) int pageNo,
 			@RequestParam(name = "listSize", defaultValue = "10") int listSize,
-    		@RequestParam(name = "naviSize", defaultValue = "20") int naviSize,
+    		@RequestParam(name = "naviSize", defaultValue = "10") int naviSize,
 			@RequestParam(value = "search", defaultValue = "") String search,
 			@RequestParam(value = "file_img", required=false) MultipartFile file_img,
 	        @RequestParam(value = "detail_img", required=false) MultipartFile detail_img,
@@ -59,7 +59,8 @@ public class ProductController {
 			) throws IOException {
 		
 		 	String returnUrl = null;
-		 
+		 	
+			// 시작문자열로 인한 code 지정
 		    if (type.startsWith("fashion")) {
 		        code = "fashion";
 		    } else if (type.startsWith("makeup")) {
@@ -67,7 +68,8 @@ public class ProductController {
 		    } else if (type.startsWith("accessory")) {
 		        code = "accessory";
 		    }
-
+		    
+		 	// 로그인 세션 가져오기
 			MemberVo membervo = (MemberVo) request.getSession().getAttribute("membervo");
 			
 		    productvo.setUser_id(membervo.getUser_id());
@@ -76,6 +78,7 @@ public class ProductController {
 	    	keyword.put("search", search);
 	    	keyword.put("code", code);
 	    	
+	    	// 총 갯수
 	    	int totalCount = productservice.selectTotalCount(keyword);
 	    	
 	    	Map<String, Object> map = new HashMap<String, Object>();
@@ -86,12 +89,14 @@ public class ProductController {
 	    	map.put("search", search);
 	    	map.put("code", code);
 	    	
+	    	// 해당 pageNavigation에서 html code생성
 	    	PageNavigation pageNavigation = new PageNavigation(map);
 	    	map.put("startRow", pageNavigation.getStartRow());
 	    	map.put("endRow", pageNavigation.getEndRow());
 	    	
+	    	// 페이지 네비게이션 객체 생성
 	    	PageNavigation navigation = pagenavigigationservice.makePageNavigation(map);
-			
+			// 각 상품 리스트 
 	    	List<ProductVo> productList = productservice.selectFashionList(map);
 	    	
 		if("fashion".equals(code)) {
@@ -202,8 +207,6 @@ public class ProductController {
 				
 	
 				productservice.updatemakeup(productvo);
-				
-				System.out.println("productvo" + productvo);
 				
 				returnUrl = "/makeuplist";
 			} 

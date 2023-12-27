@@ -3,7 +3,7 @@ package com.main.vo;
 public class MemberVo {
 	
 	//no
-	private Integer no;
+	private Integer rnum;
 	//pk
 	private String seq_id;
 	//아이디
@@ -20,11 +20,14 @@ public class MemberVo {
 	private String search;
 	//주소
 	private String user_address;
-	public Integer getNo() {
-		return no;
+
+	
+	
+	public Integer getRnum() {
+		return rnum;
 	}
-	public void setNo(Integer no) {
-		this.no = no;
+	public void setRnum(Integer rnum) {
+		this.rnum = rnum;
 	}
 	public String getSeq_id() {
 		return seq_id;
@@ -76,10 +79,11 @@ public class MemberVo {
 	}
 	@Override
 	public String toString() {
-		return "MemberVo [no=" + no + ", seq_id=" + seq_id + ", user_id=" + user_id + ", user_pw=" + user_pw
+		return "MemberVo [rnum=" + rnum + ", seq_id=" + seq_id + ", user_id=" + user_id + ", user_pw=" + user_pw
 				+ ", user_name=" + user_name + ", user_phone=" + user_phone + ", user_auth=" + user_auth + ", search="
 				+ search + ", user_address=" + user_address + "]";
 	}
+
 	
 
 

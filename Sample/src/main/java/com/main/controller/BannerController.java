@@ -43,7 +43,7 @@ public class BannerController {
 			, HttpServletRequest request
 			, @RequestParam(value="pageNo"		, defaultValue="1" , required=true) int pageNo
 			, @RequestParam(name = "listSize", defaultValue = "10") int listSize
-    		, @RequestParam(name = "naviSize", defaultValue = "20") int naviSize
+    		, @RequestParam(name = "naviSize", defaultValue = "10") int naviSize
     		, @RequestParam(value = "banner_img", required=false) MultipartFile banner_img
     		, @RequestParam(value = "banner_name", required=false) String banner_name
     		, @RequestParam(value = "banner_area2", required=false) String banner_area2
@@ -62,6 +62,8 @@ public class BannerController {
 		    	keyword.put("code", code);
 		    	
 		    	int totalCount = bannerservice.selectTotalCount(keyword);
+		    	
+		    	System.out.println("totalCount" + totalCount);
 		    	
 		    	Map<String, Object> map = new HashMap<String, Object>();
 		    	map.put("pageNo", pageNo);

@@ -94,7 +94,7 @@
 		<header>
 			<div class="menu">
     		<h3><a href="fashionlist">상품관리</a></h3>
-    		<h3><a href="#">배너관리</a></h3>
+    		<h3><a href="bannerlist">배너관리</a></h3>
     		<h3><a href="#" class="red-text">사용자관리</a></h3>
 			</div>
 		</header>

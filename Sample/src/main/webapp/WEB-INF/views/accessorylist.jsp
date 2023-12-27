@@ -163,7 +163,7 @@
 		<header>
 			<div class="menu">
     		<h3><a href="fashionlist" class="red-text">상품관리</a></h3>
-    		<h3><a href="makeuplist">배너관리</a></h3>
+    		<h3><a href="bannerlist">배너관리</a></h3>
     		<h3><a href="adminlist">사용자관리</a></h3>
 			</div>
 		</header>
@@ -196,7 +196,7 @@
 
     <c:forEach var="accessory" items="${accessory}" varStatus="status">
         <tr>
-            <td>${status.index + 1}</td>
+            <td>${accessory.rnum}</td>
             <td>
             <fmt:parseDate value="${accessory.regdate}" var="regdate" pattern="yyyy-mm-dd"/>
             <fmt:formatDate value="${regdate}" pattern="yyyy.mm.dd"/>
@@ -204,7 +204,7 @@
             
             <td>
             <a href="#" class="detail-link" data-seq-id="${accessory.seq_id}">
-                ${accessory.banner_title}
+                ${accessory.product_name}
             </a>
             </td>
             <td>${accessory.company_yn}</td>

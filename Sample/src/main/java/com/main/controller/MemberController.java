@@ -156,7 +156,7 @@ public class MemberController {
     public @ResponseBody ModelAndView admin(Model model, HttpServletRequest request,
     		@RequestParam(value="pageNo"		, defaultValue="1" , required=true) int pageNo,
     		@RequestParam(name = "listSize", defaultValue = "10") int listSize,
-    		@RequestParam(name = "naviSize", defaultValue = "20") int naviSize,
+    		@RequestParam(name = "naviSize", defaultValue = "10") int naviSize,
     		@RequestParam(value = "search", defaultValue = "") String search
     		) {
     	Map<String, Object> keyword = new HashMap<String, Object>();
@@ -234,15 +234,13 @@ public class MemberController {
     public @ResponseBody ModelAndView user(Model model, HttpServletRequest request,
     		@RequestParam(value="pageNo"		, defaultValue="1" , required=true) int pageNo,
     		@RequestParam(name = "listSize", defaultValue = "10") int listSize,
-    		@RequestParam(name = "naviSize", defaultValue = "20") int naviSize,
+    		@RequestParam(name = "naviSize", defaultValue = "10") int naviSize,
     		@RequestParam(value = "search", defaultValue = "") String search
     		) {
     	Map<String, Object> keyword = new HashMap<String, Object>();
     	keyword.put("search", search);
     	
-    	int totalCount = memberservice.selectTotalCount(keyword);
-    	
-    	System.out.println("totalCount" +totalCount);
+    	int totalCount = memberservice.selectTotalCountUser(keyword);
     	
     	Map<String, Object> map = new HashMap<String, Object>();
     	map.put("pageNo", pageNo);
@@ -250,8 +248,6 @@ public class MemberController {
     	map.put("listSize", listSize);
     	map.put("naviSize", naviSize);
     	map.put("search", search);
-    	System.out.println("search" + search);
-    	System.out.println("map" + map);
 
     	// 계산된 startRow와 endRow를 Map에 추가
         PageNavigation pageNavigation = new PageNavigation(map);

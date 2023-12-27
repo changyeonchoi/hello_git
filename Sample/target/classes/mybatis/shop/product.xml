@@ -43,7 +43,7 @@
         	SELECT 
                 	seq_id, 
                 	regdate, 
-                	banner_title, 
+                	product_name, 
                 	company_yn,
                 	user_id,
                 	ROWNUM AS rnum
@@ -51,7 +51,7 @@
         		SELECT
         			seq_id,
         			regdate,
-        			banner_title,
+        			product_name,
         			company_yn,
         			user_id
         		FROM product_table
