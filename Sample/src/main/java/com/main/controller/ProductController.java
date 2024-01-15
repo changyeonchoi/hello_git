@@ -51,7 +51,7 @@ public class ProductController {
 	        @RequestParam(value = "company_name", required=false) String company_name,
 	        @RequestParam(value = "company_phone", required=false) String company_phone,
 	        @RequestParam(value = "company_yn", required=false) String company_yn,
-	        @RequestParam(value = "seq_id", required=false) String seq_id,
+	        @RequestParam(value = "seq_id", required=false) Integer seq_id,
 	        @RequestParam(value = "detail_url", required=false) String detail_url,
 	        @RequestParam(value = "code", required=false) String code,
 	        ProductVo productvo,

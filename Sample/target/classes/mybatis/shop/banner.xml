@@ -7,6 +7,10 @@
 
 <resultMap type="com.main.vo.BannerVo" id="bannervo">
 	<result property="seq_id" column="seq_id"/>
+	<result property="product_seq_id" column="product_seq_id"/>
+	<result property="product_name" column="product_name"/>
+	<result property="regdate" column="regdate"/>
+	<result property="company_yn" column="company_yn"/>
 	<result property="banner_name" column="banner_name"/>
 	<result property="banner_img" column="banner_img"/>
 	<result property="banner_area2" column="banner_area2"/>
@@ -15,14 +19,15 @@
 	<result property="redate" column="redate"/>
 	<result property="code" column="code"/>
 	<result property="land_url" column="land_url"/>
+	<result property="coupon" column="coupon"/>
 </resultMap>
 
 <select id="selectTotalCount" parameterType="java.util.HashMap" resultType="int">
 	    SELECT COUNT(*) FROM banner_table
 	    WHERE
 	        banner_name LIKE '%' || #{search, jdbcType=VARCHAR} || '%'
-<!-- 	        AND -->
-<!-- 	        code = #{code, jdbcType=VARCHAR} -->
+	        AND
+	        code = #{code, jdbcType=VARCHAR}
 </select>
 	
 <select id="bannerDao.selectbannerList" parameterType="java.util.HashMap" resultMap="bannervo">
@@ -47,6 +52,7 @@
         			banner_area2
         		FROM banner_table
         		WHERE banner_name LIKE '%' || #{search, jdbcType=VARCHAR} || '%'
+        		AND code = #{code, jdbcType=VARCHAR}
         		ORDER BY seq_id DESC
         	) t
         	WHERE ROWNUM <= #{endRow, jdbcType=INTEGER}
@@ -55,41 +61,56 @@
     ]]>
 </select>
 
-<insert id="bannerDao.insertbanner" parameterType="com.main.vo.BannerVo">
+<insert id="bannerDao.insertbanner" parameterType="com.main.vo.BannerVo" useGeneratedKeys="false" keyProperty="seq_id">
+    <selectKey keyProperty="seq_id" resultType="int" order="AFTER">
+        SELECT BANNER_SEQ.CURRVAL FROM DUAL
+    </selectKey>
     INSERT INTO banner_table (
         seq_id
+        , product_seq_id
         , redate
         , banner_img
         , banner_name
         , banner_yn
+        , banner_area1
         , banner_area2
         , user_id
         , land_url
         , code
+        , sale
     ) VALUES (
         BANNER_SEQ.NEXTVAL
+        , #{product_seq_id, jdbcType=VARCHAR}
         , SYSDATE
         , #{banner_img, jdbcType=VARCHAR}
         , #{banner_name, jdbcType=VARCHAR}
         , #{banner_yn, jdbcType=VARCHAR}
+        , #{banner_area1, jdbcType=VARCHAR}
         , #{banner_area2, jdbcType=VARCHAR}
         , #{user_id, jdbcType=VARCHAR}
         , #{land_url, jdbcType=VARCHAR}
         , #{code, jdbcType=VARCHAR}
+        , #{sale, jdbcType=VARCHAR}
     )
 </insert>
 
 	<select id="bannerDao.selectbannerdetail" resultMap="bannervo">
-		select
-			seq_id
-			, banner_name
-			, banner_img
-			, banner_area1
-			, banner_area2
-			, land_url
-			, banner_yn
-		from banner_table
-		where seq_id = #{seq_id, jdbcType=VARCHAR}
+		<![CDATA[
+			SELECT
+			    b.seq_id,
+			    b.banner_name,
+			    b.banner_img,
+			    b.banner_area1,
+			    b.banner_area2,
+			    b.land_url,
+			    b.banner_yn,
+			    b.sale,
+			    p.product_name
+			FROM
+			    banner_table b
+			LEFT JOIN product_table p ON b.product_seq_id = p.seq_id
+			WHERE b.seq_id = #{seq_id, jdbcType=VARCHAR}
+		]]>
 	</select>
 	
 	<update id="bannerDao.bannerupdate">
@@ -107,4 +128,48 @@
 	    DELETE FROM banner_table
 	    WHERE seq_id = #{seq_id}
 	</delete>
+	<delete id="bannerDao.coupondelete">
+	    DELETE FROM banner_table
+	    WHERE seq_id = #{seq_id}
+	</delete>
+	
+	<select id="bannerDao.selectCouponList" parameterType="java.util.HashMap" resultMap="bannervo">
+    <![CDATA[
+	    SELECT
+	        p.seq_id,
+	        p.product_name,
+	        p.code,
+	        b.seq_id,
+	        b.product_seq_id,
+	        b.banner_name,
+	        b.banner_img,
+	        b.banner_yn,
+	        b.user_id,
+	        b.redate,
+	        b.code,
+	        b.sale
+	    FROM
+	        product_table p
+	        LEFT JOIN banner_table b ON p.seq_id = b.product_seq_id
+    ]]>
+	</select>
+	
+	<update id="bannerDao.couponupdate">
+	    <![CDATA[
+	        UPDATE banner_table
+	        SET
+	            banner_name = #{banner_name, jdbcType=VARCHAR}, 
+	            banner_img = COALESCE(#{banner_img, jdbcType=VARCHAR}, banner_img),
+	            sale = #{sale, jdbcType=VARCHAR},
+	            product_seq_id = #{product_seq_id, jdbcType=INTEGER},
+	            banner_yn = #{banner_yn, jdbcType=VARCHAR}
+	        WHERE seq_id = #{seq_id, jdbcType=INTEGER}
+	    ]]>
+	</update>
+	
+<!-- 	<update id="bannerDao.updatecoupon" parameterType="java.util.Map"> -->
+<!-- 	    UPDATE BANNER_TABLE -->
+<!-- 	    SET product_seq_id = #{product_seq_id}, -->
+<!-- 	    WHERE seq_id = #{seq_id, jdbcType=VARCHAR} -->
+<!-- 	</update> -->
 </mapper>

@@ -13,9 +13,16 @@ public interface BannerService {
 
 	int insertbanner(BannerVo bannervo);
 
-	BannerVo selectbannerdetail(String seq_id);
+	BannerVo selectbannerdetail(Integer seq_id);
 
 	void bannerupdate(BannerVo bannervo);
 
-	String bannerdelete(String seq_id);
+	String bannerdelete(Integer seq_id);
+
+	List<BannerVo> selectCouponList(Map<String, Object> map);
+
+	void couponupdate(BannerVo bannervo);
+
+	void coupondelete(Integer seq_id);
+
 }

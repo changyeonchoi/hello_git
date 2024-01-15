@@ -6,6 +6,7 @@
 
 <resultMap type="com.main.vo.ProductVo" id="productvo">
 	<result property="seq_id" column="seq_id"/>
+	<result property="product_seq_id" column="product_seq_id"/>
 	<result property="banner_title" column="banner_title"/>
 	<result property="product_name" column="product_name"/>
 	<result property="file_img" column="file_img" javaType="java.lang.String" jdbcType="VARCHAR"/>
@@ -26,16 +27,16 @@
 	    SELECT COUNT(*) FROM product_table
 	    WHERE
 	        product_name LIKE '%' || #{search, jdbcType=VARCHAR} || '%'
-	        AND
+	    AND
 	        code = #{code, jdbcType=VARCHAR}
 	</select>
-    
+    <!-- 상품 삭제 -->
     <delete id="productDao.deletefashion">
 	    DELETE FROM product_table
 	    WHERE seq_id = #{seq_id}
 	</delete>
 
-	<!-- fashion -->
+	<!-- code별 list -->
 	<select id="productDao.selectFashionList" parameterType="java.util.HashMap" resultMap="productvo">
         <![CDATA[
         SELECT *
@@ -146,5 +147,19 @@
 	        detail_url = #{detail_url, jdbcType=VARCHAR}
 	    WHERE seq_id = #{seq_id, jdbcType=VARCHAR}
 	</update>
-
+	
+	<update id="productDao.updatecoupon" parameterType="java.util.Map">
+	    UPDATE PRODUCT_TABLE
+	    SET coupon_seq_id = #{coupon_seq_id},
+	    sale_detail = 'Y'
+	    WHERE seq_id = #{seq_id, jdbcType=VARCHAR}
+	</update>
+	
+<!-- 	<update id="productDao.productnameupdate"> -->
+<!-- 	    UPDATE product_table -->
+<!-- 	    SET -->
+<!-- 	        product_name = #{product_name, jdbcType=VARCHAR} -->
+<!-- 	    WHERE seq_id = #{seq_id, jdbcType=VARCHAR} -->
+<!-- 	</update> -->
+	
 </mapper>

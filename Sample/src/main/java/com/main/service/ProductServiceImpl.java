@@ -42,13 +42,13 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public ProductVo selectfashiondetail(String seq_id) {
+	public ProductVo selectfashiondetail(Integer seq_id) {
 		// TODO Auto-generated method stub
 		return productDao.selectfashiondetail(seq_id);
 	}
 
 	@Override
-	public String deletefashion(String seq_id) {
+	public String deletefashion(Integer seq_id) {
 		// TODO Auto-generated method stub
 		return productDao.deletefashion(seq_id);
 	}
@@ -63,5 +63,23 @@ public class ProductServiceImpl implements ProductService {
 	public void updatemakeup(ProductVo productvo) {
 		// TODO Auto-generated method stub
 		productDao.updatemakeup(productvo);
+	}
+
+//	@Override
+//	public void updatecoupon(ProductVo productvo) {
+//		// TODO Auto-generated method stub
+//		productDao.updatecoupon(productvo);
+//	}
+
+	@Override
+	public void updatecoupon(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		productDao.updatecoupon(map);
+	}
+
+	@Override
+	public void productnameupdate(ProductVo productvo) {
+		// TODO Auto-generated method stub
+		productDao.productnameupdate(productvo);
 	}
 }

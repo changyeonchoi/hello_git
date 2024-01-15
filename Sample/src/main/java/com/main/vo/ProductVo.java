@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProductVo {
 	
 	//pk
-	private String seq_id;
+	private Integer seq_id;
 	//타이틀
 	private String banner_title;
 	//상품명
@@ -44,9 +44,40 @@ public class ProductVo {
 	
 	private int rnum;
 	
+	private String sale_detail;
+	
+	private String banner_name;
+	
+	private String product_seq_id;
+	
+	private Integer banner_seq_id;
 	
 	
 	
+	public Integer getBanner_seq_id() {
+		return banner_seq_id;
+	}
+	public void setBanner_seq_id(Integer banner_seq_id) {
+		this.banner_seq_id = banner_seq_id;
+	}
+	public String getProduct_seq_id() {
+		return product_seq_id;
+	}
+	public void setProduct_seq_id(String product_seq_id) {
+		this.product_seq_id = product_seq_id;
+	}
+	public String getBanner_name() {
+		return banner_name;
+	}
+	public void setBanner_name(String banner_name) {
+		this.banner_name = banner_name;
+	}
+	public String getSale_detail() {
+		return sale_detail;
+	}
+	public void setSale_detail(String sale_detail) {
+		this.sale_detail = sale_detail;
+	}
 	public int getRnum() {
 		return rnum;
 	}
@@ -111,10 +142,10 @@ public class ProductVo {
 	public void setFilePath(String file_Path) {
 		this.file_Path = file_Path;
 	}
-	public String getSeq_id() {
+	public Integer getSeq_id() {
 		return seq_id;
 	}
-	public void setSeq_id(String seq_id) {
+	public void setSeq_id(Integer seq_id) {
 		this.seq_id = seq_id;
 	}
 	public String getBanner_title() {
@@ -193,11 +224,16 @@ public class ProductVo {
 	
 	@Override
 	public String toString() {
-		return "FashionVo [seq_id=" + seq_id + ", banner_title=" + banner_title + ", product_name=" + product_name
+		return "ProductVo [seq_id=" + seq_id + ", banner_title=" + banner_title + ", product_name=" + product_name
 				+ ", file_img=" + file_img + ", product_amount=" + product_amount + ", delivery_fee=" + delivery_fee
 				+ ", company_name=" + company_name + ", company_phone=" + company_phone + ", detail_img=" + detail_img
 				+ ", detail_url=" + detail_url + ", company_yn=" + company_yn + ", code=" + code + ", user_id="
-				+ user_id + ", regdate=" + regdate + ", file_Path=" + file_Path + ", detailPath=" + detailPath + "]";
+				+ user_id + ", regdate=" + regdate + ", file_Path=" + file_Path + ", detailPath=" + detailPath
+				+ ", rnum=" + rnum + ", sale_detail=" + sale_detail + ", banner_name=" + banner_name
+				+ ", product_seq_id=" + product_seq_id + ", banner_seq_id=" + banner_seq_id + "]";
 	}
 
+
+	
+	
 }

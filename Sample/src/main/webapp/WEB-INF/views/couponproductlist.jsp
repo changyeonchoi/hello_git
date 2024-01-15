@@ -7,8 +7,27 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>banner</title>
+<title>Fashion</title>
 <style type="text/css">
+	#listButton {
+        background-color: white; /* 배경색을 흰색으로 설정 */
+        color: black; /* 글자색을 검정색으로 설정 */
+        padding: 10px 20px; /* 안쪽 여백 설정 */
+        font-size: 16px; /* 글자 크기 설정 */
+        border: 1px solid black; /* 테두리 설정 */
+/*         border-radius: 5px; /* 모서리를 둥글게 만듦 */ */
+        cursor: pointer; /* 커서를 포인터로 변경하여 버튼임을 나타냄 */
+    }
+    .coupon-button {
+        background-color: black;
+        color: white;
+        width: 160px; /* 너비 조절 */
+        height: 40px; /* 높이 조절 */
+    }
+    .gray-button {
+        background-color: gray !important;
+        color: black !important;
+    }
 	.center-div {
     	width: 100%;
     	text-align: center;
@@ -159,68 +178,96 @@
 </head>
 <body>
 	<div id="wapper">
-		<!--헤더시작-->
-		<header>
-			<div class="menu">
-    		<h3><a href="fashionlist">상품관리</a></h3>
-    		<h3><a href="bannerlist" class="red-text">배너관리</a></h3>
-    		<h3><a href="adminlist">사용자관리</a></h3>
-			</div>
-		</header>
-		<!--네비게이션-->
-		<nav>
-			<div class="menu-items">
-    			<h3>배너관리</h3>
-    			<h5><a href="bannerlist" class="red-text">메인빅배너 관리</a></h5>		
-    			<h5><a href="couponlist">쿠폰 관리</a></h5>
-			</div>
-		</nav>
 		<!--콘텐츠부분-->
 		<section>
 			<div class="section-header">
-        		<h3>메인빅배너 리스트 목록</h3>
+        		<h3>쿠폰 연동상품 등록</h3><br><br><br>
+	                <select class="input_text_selected" id="banner_area2" onchange="getProductList()">
+						<option value="#">===선택===</option>
+						<option value="fashion">Fashion</option>
+						<option value="makeup">Make Up</option>
+						<option value="accessory">Accessory</option>
+	        		</select>
+	        		<div id="productList"></div>
         			<div class="underline-input">
-            			<input type="text" id="searchInput" placeholder="배너명을 입력하세요" class="input-field"/>
+            			<input type="text" id="searchInput" placeholder="제목을 입력해주세요" class="input-field"/>
             			<button onclick="goSearch()" class="search-button"></button>
         			</div>
     		</div>
 		<table border="1" id="tableContainer">
     <tr>
         <th>NO</th>
-        <th>등록일</th>
-        <th>배너명</th>
-        <th>노출여부</th>
-        <th>등록자ID</th>
-        <th>영역2</th>
+        <th>제목</th>
+        <th>가져오기</th>
+        <th>매핑 쿠폰명</th>
     </tr>
 
-    <c:forEach var="banner" items="${banner}" varStatus="status">
-        <tr>
-            <td>${status.index + 1}</td>
-            <td>
-            <fmt:parseDate value="${banner.redate}" var="redate" pattern="yyyy-mm-dd"/>
-            <fmt:formatDate value="${redate}" pattern="yyyy.mm.dd"/>
-            </td>
-            <td>
-            <a href="#" class="detail-link" data-seq-id="${banner.seq_id}">
-                ${banner.banner_name}
-            </a>
-            </td>
-            <td>${banner.banner_yn}</td>
-            <td>${banner.user_id}</td>
-            <td>${banner.banner_area2}</td>
-        </tr>
-    </c:forEach>
+	<c:forEach var="coupon" items="${CouponProductList}" varStatus="status">
+	    <tr>
+	        <td>${coupon.rnum}</td>
+	        <td>
+	            <a href="#" class="detail-link" data-seq-id="${coupon.seq_id}">
+	                ${coupon.product_name}
+	            </a>
+	        </td>
+	        <td>
+				<button type="button" class="coupon-button"
+				        data-product-seq-id="${coupon.seq_id}"
+				        onclick="selectProductAndClose(${coupon.seq_id})"
+				        ${not empty coupon.banner_name ? 'disabled' : ''}>
+				    가져오기
+				</button>
+	        </td>
+	        <td>${coupon.banner_name}</td>
+	    </tr>
+	</c:forEach>
 		</table>
-		<div class="center-div">${navigation}</div>
-    		<div style="text-align: right; float: right;">
-            	<button class="custom-button" id="insertButton">등록</button>
-            </div>
+		<div class="center-div">${navigation}</div><br>
+            <div style="text-align: center; float: center;">
+    			<button id="listButton">취소</button>
+			</div>
 		</section>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script>
-    // jQuery를 사용하여 클릭 이벤트 처리
+    function selectProductAndClose(seq_id) {
+        // 부모 창에 접근
+        var parentWindow = window.opener;
+
+        // 필요한 동작 수행 (예: seq_id 값을 부모 창으로 전달)
+        if (parentWindow && seq_id) {
+            parentWindow.handleSelectedProduct(seq_id);
+        }
+
+        // 현재 창 닫기
+        window.close();
+    }
+    
+    $("#listButton").click(function() {
+        // 목록 페이지로 이동
+        window.close(); // 목록 페이지 URL로 변경해주세요
+    });
+
+    function getProductList() {
+    	
+        var selectedValue = $("#banner_area2").val();
+
+        $.ajax({
+            type: "GET",
+            url: "/couponproductlist",
+            contentType: "application/json",
+            data: {
+                product_code: selectedValue
+            },
+            success: function(response) {
+                updateTable(response, selectedValue); // 선택된 값을 함수에 전달
+            },
+            error: function(error) {
+                console.error("Error fetching product list: " + error);
+            }
+        });
+    }
+    
     $(document).ready(function() {
         // 클래스가 detail-link인 요소를 클릭했을 때의 동작 정의
         $('.detail-link').click(function() {
@@ -230,30 +277,54 @@
             console.log("seqId" + seqId);
             
             // seq_id 값을 사용하여 detail 페이지로 이동
-            window.location.href = '/bannerdetail?seq_id=' + seqId;
+//             window.location.href = '/coupondetail?seq_id=' + seqId;
         });
     });
-//     $(document).on('click', '#tableContainer td:nth-child(3)', function() {
-//         var user_id = $(this).text(); // 클릭한 행의 user_id 값을 가져옴
-//         window.location.href = '/adminupdate?user_id=' + banner_title; // adminupdate.jsp로 이동하면서 user_id를 파라미터로 전달
-//     });
-
-    $("#insertButton").click(function() {
-    	window.location.href = '/bannerinsert'; 
-    });
     
-    function goSearch(){
-    	let search = $("#searchInput").val();
-    	console.log("search" + search);
-    	$(location).attr('href',"<c:url value='/bannerlist?search="+search+"'/>");
+    $(document).ready(function() {
+        $(".coupon-button").each(function() {
+            // 각 버튼에 대해 coupon_name 값을 확인하고 비어있으면 활성화
+            var couponName = $(this).closest('tr').find('td:eq(3)').text().trim();
+            if (couponName === '') {
+                $(this).prop('disabled', false);
+            } else {
+                $(this).prop('disabled', true);
+                $(this).addClass('gray-button');
+            }
+        });
+
+        $(".coupon-button").click(function() {
+            // 클릭된 버튼 가져오기
+            var clickedButton = $(this);
+
+            // 클릭된 버튼을 딤(Dim) 처리하고 비활성화(disable)하기
+            clickedButton.prop('disabled', true); // 버튼 비활성화
+            clickedButton.css('opacity', '0.5'); // 투명도 조절 (옵션)
+
+            // 여기에 추가적인 로직을 추가하십시오.
+        });
+    });
+
+    function updateTable(newTableHtml, selectedValue) {
+        // 기존 테이블 지우기
+        $("#wapper").empty();
+        
+        // 새로운 데이터로 테이블 그리기
+        $("#wapper").html(newTableHtml);
+
+        // 선택된 값으로 설정
+        $("#banner_area2").val(selectedValue);
     }
-    function goPage(pageNo){
-    	let searchInputValue = $("#searchInput").val();
-    	$(location).attr('href',"<c:url value='/bannerlist?pageNo="+pageNo+"'/>");
-    }
-    function golist() {
-        // Fashion 링크 클릭 시 검색어를 제외하고 이동
-        $(location).attr('href', "<c:url value='/bannerlist'/>");
+    
+    function goSearch() {
+        let search = $("#searchInput").val();
+        let code = $("#banner_area2").val(); // 추가된 부분: code 값 가져오기
+
+        // URL 생성
+        let url = "<c:url value='/couponproductlist'/>?search=" + search + "&code=" + code;
+
+        // 페이지 이동
+        $(location).attr('href', url);
     }
     </script>
 </body>

@@ -31,12 +31,12 @@ public class ProductDao {
 		return sqlSession.insert("productDao.insertfashion", fashionvo);
 	}
 
-	public ProductVo selectfashiondetail(String seq_id) {
+	public ProductVo selectfashiondetail(Integer seq_id) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("productDao.selectfashiondetail",seq_id);
 	}
 
-	public String deletefashion(String seq_id) {
+	public String deletefashion(Integer seq_id) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("productDao.deletefashion", seq_id);
 	}
@@ -53,6 +53,14 @@ public class ProductDao {
 	public void updatemakeup(ProductVo productvo) {
 		// TODO Auto-generated method stub
 		sqlSession.update("productDao.updatemakeup", productvo);
+	}
+	public void updatecoupon(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		sqlSession.update("productDao.updatecoupon", map);
+	}
+	public void productnameupdate(ProductVo productvo) {
+		// TODO Auto-generated method stub
+		sqlSession.update("productDao.productnameupdate", productvo);
 	}
 
 }

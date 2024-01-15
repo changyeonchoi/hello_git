@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.main.dao.BannerDao;
 import com.main.vo.BannerVo;
+import com.main.vo.ProductVo;
 
 @Service(value = "bannerservice")
 public class BannerServiceImpl implements BannerService {
@@ -39,7 +40,7 @@ public class BannerServiceImpl implements BannerService {
 	}
 
 	@Override
-	public BannerVo selectbannerdetail(String seq_id) {
+	public BannerVo selectbannerdetail(Integer seq_id) {
 		// TODO Auto-generated method stub
 		return bannerDao.selectbannerdetail(seq_id);
 	}
@@ -51,9 +52,31 @@ public class BannerServiceImpl implements BannerService {
 	}
 
 	@Override
-	public String bannerdelete(String seq_id) {
+	public String bannerdelete(Integer seq_id) {
 		// TODO Auto-generated method stub
 		return bannerDao.bannerdelete(seq_id);
+	}
+
+	@Override
+	public List<BannerVo> selectCouponList(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		List<BannerVo> CouponProductList = null;
+		
+		CouponProductList = bannerDao.selectCouponList(map);
+		
+		return CouponProductList;
+	}
+
+	@Override
+	public void couponupdate(BannerVo bannervo) {
+		// TODO Auto-generated method stub
+		bannerDao.couponupdate(bannervo);
+	}
+
+	@Override
+	public void coupondelete(Integer seq_id) {
+		// TODO Auto-generated method stub
+		bannerDao.coupondelete(seq_id);
 	}
 
 

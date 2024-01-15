@@ -32,11 +32,6 @@ public class MemberController {
 	@Autowired
 	PageNavigigationService pagenavigigationservice;
 
-	@RequestMapping("/save")
-	public String save() {
-		return "save";
-	}
-	
 	@RequestMapping("/signup")
 	public String signup() {
 		return "signup";

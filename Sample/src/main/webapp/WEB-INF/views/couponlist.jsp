@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>banner</title>
+<title>coupon</title>
 <style type="text/css">
 	.center-div {
     	width: 100%;
@@ -171,14 +171,14 @@
 		<nav>
 			<div class="menu-items">
     			<h3>배너관리</h3>
-    			<h5><a href="bannerlist" class="red-text">메인빅배너 관리</a></h5>		
-    			<h5><a href="couponlist">쿠폰 관리</a></h5>
+    			<h5><a href="bannerlist">메인빅배너 관리</a></h5>		
+    			<h5><a href="couponlist" class="red-text">쿠폰 관리</a></h5>
 			</div>
 		</nav>
 		<!--콘텐츠부분-->
 		<section>
 			<div class="section-header">
-        		<h3>메인빅배너 리스트 목록</h3>
+        		<h3>쿠폰 리스트 목록</h3>
         			<div class="underline-input">
             			<input type="text" id="searchInput" placeholder="배너명을 입력하세요" class="input-field"/>
             			<button onclick="goSearch()" class="search-button"></button>
@@ -191,24 +191,22 @@
         <th>배너명</th>
         <th>노출여부</th>
         <th>등록자ID</th>
-        <th>영역2</th>
     </tr>
 
-    <c:forEach var="banner" items="${banner}" varStatus="status">
+    <c:forEach var="coupon" items="${coupon}" varStatus="status">
         <tr>
             <td>${status.index + 1}</td>
             <td>
-            <fmt:parseDate value="${banner.redate}" var="redate" pattern="yyyy-mm-dd"/>
+            <fmt:parseDate value="${coupon.redate}" var="redate" pattern="yyyy-mm-dd"/>
             <fmt:formatDate value="${redate}" pattern="yyyy.mm.dd"/>
             </td>
             <td>
-            <a href="#" class="detail-link" data-seq-id="${banner.seq_id}">
-                ${banner.banner_name}
+            <a href="#" class="detail-link" data-seq-id="${coupon.seq_id}">
+                ${coupon.banner_name}
             </a>
             </td>
-            <td>${banner.banner_yn}</td>
-            <td>${banner.user_id}</td>
-            <td>${banner.banner_area2}</td>
+            <td>${coupon.banner_yn}</td>
+            <td>${coupon.user_id}</td>
         </tr>
     </c:forEach>
 		</table>
@@ -230,7 +228,7 @@
             console.log("seqId" + seqId);
             
             // seq_id 값을 사용하여 detail 페이지로 이동
-            window.location.href = '/bannerdetail?seq_id=' + seqId;
+            window.location.href = '/coupondetail?seq_id=' + seqId;
         });
     });
 //     $(document).on('click', '#tableContainer td:nth-child(3)', function() {
@@ -239,21 +237,20 @@
 //     });
 
     $("#insertButton").click(function() {
-    	window.location.href = '/bannerinsert'; 
+    	window.location.href = '/couponinsert'; 
     });
     
     function goSearch(){
     	let search = $("#searchInput").val();
-    	console.log("search" + search);
-    	$(location).attr('href',"<c:url value='/bannerlist?search="+search+"'/>");
+    	$(location).attr('href',"<c:url value='/couponlist?search="+search+"'/>");
     }
     function goPage(pageNo){
     	let searchInputValue = $("#searchInput").val();
-    	$(location).attr('href',"<c:url value='/bannerlist?pageNo="+pageNo+"'/>");
+    	$(location).attr('href',"<c:url value='/couponlist?pageNo="+pageNo+"'/>");
     }
     function golist() {
         // Fashion 링크 클릭 시 검색어를 제외하고 이동
-        $(location).attr('href', "<c:url value='/bannerlist'/>");
+        $(location).attr('href', "<c:url value='/couponlist'/>");
     }
     </script>
 </body>

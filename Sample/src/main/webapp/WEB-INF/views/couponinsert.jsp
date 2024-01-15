@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>banner</title>
+<title>coupon</title>
 <style type="text/css">
 	body {
 		text-align: center;
@@ -56,18 +56,18 @@
     .menu h3 a.red-text {
         color: red; /* 특정 클래스가 적용된 경우에만 텍스트 색상을 빨간색으로 변경합니다. */
     }
-    .red-text {
-    	color: red;
-    }
     .menu h3 a:hover {
         color: red; /* 마우스를 올렸을 때 텍스트 색상을 빨간색으로 변경합니다. */
+    }
+    .red-text {
+    	color: red;
     }
 	.black-cell {
   		background-color: black;
     	color: white;
     	text-align: center;
 	}
-	.leftButton {
+	#listButton {
         background-color: white; /* 배경색을 흰색으로 설정 */
         color: black; /* 글자색을 검정색으로 설정 */
         padding: 10px 20px; /* 안쪽 여백 설정 */
@@ -86,7 +86,12 @@
         cursor: pointer; /* 커서를 포인터로 변경하여 버튼임을 나타냄 */
         margin-bottom: 10px; /* 하단 마진 설정 */
     }
-    .filebox {
+    .input_text {
+/*     	text-align: center; */
+    	width: 90%; 
+    	margin: 0 auto;
+    }
+        .filebox {
         position: relative;
         display: flex;
         align-items: center;
@@ -170,170 +175,150 @@
 		<!--네비게이션-->
 		<nav>
 			<div class="menu-items">
-    			<h2>메인빅매너 상세보기</h2>
-    				    <form action="fashionupdate" method="post" enctype="multipart/form-data">
+    			<h2>쿠폰 등록하기</h2>
+        				<form action="couponenroll" method="post" enctype="multipart/form-data">
         				<div class="red-text">*한 개의 이미지만 등록 가능합니다.</div><br>
     					<table border="1" style="width: 70%;">
         					<tr>
-                				<td class="black-cell">배너명*</td>
-                        		<td><input type="text" class="input_text" id="banner_name" value="${banner.banner_name}" maxlength="15"></td>
+                				<td class="black-cell">배너명*</td>	
+                        		<td><input type="text" class="input_text" id="banner_name" value="" maxlength="15"></td>
            					</tr>
             				<tr>
-                				<td class="black-cell">이미지등록*</td>
+                				<td class="black-cell">이미지 등록*</td>
                        			<td>
 									<div class="filebox">
-									    <input class="upload-name" value="${banner.banner_img}" placeholder="파일선택" readonly>
+									    <input class="upload-name" value="파일선택" placeholder="파일선택">
 									    <label for="banner_img" class="file-label">이미지 찾기</label> 
-    									<input type="file" id="banner_img" value="${banner.banner_img}" accept=".png, .jpeg, .jpg" data-width="2000" data-height="500">
+    									<input type="file" id="banner_img" accept=".png, .jpeg, .jpg" data-width="2000" data-height="500">
 									    <span class="upload-status"></span>
 									</div>
-                       			</td>
-            				</tr>
-            				<tr>
-                				<td class="black-cell">노출영역*</td>
-                				<td>	                				
-                					<select class="input_text_selected" id="banner_area1">
-									    <option value="PC">PC</option>
-	        						</select>
-                					<select class="input_text_selected" id="banner_area2">
-									    <option value="Home">Home</option>
-									    <option value="Fashion">Fashion</option>
-									    <option value="Make Up">Make Up</option>
-									    <option value="Accessory">Accessory</option>
-	        						</select>
-	        					</td>
-            				</tr>
-            				<tr>
-                				<td class="black-cell">랜딩URL*</td>
-                        		<td><input type="text" class="input_text" id="land_url" value="${banner.land_url}"></td>
-            				</tr>
-            				<tr>
-                				<td class="black-cell">노출여부*</td>
-								<td>
-								    <label><input type="radio" name="banner_yn" id="radioY" value="노출">노출</label>
-								    <label><input type="radio" name="banner_yn" id="radioN" value="미노출">미노출</label>
 								</td>
             				</tr>
-    					</table><br>
+            				<tr>
+                				<td class="black-cell">연동상품*</td>
+        						<td><button type="button" onclick="registerProduct()">상품등록</button></td>
+            				</tr>
+            				<tr>
+                				<td class="black-cell">쿠폰금액*</td>
+                        		<td><input type="text" class="input_text" id="sale" value=""></td>
+            				</tr>
+            				<tr>
+    						<td class="black-cell">노출여부*</td>
+   								<td>
+        						<label><input type="radio" name="banner_yn" value="노출" checked>노출</label>
+        						<label><input type="radio" name="banner_yn" value="미노출">미노출</label>
+    							</td>
+            				</tr>
+    					</table>
+            				<input type="hidden" id="selectedProductSeqId" value="" />
     					</form>
-    				<!-- 삭제 버튼 -->
+    					<br>
+    				 <!-- 삭제 버튼 -->
                 	<div style="text-align: left; float: left;">
-    					<button id="deleteButton" class="leftButton">삭제</button>
+    					<button id="listButton">취소</button>
 					</div>
-    				 <!-- 목록 버튼 -->
-                	<div style="text-align: left; float: left; margin-left: 10px">
-    					<button id="listButton" class="leftButton">취소</button>
-					</div>
-                	<!-- 등록 버튼 -->
+                <!-- 목록 버튼 -->
                 	<div style="text-align: right; float: right;">
-    					<button class="custom-button" id="saveButton">저장</button>
+    					<button class="custom-button" id="saveButton">등록</button>
 					</div>
 			</div>
 		</nav>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script>
-    $(document).ready(function() {
+	<script>
+	
+	// 전역 변수 선언
+	var product_seq_id;
+	
+	console.log("전역변수 값 : " + product_seq_id);
 
-        // 라디오 버튼의 변경 이벤트 리스너 추가
-        $("input[name='banner_yn']").change(function() {
-            // 선택된 라디오 버튼의 값을 가져와서 출력
-            var selectedValue = $("input[name='banner_yn']:checked").val();
-            console.log("선택된 값: " + selectedValue);
-        });
-        // 목록 버튼 클릭 시 실행될 함수
-        $("#listButton").click(function() {
-            // fashionlist로 이동
-            window.location.href = '/bannerlist';
-        });
+	function handleSelectedProduct(seq_id) {
+	    // 로그에 출력하여 확인
+	    console.log("Selected product seq_id: " + seq_id);
 
-        var valueFromDatabase = "${banner.banner_yn}"; // 또는 "N"
+	    // 전역 변수에 할당
+	    product_seq_id = seq_id;
+	}
+	
+$(document).ready(function() {
+	
+	$("#sale").on("input", function() {
+        // 현재 입력된 값
+        var inputValue = $(this).val();
 
-        // 디비에서 가져온 값에 따라 라디오 버튼 체크
-        $("#radioY").prop('checked', (valueFromDatabase === "노출"));
-        $("#radioN").prop('checked', (valueFromDatabase === "미노출"));
+        // 입력된 값에서 숫자와 띄어쓰기만 남기고 나머지 문자 제거
+        var sanitizedValue = inputValue.replace(/[^0-9\s]/g, '');
 
-        // 삭제 버튼 클릭 시 실행될 함수
-        $('#deleteButton').click(function () {
-            // 확인 메시지 표시
-            var confirmed = confirm('삭제하시겠습니까?');
-            if (confirmed) {
-                // 삭제 요청을 서버로 보냄
-                $.ajax({
-                    type: 'POST', 
-                    url: '/bannerdelete',  // 삭제 기능을 처리하는 컨트롤러의 URL로 수정
-                    data: {
-                        seq_id: '${banner.seq_id}'  // 삭제할 배너 타이틀을 전송
-                    },
-                    success: function (result) {
-                            alert('삭제되었습니다.');
-                            // 삭제 성공 시 이동할 페이지로 리다이렉트 (예: 목록 페이지)
-                            window.location.href = '/bannerlist';
-                    },
-                    error: function () {
-                        alert('서버 오류로 삭제에 실패했습니다.');
-                    }
-                });
-            }
-        });
-        
-        
-        $('#saveButton').click(function () {
-		var banner_name = $("#banner_name").val();
-        var banner_img = $("#banner_img")[0].files[0]; // Get the file object
-        var banner_area1 = $("#banner_area1").val();
-        var banner_area2 = $("#banner_area2").val();
-        var land_url = $("#land_url").val();
-        var banner_yn = $("input[name='banner_yn']:checked").val();
-        
-        if (!banner_name || !banner_area1 || !banner_area2 || !land_url || !banner_yn) {
-            alert("모든 항목을 입력해주세요.");
-            return; // 필수 입력 필드 중 하나라도 빈 값이면 함수 종료
-        }
-        
-        var formData = new FormData();
-        formData.append("banner_name", banner_name);
-        formData.append("banner_img", banner_img);
-        formData.append("banner_area1", banner_area1);
-        formData.append("banner_area2", banner_area2);
-        formData.append("land_url", land_url);
-        formData.append("banner_yn", banner_yn);
-        formData.append('seq_id', '${banner.seq_id}');
+        // 띄어쓰기를 제거하여 숫자만 남김
+        var numericValue = sanitizedValue.replace(/\s/g, '');
 
-	        $.ajax({
-	            url: '/bannerupdate',
-	            method: 'POST',
-	            data: formData,
-	            dataType: "text",
-	            contentType: false,
-	            processData: false,
-	            success: function(response) {
-	                // 등록 성공 시 알림 표시 후 목록 페이지로 이동
-	                alert('저장되었습니다.');
-	                window.location.href = '/bannerlist'; // 등록 후 이동할 페이지 URL로 변경해주세요
-	            },
-	            error: function(error) {
-	                // 등록 실패 시 알림 표시
-	                alert('에러에러');
-	                console.error('Error:', error);
-	            }
-	        });
-        });
+        // 숫자에 콤마 추가하여 표시
+        var formattedValue = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+        // 제한된 값을 다시 입력 필드에 설정
+        $(this).val(formattedValue);
+    });
+	
+    // 라디오 버튼의 변경 이벤트 리스너 추가
+    $("input[name='banner_yn']").change(function() {
+        // 선택된 라디오 버튼의 값을 가져와서 출력
+        var selectedValue = $("input[name='banner_yn']:checked").val();
     });
     
-    $("#banner_img").on('change',function(){
-    	  var fileName = $("#banner_img").val();
-    	  $(".upload-name").val(fileName);
-    	  $(".upload-status").text("*업로드 완료");
-    });  
-    
-    $(document).ready(function() {
-        // 가져올 값
-        var existingValue = '${banner.banner_area2}';
-
-        // banner_area 셀렉트 박스에서 해당 값을 가진 옵션을 선택
-        $('#banner_area2').val(existingValue);
+    // 등록 버튼 클릭 시 실행될 함수
+    $("#saveButton").click(function() {
+        // 사용자가 입력한 값들을 가져오기
+        var banner_name = $("#banner_name").val();
+        var banner_img = $("#banner_img")[0].files[0]; 
+        var sale = $("#sale").val();
+        var banner_yn = $("input[name='banner_yn']:checked").val();
         
+       	console.log("product_seq_id" + product_seq_id);
+
+         // 필수 입력 필드 체크
+//         if (!banner_name || !banner_img || !banner_yn ||) {
+//             alert("모든 항목을 입력해주세요.");
+//             return; // 필수 입력 필드 중 하나라도 빈 값이면 함수 종료
+//         }
+        
+        // Create FormData object
+        var formData = new FormData();
+        formData.append("code", "coupon");
+        formData.append("banner_img", banner_img);
+        formData.append("banner_name", banner_name);
+        formData.append("sale", sale);
+        formData.append("banner_yn", banner_yn);
+        formData.append("product_seq_id", product_seq_id);
+
+        // 서버에 데이터를 전송하는 Ajax 호출
+        $.ajax({
+            url: '/couponenroll',
+            method: 'POST',
+            data: formData,
+            dataType: "text",
+            enctype: 'multipart/form-data',
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                // 등록 성공 시 알림 표시 후 목록 페이지로 이동
+                alert('등록되었습니다.');
+                window.location.href = '/couponlist';
+            },
+            error: function(error) {
+                // 등록 실패 시 알림 표시
+                alert('error');
+                console.error('Error:', error);
+            }
+        });
+    });
+
+    // 목록 버튼 클릭 시 실행될 함수
+    $("#listButton").click(function() {
+        // 목록 페이지로 이동
+        window.location.href = '/couponlist'; // 목록 페이지 URL로 변경해주세요
+    });
+    
+    $(document).ready(function () {
         $("#banner_img").on('change', function () {
             var fileInput = this;
             var fileName = fileInput.value;
@@ -374,7 +359,16 @@
             reader.readAsDataURL(fileInput.files[0]);
         });
     });
-     
-    </script>
+});
+
+function registerProduct() {
+    var popupUrl = '/couponproductlist';
+    var popupWindow = window.open(popupUrl, 'couponproductlist', 'width=1000,height=500,scrollbars=yes');
+    if (window.focus) {
+        popupWindow.focus();
+    }
+}
+
+</script>
 </body>
 </html>
