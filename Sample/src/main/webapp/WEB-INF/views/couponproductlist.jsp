@@ -202,25 +202,25 @@
         <th>매핑 쿠폰명</th>
     </tr>
 
-	<c:forEach var="coupon" items="${CouponProductList}" varStatus="status">
-	    <tr>
-	        <td>${coupon.rnum}</td>
-	        <td>
-	            <a href="#" class="detail-link" data-seq-id="${coupon.seq_id}">
-	                ${coupon.product_name}
-	            </a>
-	        </td>
-	        <td>
-				<button type="button" class="coupon-button"
-				        data-product-seq-id="${coupon.seq_id}"
-				        onclick="selectProductAndClose(${coupon.seq_id})"
-				        ${not empty coupon.banner_name ? 'disabled' : ''}>
-				    가져오기
-				</button>
-	        </td>
-	        <td>${coupon.banner_name}</td>
-	    </tr>
-	</c:forEach>
+<c:forEach var="coupon" items="${CouponProductList}" varStatus="status">
+    <tr>
+        <td>${coupon.rnum}</td>
+        <td>
+            <a href="#" class="detail-link" data-seq-id="${coupon.seq_id}">
+                ${coupon.product_name}
+            </a>
+        </td>
+        <td>
+            <button type="button" class="coupon-button"
+                    data-product-seq-id="${coupon.seq_id}"
+                    onclick="selectProductAndClose(${coupon.seq_id}, '${coupon.product_name}')"
+                    ${not empty coupon.banner_name ? 'disabled' : ''}>
+                가져오기
+            </button>
+        </td>
+        <td>${coupon.banner_name}</td>
+    </tr>
+</c:forEach>
 		</table>
 		<div class="center-div">${navigation}</div><br>
             <div style="text-align: center; float: center;">
@@ -230,13 +230,18 @@
 	</div>
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script>
-    function selectProductAndClose(seq_id) {
+    function selectProductAndClose(seq_id, product_name) {
         // 부모 창에 접근
         var parentWindow = window.opener;
 
-        // 필요한 동작 수행 (예: seq_id 값을 부모 창으로 전달)
+        var selectedProduct = {
+            product_name: product_name,
+            // 다른 상품 정보들도 필요에 따라 추가
+        };
+
+        // 필요한 동작 수행 (예: seq_id와 product_name 값을 부모 창으로 전달)
         if (parentWindow && seq_id) {
-            parentWindow.handleSelectedProduct(seq_id);
+            parentWindow.handleSelectedProduct(seq_id, selectedProduct);
         }
 
         // 현재 창 닫기

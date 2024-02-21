@@ -275,10 +275,6 @@ public class BannerController {
 
 	    MemberVo membervo = (MemberVo) request.getSession().getAttribute("membervo");
 
-	    System.out.println("product_seq_id" + product_seq_id);
-	    
-	    System.out.println("banner_name" + banner_name);
-	    
 	    bannervo.setUser_id(membervo.getUser_id());
 	    bannervo.setProduct_seq_id(product_seq_id);
 	    bannervo.setBanner_name(banner_name);
@@ -290,7 +286,6 @@ public class BannerController {
 	    // 1. 배너(쿠폰) 테이블에 쿠폰 정보 추가
 	    bannerservice.insertbanner(bannervo);
 	    
-	    System.out.println("인서트 등록" + bannervo);
 //
 //	    // 2. 등록된 쿠폰의 seq_id 가져오기
 //	    Integer coupon_seq_id = bannervo.getSeq_id();
@@ -333,8 +328,6 @@ public class BannerController {
 	    
 	    code = "coupon";
 	    
-	    System.out.println("product_code" + product_code);
-	    
 	    Map<String, Object> keyword = new HashMap<String, Object>();
     	keyword.put("search", search);
     	keyword.put("code", code);
@@ -365,8 +358,6 @@ public class BannerController {
 
     	model.addAttribute("CouponProductList", CouponProductList);
 
-    	System.out.println(CouponProductList);
-    	
     	model.addAttribute("pageAttribute", map);
 //    	model.addAttribute("productList", productList);
     	model.addAttribute("navigation", navigation);

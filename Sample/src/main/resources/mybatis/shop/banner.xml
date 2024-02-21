@@ -19,7 +19,6 @@
 	<result property="redate" column="redate"/>
 	<result property="code" column="code"/>
 	<result property="land_url" column="land_url"/>
-	<result property="coupon" column="coupon"/>
 </resultMap>
 
 <select id="selectTotalCount" parameterType="java.util.HashMap" resultType="int">

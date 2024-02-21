@@ -159,6 +159,17 @@
     overflow: hidden;
     border: 0;
 }
+        /* CSS 스타일을 사용하여 요소들을 나란히 정렬 */
+        #productDisplay {
+            display: inline-block;
+            margin-right: 10px; /* 원하는 간격으로 조정 */
+        }
+
+        #clearButton {
+            cursor: pointer;
+            color: red;
+            margin-left: 5px;
+        }
 </style>
  
 </head>
@@ -196,7 +207,10 @@
             				</tr>
             				<tr>
                 				<td class="black-cell">연동상품*</td>
-        						<td><button type="button" onclick="registerProduct()">상품등록</button></td>
+        						<td>
+        						<div id="productDisplay"></div>
+        						<button type="button" onclick="registerProduct()" value="">상품등록</button>
+        						</td>
             				</tr>
             				<tr>
                 				<td class="black-cell">쿠폰금액*</td>
@@ -228,17 +242,54 @@
 	<script>
 	
 	// 전역 변수 선언
-	var product_seq_id;
-	
-	console.log("전역변수 값 : " + product_seq_id);
+var product_seq_id;
+var product_name; // 새로운 전역 변수 추가
 
-	function handleSelectedProduct(seq_id) {
-	    // 로그에 출력하여 확인
-	    console.log("Selected product seq_id: " + seq_id);
+function handleSelectedProduct(seq_id, selectedProduct) {
+    // 로그에 출력하여 확인
+    console.log("Selected product seq_id: " + seq_id);
 
-	    // 전역 변수에 할당
-	    product_seq_id = seq_id;
-	}
+    // 전역 변수에 할당
+    product_seq_id = seq_id;
+    product_name = selectedProduct.product_name; // product_name 할당
+
+    // HTML에 값 노출시키기
+    var productDisplay = document.getElementById('productDisplay');
+    productDisplay.innerHTML = product_name;
+
+    // 'X' 버튼 생성
+    createClearButton();
+}
+
+function clearProduct() {
+    // product_name, product_seq_id 값 초기화
+    product_name = "";
+    product_seq_id = null;
+
+    // HTML 내용 지우기
+    var productDisplay = document.getElementById('productDisplay');
+    productDisplay.innerHTML = "";
+
+    // 'X' 버튼 제거
+    removeClearButton();
+}
+
+function createClearButton() {
+    var productDisplay = document.getElementById('productDisplay');
+    var clearButton = document.createElement('span');
+    clearButton.id = 'clearButton';
+    clearButton.textContent = 'X';
+    clearButton.onclick = clearProduct;
+
+    productDisplay.appendChild(clearButton);
+}
+
+function removeClearButton() {
+    var clearButton = document.getElementById('clearButton');
+    if (clearButton) {
+        clearButton.parentNode.removeChild(clearButton);
+    }
+}
 	
 $(document).ready(function() {
 	

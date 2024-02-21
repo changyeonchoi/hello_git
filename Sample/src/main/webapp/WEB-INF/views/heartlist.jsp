@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -139,34 +142,81 @@
 		<section>
 			<div class="section-header">
         		<h3>찜 현황</h3>
-				<select id="product-selection">
+				<select id="product_selection">
             		<option value="most-selected">가장 많이 선택된 상품</option>
             		<option value="least-selected">가장 적게 선택된 상품</option>
         		</select>
     		</div><br>
-			<table>
-        		<tr>
-            		<th>NO</th>
-            		<th>상품명</th>
-            		<th>찜횟수</th>
-        		</tr>
-        		<tr>
-            		<td>1</td>
-            		<td>가을 바람막이</td>
-            		<td>64회</td>
-        		</tr>
-        		<tr>
-            		<td>2</td>
-            		<td>오리털 패딩</td>
-            		<td>34회</td>
-        		</tr>
-        		<tr>
-            		<td>3</td>
-            		<td>럭셔리목걸이</td>
-            		<td>23회</td>
-        		</tr>
-    		</table>
-		</section>
+		<table border="1" id="tableContainer">
+		    <thead>
+		        <tr>
+		            <th>NO</th>
+		            <th>상품명</th>
+		            <th>찜횟수</th>
+		        </tr>
+		    </thead>
+		
+		    <tbody>
+		    	<c:forEach var="heartList" items="${heartList}" varStatus="status">
+		    		<tr>
+		    			<td>${status.index + 1}</td>
+		    			<td>${heartList.product_name}</td>
+		    			<td>${heartList.heart_count}</td>
+		    		</tr>
+		    	</c:forEach>
+		    </tbody>
+		</table>
+	</section>
 	</div>
+	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+	<script>
+    $(document).ready(function() {
+    	$("#product_selection").change(function() {
+        	
+    		var product_selection = $(this).val();
+            
+            var product_selection = JSON.stringify({
+                product_selection: product_selection
+            });
+            
+            console.log("product_selection" + product_selection);
+            
+            $.ajax({
+                type: "post",
+                url: "/heartlist", 
+                data: product_selection,
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                success: function(data) {
+                    // 서버에서 받은 데이터를 처리
+                    console.log("data" + data);
+                 	updateTable(data);
+                },
+                error: function(error) {
+                	console.error('Error:', error);
+                }
+            });
+        });
+        
+        function updateTable(data) {
+            console.log("Received data:", data); // 서버 응답 데이터 확인
+
+            // 테이블 내용 초기화
+            var tbody = $("#tableContainer tbody");
+            tbody.empty();
+
+            // 서버에서 받은 데이터를 이용하여 테이블 업데이트
+            for (var i = 0; i < data.length; i++) {
+                var row = "<tr>" +
+                            "<td>" + (i + 1) + "</td>" +
+                            "<td>" + data[i].product_name + "</td>" +
+                            "<td>" + data[i].heart_count + "</td>" +
+                          "</tr>";
+
+                tbody.append(row);
+            }
+        }
+    });
+	</script>
 </body>
 </html>

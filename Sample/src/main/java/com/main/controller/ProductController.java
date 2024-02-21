@@ -123,6 +123,7 @@ public class ProductController {
 				productvo.setCompany_yn(company_yn);
 				productvo.setCode("fashion");
 				
+				
 				productservice.insertfashion(productvo);
 				
 				returnUrl = "/fashioninsert";

@@ -193,7 +193,7 @@
                 				<td class="black-cell">연동상품*</td>
 								<td id="bannerContainer">
 								  <span id="product_name">${coupon.product_name}</span>
-								  <button id="coupondelete">x</button>
+								  <button id="namedelete">x</button>
 								  <button type="button" onclick="registerProduct()">상품등록</button>
 								</td>
             				</tr>
@@ -245,11 +245,16 @@
     $(document).ready(function() {
     	
         // coupondelete 버튼 클릭 시 이벤트 처리
-        $("#coupondelete").on("click", function (e) {
-          // banner_name 데이터 지우기
-//           $("#bannerContainer").find("#bannerName").text("");
-          $("#bannerContainer span#bannerName").text("");
-        });
+//         $("#namedelete").on("click", function (e) {
+//           // banner_name 데이터 지우기
+// //           $("#bannerContainer").find("#bannerName").text("");
+//           $("#bannerContainer span#bannerName").text("");
+//         });
+        $("#namedelete").on("click", function (e) {
+        // 배너명과 연동상품 초기화
+        $("#product_name").text("");
+        product_seq_id = null; // 전역 변수 초기화
+    	});
 
         // 상품등록 버튼 클릭 시 이벤트 처리 (여기에 실제로 할 일을 구현하세요)
         $("button[onclick='registerProduct']").on("click", function () {
@@ -306,12 +311,10 @@
         var sale = $("#sale").val();
         var banner_yn = $("input[name='banner_yn']:checked").val();
         
-        console.log("product_seq_id" + product_seq_id);
-        
-//         if (!banner_name || !banner_img || !product_name || !sale || !banner_yn) {
-//             alert("모든 항목을 입력해주세요.");
-//             return; // 필수 입력 필드 중 하나라도 빈 값이면 함수 종료
-//         }
+        if (!banner_name || !banner_img || !product_name || !sale || !banner_yn) {
+            alert("모든 항목을 입력해주세요.");
+            return; // 필수 입력 필드 중 하나라도 빈 값이면 함수 종료
+        }
         
         var formData = new FormData();
         formData.append("banner_name", banner_name);
@@ -402,13 +405,33 @@
         });
     });
     
-    function registerProduct() {
-        var popupUrl = '/couponproductlist';
-        var popupWindow = window.open(popupUrl, 'couponproductlist', 'width=1000,height=500,scrollbars=yes');
-        if (window.focus) {
-            popupWindow.focus();
+//     function registerProduct() {
+//         var popupUrl = '/couponproductlist';
+//         var popupWindow = window.open(popupUrl, 'couponproductlist', 'width=1000,height=500,scrollbars=yes');
+//         if (window.focus) {
+//             popupWindow.focus();
+//         }
+//     }
+function registerProduct() {
+    var popupUrl = '/couponproductlist';
+    var popupWindow = window.open(popupUrl, 'couponproductlist', 'width=1000,height=500,scrollbars=yes');
+
+    // 팝업이 닫힐 때 이벤트
+    window.addEventListener('message', function (event) {
+        if (event.origin !== window.origin) {
+            // 보안을 위해 origin을 확인
+            return;
         }
-    }
+
+        // event.data에는 팝업에서 보낸 데이터가 있을 것이라 가정
+        var selectedProduct = event.data;
+
+        // 선택한 상품 정보를 사용하여 product_name 업데이트
+        if (selectedProduct && selectedProduct.product_name) {
+            $("#product_name").text(selectedProduct.product_name);
+        }
+    });
+}
     </script>
 </body>
 </html>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="heartDao">
+
+<resultMap type="com.main.vo.HeartVo" id="heartvo">
+    <result property="seq_id" column="seq_id"/>
+    <result property="user_id" column="user_id"/>
+    <result property="heart" column="heart"/>
+    <result property="heart_count" column="heart_count"/>
+    <result property="product_name" column="product_name"/>
+    <result property="product_selection" column="product_selection"/>
+</resultMap>
+
+	<select id="heartDao.selectHeartList" resultMap="heartvo">
+		<![CDATA[
+	        SELECT * FROM (
+				select 
+					p.product_name,
+					(select COUNT(*) from heart_table
+					where 
+					seq_id = p.seq_id and heart = 1) as heart_count
+				from
+					product_table p
+					where  
+						(select COUNT(*) from heart_table
+						where 
+						seq_id = p.seq_id and heart = 1) > 0
+				 ORDER BY 
+            CASE 
+                WHEN #{product_selection, jdbcType=VARCHAR} = 'least-selected' THEN heart_count END ASC,
+            CASE 
+                WHEN #{product_selection, jdbcType=VARCHAR} = 'most-selected' THEN heart_count END DESC,
+            CASE 
+                WHEN #{product_selection, jdbcType=VARCHAR} IS NULL THEN heart_count END DESC,
+            CASE 
+                WHEN #{product_selection, jdbcType=VARCHAR} IS NULL THEN p.product_name END ASC,
+                
+             p.product_name ASC
+			
+			) WHERE ROWNUM <= 5
+	    ]]>
+	</select>
+	
+	<!--     SELECT -->
+<!--         p.product_name, -->
+<!--         h.seq_id, -->
+<!--         h.heart_id, -->
+<!--         h.is_bookmarked -->
+<!--     FROM -->
+<!--         heart_table h -->
+<!--     JOIN -->
+<!--         product_table p ON h.seq_id = p.seq_id -->
+<!--     WHERE -->
+<!--         h.is_bookmarked = #{is_bookmarked}; -->
+
+</mapper>

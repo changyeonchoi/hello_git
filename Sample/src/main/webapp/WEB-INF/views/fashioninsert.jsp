@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HTML5</title>
+<title>fashionqnainsert</title>
 <style type="text/css">
 	body {
 		text-align: center;

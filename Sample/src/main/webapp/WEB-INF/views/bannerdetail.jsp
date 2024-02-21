@@ -170,7 +170,7 @@
 		<!--네비게이션-->
 		<nav>
 			<div class="menu-items">
-    			<h2>메인빅매너 상세보기</h2>
+    			<h2>메인빅배너 상세보기</h2>
     				    <form action="fashionupdate" method="post" enctype="multipart/form-data">
         				<div class="red-text">*한 개의 이미지만 등록 가능합니다.</div><br>
     					<table border="1" style="width: 70%;">
