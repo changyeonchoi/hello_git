@@ -8,6 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>HTML5</title>
+<link rel="stylesheet" href="resources/css/reset.css" />
 <style type="text/css">
 	body {
 		text-align: center;
@@ -64,7 +65,7 @@
     	color: white;
     	text-align: center;
 	}
-	#deleteButton {
+	#listButton {
         background-color: white; /* 배경색을 흰색으로 설정 */
         color: black; /* 글자색을 검정색으로 설정 */
         padding: 10px 20px; /* 안쪽 여백 설정 */
@@ -117,59 +118,6 @@
 #main-box {
   width: 75%;
 }
-
-.top-box {
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  width: 65%;
-  margin: 2px auto;
-}
-.top-box .top-box__total {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 10%;
-  margin-right: 5px;
-  margin-bottom: 20px;
-  cursor: pointer;
-}
-.top-box .top-box__total p {
-  font-weight: 600;
-  font-size: 1.1em;
-}
-
-.top-box__total:last-child {
-  width: 47%;
-  margin-bottom: 10px;
-}
-.top-box__total:last-child p {
-  font-weight: 600;
-  font-size: 1.1em;
-  margin-right: 5px;
-  border-right: 1px solid #333;
-  padding-right: 40px;
-}
-
-.selected {
-  font-size: 1.1em;
-  font-weight: 600;
-}
-.red-text {
-  color: #d1180b;
-}
-.ordered-product {
-  width: 70%;
-  margin: 91px auto 0;
-}
-.ordered-product .notice__detail--box {
-  padding: 0;
-  margin: 0;
-}
-
-.title__box {
-  border: unset;
-}
 </style>
  
 </head>
@@ -191,15 +139,15 @@
         				<table border="1" style="width: 90%;">
             				<tr>
                 				<td class="black-cell">회원 ID</td>
-                				<td><input type="text" class="input_text" id="user_id" value="${membervo.user_id}" placeholder=""></td>
+                				<td>${membervo.user_id}</td>
             				</tr>
             				<tr>
                 				<td class="black-cell">이름*</td>
-                        		<td><input type="text" class="input_text" id="user_name" value="${membervo.user_name}" maxlength="10"></td>
+                        		<td>${membervo.user_name}</td>
            					</tr>
             				<tr>
                 				<td class="black-cell">주문횟수*</td>
-                       			<td><input type="text" class="input_text" id="user_phone" value="${membervo.user_phone}" maxlength="13"></td>
+                       			<td>${membervo.user_phone}</td>
             				</tr>
         				</table><br><br><br>
         				<div>2. 주문 정보</div><br>
@@ -222,20 +170,20 @@
 							    </div>
 							</div>
     				 <!-- 삭제 버튼 -->
-                	<div style="text-align: left; float: left;">
-    					<button id="deleteButton">삭제</button>
-					</div>
-                <!-- 목록 버튼 -->
                 	<div style="text-align: right; float: right;">
-                		<button class="custom-button" id="listButton">목록</button>
-    					<button class="custom-button" id="saveButton">저장</button>
+    					<button id="listButton">닫기</button>
 					</div>
 			</div>
 		</nav>
 	</div>
 	    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script>
-    	
+    
+    function goPage(pageNo){
+    	let searchInputValue = $("#searchInput").val();
+    	let user_id = '${membervo.user_id}';
+        $(location).attr('href', "<c:url value='/userorderdetail'/>?pageNo=" + pageNo + "&user_id=" + user_id);
+    }
     
     	$(document).ready(function() {
 	    	// URL에서 user_id 파라미터 값을 가져오는 함수
@@ -294,33 +242,11 @@
     	});
     	
     	 $(document).ready(function() {
-    	        // 삭제 버튼 클릭 시 실행될 함수
-    	        $("#deleteButton").click(function() {
-    	            var user_id = $("#user_id").val(); // 삭제할 사용자 ID 가져오기
-
-    	            // 서버에 삭제 요청을 보내는 Ajax 호출
-    	            $.ajax({
-    	                url: '/deleteMember', // 삭제를 처리하는 서버의 엔드포인트 URL로 변경해주세요
-    	                method: 'POST',
-    	                data: { user_id: user_id }, // 삭제할 사용자 ID를 서버에 전달
-    	                success: function(response) {
-    	                    // 삭제 성공 시 알림 표시 후 admin.jsp로 이동
-    	                    alert('관리자가 삭제되었습니다.');
-    	                    window.location.href = 'adminlist'; // admin.jsp로 이동
-    	                },
-    	                error: function(error) {
-    	                    // 삭제 실패 시 알림 표시
-    	                    alert('삭제에 실패하였습니다. 다시 시도해주세요.');
-    	                    console.error('Error:', error);
-    	                }
-    	            });
-    	        });
-    	        
-                // 목록 버튼 클릭 시 실행될 함수
-                $("#listButton").click(function() {
-                    // adminlist로 이동
-                    window.location.href = 'userorderlist'; 
-                });
+           // 목록 버튼 클릭 시 실행될 함수
+           $("#listButton").click(function() {
+               // adminlist로 이동
+               window.location.href = 'userorderlist'; 
+           });
     	 });
     </script>
 </body>
