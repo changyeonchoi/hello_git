@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.main.service.MemberService;
 import com.main.service.PageNavigigationService;
 import com.main.vo.MemberVo;
+import com.main.vo.OrderVo;
 
 
 
@@ -289,5 +291,93 @@ public class MemberController {
             return ResponseEntity.status(500).body("사용자 삭제에 실패하였습니다.");
         }
     }
+    
+    @RequestMapping(value = "/userorderlist", method = RequestMethod.GET)
+    public @ResponseBody ModelAndView userorderlist(Model model, HttpServletRequest request,
+    		@RequestParam(value="pageNo"		, defaultValue="1" , required=true) int pageNo,
+    		@RequestParam(name = "listSize", defaultValue = "10") int listSize,
+    		@RequestParam(name = "naviSize", defaultValue = "10") int naviSize,
+    		@RequestParam(value = "search", defaultValue = "") String search
+    		) {
+    	Map<String, Object> keyword = new HashMap<String, Object>();
+    	keyword.put("search", search);
+    	
+    	int totalCount = memberservice.ordercount(keyword);
+    	
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	map.put("pageNo", pageNo);
+    	map.put("totalCount", totalCount);
+    	map.put("listSize", listSize);
+    	map.put("naviSize", naviSize);
+    	map.put("search", search);
+
+    	// 계산된 startRow와 endRow를 Map에 추가
+        PageNavigation pageNavigation = new PageNavigation(map);
+        map.put("startRow", pageNavigation.getStartRow());
+        map.put("endRow", pageNavigation.getEndRow());
+    	
+    	model.addAttribute("pageAttribute", map);
+    	
+    	PageNavigation navigation = pagenavigigationservice.makePageNavigation(map);
+    	
+    	model.addAttribute("navigation", navigation);
+    	
+    	List<MemberVo> userOrderList = memberservice.selectUserOrderList(map);
+    	
+    	model.addAttribute("member", userOrderList);
+    	
+    	ModelAndView mv = new ModelAndView("userorderlist");
+    	
+    	return mv;
+    }
+    
+	@RequestMapping(value = "userorderdetail", method = {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView mypageproduct(Model model, HttpSession session, HttpServletRequest request
+			, @RequestParam(value="pageNo"		, defaultValue="1" , required=true) int pageNo
+			, @RequestParam(name = "listSize", defaultValue = "4") int listSize
+    		, @RequestParam(name = "naviSize", defaultValue = "4") int naviSize
+    		, @RequestParam("user_id") String user_id
+			, @RequestParam(value = "search", defaultValue = "") String search) {
+		
+		MemberVo membervo = (MemberVo) request.getSession().getAttribute("membervo");
+		
+		Map<String, Object> keyword = new HashMap<String, Object>();
+    	keyword.put("search", search);
+    	keyword.put("user_id", membervo.getUser_id());
+    	
+    	// 총 갯수
+    	int totalCount = memberservice.ordercount(keyword);
+    	
+    	model.addAttribute("totalCount", totalCount);
+
+    	
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	map.put("pageNo", pageNo);
+    	map.put("totalCount", totalCount);
+    	map.put("listSize", listSize);
+    	map.put("naviSize", naviSize);
+    	map.put("search", search);
+    	map.put("user_id", user_id);
+    	
+    	// 해당 pageNavigation에서 html code생성
+    	PageNavigation pageNavigation = new PageNavigation(map);
+    	map.put("startRow", pageNavigation.getStartRow());
+    	map.put("endRow", pageNavigation.getEndRow());
+    	
+    	// 페이지 네비게이션 객체 생성
+    	PageNavigation navigation = pagenavigigationservice.makePageNavigation(map);
+    	
+    	List<OrderVo> orderList = memberservice.OrderList(map);
+    	
+       	model.addAttribute("pageAttribute", map);
+    	model.addAttribute("navigation", navigation);
+    	model.addAttribute("OrderList", orderList);
+    	
+    	System.out.println("orderList" + orderList);
+    	
+    	ModelAndView mv = new ModelAndView("userorderdetail");
+    	
+    	return mv;
+	}
 }
 

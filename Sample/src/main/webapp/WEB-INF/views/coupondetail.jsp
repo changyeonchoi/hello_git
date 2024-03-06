@@ -170,8 +170,7 @@
 		<!--네비게이션-->
 		<nav>
 			<div class="menu-items">
-    			<h2>메인빅매너 상세보기</h2>
-<!--     				    <form action="fashionupdate" method="post" enctype="multipart/form-data"> -->
+    			<h2>쿠폰 상세보기</h2>
         				<div class="red-text">*한 개의 이미지만 등록 가능합니다.</div><br>
     					<table border="1" style="width: 70%;">
         					<tr>
@@ -224,36 +223,33 @@
                 	<div style="text-align: right; float: right;">
     					<button class="custom-button" id="saveButton">저장</button>
 					</div>
-			</div>
+					</div>
 		</nav>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script>
     
 	var product_seq_id;
+	var selectedProduct;
 	
-	console.log("전역변수 값 : " + product_seq_id);
-
-	function handleSelectedProduct(seq_id) {
+	function handleSelectedProduct(seq_id,selectedProduct) {
 	    // 로그에 출력하여 확인
 	    console.log("Selected product seq_id: " + seq_id);
-
+	    console.log("selectedProduct: " + selectedProduct.product_name);
+	    
+	    $("#product_name").text(selectedProduct.product_name);
 	    // 전역 변수에 할당
 	    product_seq_id = seq_id;
 	}
 	
     $(document).ready(function() {
     	
-        // coupondelete 버튼 클릭 시 이벤트 처리
-//         $("#namedelete").on("click", function (e) {
-//           // banner_name 데이터 지우기
-// //           $("#bannerContainer").find("#bannerName").text("");
-//           $("#bannerContainer span#bannerName").text("");
-//         });
         $("#namedelete").on("click", function (e) {
         // 배너명과 연동상품 초기화
         $("#product_name").text("");
         product_seq_id = null; // 전역 변수 초기화
+        
+        console.log(product_seq_id);
     	});
 
         // 상품등록 버튼 클릭 시 이벤트 처리 (여기에 실제로 할 일을 구현하세요)
@@ -307,14 +303,17 @@
         $('#saveButton').click(function () {
 		var banner_name = $("#banner_name").val();
         var banner_img = $("#banner_img")[0].files[0]; // Get the file object
-        var product_name = $("#product_name").val();
+        var existingProduct = $("#product_name").text().trim();
+        var product_name = existingProduct || "${coupon.product_name}";
         var sale = $("#sale").val();
         var banner_yn = $("input[name='banner_yn']:checked").val();
+        var product_seq_id = $("#product_seq_id").val();
         
-        if (!banner_name || !banner_img || !product_name || !sale || !banner_yn) {
-            alert("모든 항목을 입력해주세요.");
-            return; // 필수 입력 필드 중 하나라도 빈 값이면 함수 종료
-        }
+        // 필수 입력 필드 체크
+	     if (!banner_name || !banner_yn || !product_seq_id || !product_name || !existingProduct) {
+	         alert("모든 항목을 입력해주세요.");
+	         return; // 필수 입력 필드 중 하나라도 빈 값이면 함수 종료
+	     }
         
         var formData = new FormData();
         formData.append("banner_name", banner_name);
@@ -340,7 +339,7 @@
 	            success: function(response) {
 	                // 등록 성공 시 알림 표시 후 목록 페이지로 이동
 	                alert('저장되었습니다.');
-// 	                window.location.href = '/couponlist'; // 등록 후 이동할 페이지 URL로 변경해주세요
+	                window.location.href = '/couponlist';
 	            },
 	            error: function(error) {
 	                // 등록 실패 시 알림 표시
@@ -393,7 +392,6 @@
                         $(".upload-status").text(""); // 업로드 상태 메시지 초기화
                         return false;
                     } else {
-                        // Display the image name and upload status
                         $(".upload-name").val(fileName);
                         $(".upload-status").text("*업로드 완료");
                     }
@@ -404,34 +402,28 @@
             reader.readAsDataURL(fileInput.files[0]);
         });
     });
-    
-//     function registerProduct() {
-//         var popupUrl = '/couponproductlist';
-//         var popupWindow = window.open(popupUrl, 'couponproductlist', 'width=1000,height=500,scrollbars=yes');
-//         if (window.focus) {
-//             popupWindow.focus();
-//         }
-//     }
-function registerProduct() {
-    var popupUrl = '/couponproductlist';
-    var popupWindow = window.open(popupUrl, 'couponproductlist', 'width=1000,height=500,scrollbars=yes');
 
-    // 팝업이 닫힐 때 이벤트
-    window.addEventListener('message', function (event) {
-        if (event.origin !== window.origin) {
-            // 보안을 위해 origin을 확인
-            return;
-        }
+    function registerProduct() {
+        var popupUrl = '/couponproductlist';
+        var popupWindow = window.open(popupUrl, 'couponproductlist', 'width=1000,height=500,scrollbars=yes');
 
-        // event.data에는 팝업에서 보낸 데이터가 있을 것이라 가정
-        var selectedProduct = event.data;
+        // Popup close event listener
+        window.addEventListener('message', function (event) {
+            if (event.origin !== window.origin) {
+                // Security check for origin
+                return;
+            }
 
-        // 선택한 상품 정보를 사용하여 product_name 업데이트
-        if (selectedProduct && selectedProduct.product_name) {
-            $("#product_name").text(selectedProduct.product_name);
-        }
-    });
-}
+            var selectedProduct = event.data;
+
+            alert("dasdasasd" + selectedProduct);
+
+            if (selectedProduct && selectedProduct.seq_id && selectedProduct.product_name) {
+                // handleSelectedProduct 함수 호출하여 product_name 값을 변경
+                handleSelectedProduct(selectedProduct.seq_id, selectedProduct);
+            }
+        });
+    }
     </script>
 </body>
 </html>

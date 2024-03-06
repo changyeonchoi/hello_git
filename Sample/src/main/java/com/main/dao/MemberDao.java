@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.main.vo.MemberVo;
+import com.main.vo.OrderVo;
 
 @Service(value = "memberDao")
 public class MemberDao {
@@ -122,6 +123,26 @@ public class MemberDao {
 	public int selectTotalCountUser(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("memberDao.selectTotalCountUser", map);
+	}
+
+	public List<MemberVo> selectUserOrderList(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("memberDao.selectUserOrderList", map);
+	}
+
+	public List<MemberVo> selectUserOrderdetail(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("memberDao.selectUserOrderdetail", map);
+	}
+
+	public int ordercount(Map<String, Object> keyword) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberDao.ordercount", keyword);
+	}
+
+	public List<OrderVo> OrderList(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("memberDao.OrderList", map);
 	}
     
 //    public List<MemberVo> selectMemberListPaging(int startIndex, int pageSize) {

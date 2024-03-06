@@ -217,9 +217,6 @@ public class BannerController {
     	
     	PageNavigation navigation = pagenavigigationservice.makePageNavigation(map);
     	
-//    	List<BannerVo> selectCouponList = bannerservice.selectCouponList(map);
-
-		
     	List<BannerVo> couponList = bannerservice.selectbannerList(map);
 
 		model.addAttribute("pageAttribute", map);
@@ -229,37 +226,6 @@ public class BannerController {
 		return "/couponlist";
 
 	}
-	
-//	@RequestMapping(value = "/couponenroll", method = {RequestMethod.GET, RequestMethod.POST})
-//	public String couponinsert(Model model,
-//	      @RequestParam(value = "banner_img") MultipartFile banner_img,
-//	      @RequestParam(value = "banner_name") String banner_name,
-//	      @RequestParam(value = "banner_yn") String banner_yn,
-//	      @RequestParam(value = "code") String code,
-//	      @RequestParam(value = "sale") String sale,
-//	      @RequestParam(value = "seq_id", required = false) Integer seq_id,
-//	      BannerVo bannervo, ProductVo productvo,
-//	      HttpServletRequest request, HttpSession session) throws IOException {
-//
-//	    MemberVo membervo = (MemberVo) request.getSession().getAttribute("membervo");
-//
-//	    bannervo.setUser_id(membervo.getUser_id());
-//	    bannervo.setBanner_name(banner_name);
-//	    bannervo.setBanner_img(banner_img, uploadPath, bannervo.getBanner_img());
-//	    bannervo.setBanner_yn(banner_yn);
-//	    bannervo.setSale(sale);
-//	    bannervo.setCode(code);
-//
-//	    bannerservice.insertbanner(bannervo);
-//
-//	    Integer coupon_seq_id = bannervo.getSeq_id();
-//	    
-//	    session.setAttribute("coupon_seq_id", coupon_seq_id);
-//
-//		System.out.println("banner" + coupon_seq_id);
-//
-//	    return "/couponinsert";
-//	}
 	
 	@RequestMapping(value = "/couponenroll", method = {RequestMethod.GET, RequestMethod.POST})
 	public String couponinsert(Model model,
@@ -283,25 +249,7 @@ public class BannerController {
 	    bannervo.setSale(sale);
 	    bannervo.setCode(code);
 
-	    // 1. 배너(쿠폰) 테이블에 쿠폰 정보 추가
 	    bannerservice.insertbanner(bannervo);
-	    
-//
-//	    // 2. 등록된 쿠폰의 seq_id 가져오기
-//	    Integer coupon_seq_id = bannervo.getSeq_id();
-//
-//	    // 3. 세션에 쿠폰 seq_id 저장(임시)
-////	    session.setAttribute("coupon_seq_id", coupon_seq_id);
-//
-//	    System.out.println("banner" + coupon_seq_id);
-
-	    // 4. 상품 테이블에서 쿠폰 seq_id를 업데이트
-//	    Map<String, Object> map = new HashMap<String, Object>();
-//	    map.put("seq_id", product_seq_id);
-//	    map.put("coupon_seq_id", coupon_seq_id);
-//	    productservice.updatecoupon(map);
-//	    
-//	    System.out.println("쿼리실행" + map);
 
 	    return "/couponinsert";
 	}
@@ -314,12 +262,14 @@ public class BannerController {
     		@RequestParam(name = "naviSize", defaultValue = "10") int naviSize,
 			@RequestParam(value = "search", defaultValue = "") String search,
 			@RequestParam(value="seq_id", required=false) Integer seq_id,
-	        @RequestParam(value = "code", required=false) String code,
+			@RequestParam(value = "code", required=false) String code,
 	        @RequestParam(value = "product_code", required=false) String product_code,
 	        @RequestParam(value = "sale_detail", required=false) String sale_detail,
 	        @RequestParam(value = "banner_name", required=false) String banner_name,
 	        @RequestParam(value = "product_seq_id", required=false ,defaultValue = "0") Integer product_seq_id,
 	        ProductVo productvo, BannerVo bannervo) throws IOException {
+		
+		System.out.println(product_code);
 		
 	 	// 로그인 세션 가져오기
 		MemberVo membervo = (MemberVo) request.getSession().getAttribute("membervo");
@@ -352,14 +302,10 @@ public class BannerController {
     	
     	PageNavigation navigation = pagenavigigationservice.makePageNavigation(map);
 
-//    	List<ProductVo> productList = productservice.selectFashionList(map);
-    	
     	List<BannerVo> CouponProductList = bannerservice.selectCouponList(map);
 
     	model.addAttribute("CouponProductList", CouponProductList);
-
     	model.addAttribute("pageAttribute", map);
-//    	model.addAttribute("productList", productList);
     	model.addAttribute("navigation", navigation);
     	
 		return "/couponproductlist";
@@ -398,13 +344,6 @@ public class BannerController {
 	    bannervo.setBanner_yn(banner_yn);
 
 	    bannerservice.couponupdate(bannervo);
-
-	    // productvo 업데이트 부분 추가
-//	    productvo.setSeq_id(product_seq_id); // 추가: product_seq_id 설정
-//	    productvo.setProduct_name(product_name);
-//	    productservice.productnameupdate(productvo);
-
-//	    System.out.println("priduct name" + productvo);
 
 	    return "/couponlist";
 	}

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.main.dao.MemberDao;
 import com.main.vo.MemberVo;
+import com.main.vo.OrderVo;
 
 
 @Service(value = "memberService")
@@ -122,5 +123,29 @@ public class MemberServiceImpl implements MemberService {
 	public int selectTotalCountUser(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return memberDao.selectTotalCountUser(map);
+	}
+
+	@Override
+	public List<MemberVo> selectUserOrderList(Map<String, Object> map) {
+		List<MemberVo> userOrderList = null;
+		
+		userOrderList = memberDao.selectUserOrderList(map);
+		
+		return userOrderList;
+	}
+
+	@Override
+	public int ordercount(Map<String, Object> keyword) {
+		// TODO Auto-generated method stub
+		return memberDao.ordercount(keyword);
+	}
+
+	@Override
+	public List<OrderVo> OrderList(Map<String, Object> map) {
+		List<OrderVo> orderList = null;
+		
+		orderList = memberDao.OrderList(map);
+		
+		return orderList;
 	}
 }

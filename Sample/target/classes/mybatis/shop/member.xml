@@ -12,8 +12,16 @@
 	<result property="user_phone" column="user_phone"/>
 	<result property="user_auth" column="user_auth" />
 	<result property="user_address" column="user_address" />
+	<result property="order_count" column="order_count" />
 </resultMap>
-	
+
+<resultMap type="com.main.vo.OrderVo" id="ordervo">
+	<result property="seq_id" column="seq_id"/>
+	<result property="product_name" column="product_name"/>
+	<result property="regdate" column="regdate" />
+	<result property="user_id" column="user_id" />
+</resultMap>
+
 	<!-- 회원가입 관련(체크 및 성공) -->
 	<select id="signupCheck" resultMap="membervo" parameterType="String">
 		select
@@ -195,8 +203,65 @@
 		from bt_member_table
 		where user_id = #{user_id}
 	</select>
+	
 	<delete id="memberDao.deleteUserId">
 		delete bt_member_table
 		where user_id = #{user_id}
 	</delete>
+	
+	<select id="memberDao.selectUserOrderList" parameterType="java.util.HashMap" resultMap="membervo">
+	    <![CDATA[
+			SELECT *
+			FROM (
+			    SELECT
+			        seq_id,
+			        user_id,
+			        user_name,
+			        (SELECT COUNT(*) FROM order_table o
+			         WHERE o.user_id = m.user_id) AS order_count,
+			        ROWNUM AS rnum
+			    FROM (
+			        SELECT
+			            seq_id,
+			            user_id,
+			            user_name
+			        FROM bt_member_table
+			    ) m
+			)
+	    ]]>
+	</select>
+    
+    	<select id="ordercount" parameterType="java.util.HashMap" resultType="int">
+	    SELECT COUNT(*) FROM order_table
+	    WHERE
+	        product_name LIKE '%' || #{search, jdbcType=VARCHAR} || '%'
+	        AND
+	        user_id = #{user_id, jdbcType=VARCHAR}
+	</select>
+    
+	<select id="OrderList" parameterType="java.util.HashMap" resultMap="ordervo">
+        <![CDATA[
+        SELECT *
+        FROM (
+        	SELECT 
+                	seq_id, 
+                	regdate, 
+                	product_name, 
+                	user_id,
+                	ROWNUM AS rnum
+        	FROM (
+        		SELECT
+        			seq_id,
+        			regdate,
+        			product_name,
+        			user_id
+        		FROM order_table
+        		where user_id = #{user_id, jdbcType=VARCHAR}
+        		ORDER BY REGDATE DESC
+        	) t
+        	WHERE ROWNUM <= #{endRow, jdbcType=INTEGER}
+    	)
+     	WHERE rnum >= #{startRow, jdbcType=INTEGER}
+    ]]>
+	</select>
 </mapper>

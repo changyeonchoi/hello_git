@@ -104,6 +104,7 @@
 			    b.land_url,
 			    b.banner_yn,
 			    b.sale,
+			    b.product_seq_id,
 			    p.product_name
 			FROM
 			    banner_table b
@@ -132,26 +133,66 @@
 	    WHERE seq_id = #{seq_id}
 	</delete>
 	
-	<select id="bannerDao.selectCouponList" parameterType="java.util.HashMap" resultMap="bannervo">
+<select id="bannerDao.selectCouponList" parameterType="java.util.HashMap" resultMap="bannervo">
     <![CDATA[
-	    SELECT
-	        p.seq_id,
-	        p.product_name,
-	        p.code,
-	        b.seq_id,
-	        b.product_seq_id,
-	        b.banner_name,
-	        b.banner_img,
-	        b.banner_yn,
-	        b.user_id,
-	        b.redate,
-	        b.code,
-	        b.sale
-	    FROM
-	        product_table p
-	        LEFT JOIN banner_table b ON p.seq_id = b.product_seq_id
+SELECT *
+FROM (
+    SELECT
+        rnum,
+        seq_id,
+        product_name,
+        code,
+        banner_seq_id,
+        product_seq_id,
+        banner_name,
+        banner_img,
+        banner_yn,
+        user_id,
+        redate,
+        banner_code,
+        sale
+    FROM (
+        SELECT
+            rownum AS rnum,
+            seq_id,
+            product_name,
+            code,
+            banner_seq_id,
+            product_seq_id,
+            banner_name,
+            banner_img,
+            banner_yn,
+            user_id,
+            redate,
+            banner_code,
+            sale
+        FROM (
+            SELECT
+                p.seq_id,
+                p.product_name,
+                p.code,
+                b.seq_id AS banner_seq_id,
+                b.product_seq_id,
+                b.banner_name,
+                b.banner_img,
+                b.banner_yn,
+                b.user_id,
+                b.redate,
+                b.code AS banner_code,
+                b.sale
+            FROM
+                product_table p
+                LEFT JOIN banner_table b ON p.seq_id = b.product_seq_id
+            WHERE p.product_name LIKE '%' || #{search, jdbcType=VARCHAR} || '%'
+            AND (p.code = #{product_code, jdbcType=VARCHAR} OR p.code IS NULL OR p.code = '')
+            ORDER BY p.seq_id DESC 
+        )
+    )
+    WHERE rnum <= #{endRow, jdbcType=INTEGER}
+)
+WHERE rnum >= #{startRow, jdbcType=INTEGER}
     ]]>
-	</select>
+</select>
 	
 	<update id="bannerDao.couponupdate">
 	    <![CDATA[
@@ -165,10 +206,4 @@
 	        WHERE seq_id = #{seq_id, jdbcType=INTEGER}
 	    ]]>
 	</update>
-	
-<!-- 	<update id="bannerDao.updatecoupon" parameterType="java.util.Map"> -->
-<!-- 	    UPDATE BANNER_TABLE -->
-<!-- 	    SET product_seq_id = #{product_seq_id}, -->
-<!-- 	    WHERE seq_id = #{seq_id, jdbcType=VARCHAR} -->
-<!-- 	</update> -->
 </mapper>

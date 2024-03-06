@@ -398,18 +398,6 @@
         });
     });
     
-//     $("#file_img").on('change',function(){
-//     	  var fileName = $("#file_img").val();
-//     	  $(".upload-name").val(fileName);
-//     	  $(".upload-status").text("*업로드 완료");
-//     });  
-    
-//     $("#detail_img").on('change', function () {
-//         var detailName = $("#detail_img").val();
-//         $(".upload-name-detail").val(detailName);
-//         $(".upload-status-detail").text("*업로드 완료");
-//     });
-    
     $(document).ready(function () {
         // 이미지 파일 업로드 시
         $("#file_img").on('change', function () {

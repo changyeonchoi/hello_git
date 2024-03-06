@@ -161,14 +161,14 @@
 			<div class="menu-items">
     			<h3>사용자관리</h3>
     			<h5><a href="adminlist">관리자 현황</a></h5>		
-    			<h5><a href="userlist" class="red-text">사용자 현황</a></h5>
-    			<h5><a href="userorderlist">사용자 주문현황</a></h5>
+    			<h5><a href="userlist">사용자 현황</a></h5>
+    			<h5><a href="userorderlist" class="red-text">사용자 주문현황</a></h5>
 			</div>
 		</nav>
 		<!--콘텐츠부분-->
 		<section>
 			<div class="section-header">
-        		<h3>사용자 현황</h3>
+        		<h3>사용자 주문현황</h3>
         			<div class="underline-input">
             			<input type="text" id="searchInput" placeholder="회원 ID를 입력해주세요" class="input-field"/>
             			<button onclick="goSearch()" class="search-button"></button>
@@ -179,14 +179,14 @@
             		<th>NO</th>
             		<th>회원ID</th>
             		<th>이름</th>
-            		<th>연락처</th>
+            		<th>주문횟수</th>
         		</tr>
         	<c:forEach var="member" items="${member}" varStatus="status">
             	<tr>            	
                     <td>${member.rnum}</td>
                 	<td>${member.user_id}</td>
                 	<td>${member.user_name}</td>
-                	<td>${member.user_phone}</td>
+                	<td>${member.order_count}회</td>
 	            </tr>
     	    </c:forEach>
     		</table>
@@ -207,7 +207,7 @@ function goSearch(){
 }
 $(document).on('click', '#tableContainer td:nth-child(2)', function() {
     var user_id = $(this).text(); // 클릭한 행의 user_id 값을 가져옴
-    window.location.href = '/userupdate?user_id=' + user_id; // adminupdate.jsp로 이동하면서 user_id를 파라미터로 전달
+    window.location.href = '/userorderdetail?user_id=' + user_id; 
     	
 });
 
@@ -219,7 +219,7 @@ $(document).on('click', '#tableContainer td:nth-child(3)', function() {
     var user_id = tr.find('td:nth-child(2)').text();
 
     // user_id 값을 사용하여 adminupdate.jsp로 이동
-    window.location.href = '/userupdate?user_id=' + user_id;
+    window.location.href = '/userorderdetail?user_id=' + user_id;
 });
 </script>
 </body>

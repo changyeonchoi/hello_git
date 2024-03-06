@@ -183,7 +183,7 @@
 			<div class="section-header">
         		<h3>쿠폰 연동상품 등록</h3><br><br><br>
 	                <select class="input_text_selected" id="banner_area2" onchange="getProductList()">
-						<option value="#">===선택===</option>
+						<option value="">===선택===</option>
 						<option value="fashion">Fashion</option>
 						<option value="makeup">Make Up</option>
 						<option value="accessory">Accessory</option>
@@ -240,7 +240,7 @@
         };
 
         // 필요한 동작 수행 (예: seq_id와 product_name 값을 부모 창으로 전달)
-        if (parentWindow && seq_id) {
+        if (parentWindow && seq_id) {  
             parentWindow.handleSelectedProduct(seq_id, selectedProduct);
         }
 
@@ -323,10 +323,10 @@
     
     function goSearch() {
         let search = $("#searchInput").val();
-        let code = $("#banner_area2").val(); // 추가된 부분: code 값 가져오기
+        let product_code = $("#banner_area2").val(); // 추가된 부분: code 값 가져오기
 
         // URL 생성
-        let url = "<c:url value='/couponproductlist'/>?search=" + search + "&code=" + code;
+        let url = "<c:url value='/couponproductlist'/>?search=" + search + "&product_code=" + product_code;
 
         // 페이지 이동
         $(location).attr('href', url);

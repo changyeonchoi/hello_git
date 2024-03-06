@@ -164,7 +164,7 @@
     			<h3>사용자관리</h3>
     			<h5><a href="adminlist" class="red-text">관리자 현황</a></h5>		
     			<h5><a href="userlist">사용자 현황</a></h5>
-    			<h5><a href="#">사용자 주문현황</a></h5>
+    			<h5><a href="userorderlist">사용자 주문현황</a></h5>
 			</div>
 		</nav>
 		<!--콘텐츠부분-->

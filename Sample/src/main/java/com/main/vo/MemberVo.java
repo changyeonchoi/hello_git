@@ -20,9 +20,18 @@ public class MemberVo {
 	private String search;
 	//주소
 	private String user_address;
+	
+	private String order_count;
+	
 
 	
 	
+	public String getOrder_count() {
+		return order_count;
+	}
+	public void setOrder_count(String order_count) {
+		this.order_count = order_count;
+	}
 	public Integer getRnum() {
 		return rnum;
 	}
@@ -81,8 +90,9 @@ public class MemberVo {
 	public String toString() {
 		return "MemberVo [rnum=" + rnum + ", seq_id=" + seq_id + ", user_id=" + user_id + ", user_pw=" + user_pw
 				+ ", user_name=" + user_name + ", user_phone=" + user_phone + ", user_auth=" + user_auth + ", search="
-				+ search + ", user_address=" + user_address + "]";
+				+ search + ", user_address=" + user_address + ", order_count=" + order_count + "]";
 	}
+
 
 	
 

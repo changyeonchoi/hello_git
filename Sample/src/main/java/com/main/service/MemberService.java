@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.main.vo.MemberVo;
+import com.main.vo.OrderVo;
 
 
 public interface MemberService {
@@ -37,5 +38,11 @@ public interface MemberService {
 	int deleteUserId(String user_id);
 
 	int selectTotalCountUser(Map<String, Object> map);
+
+	List<MemberVo> selectUserOrderList(Map<String, Object> map);
+
+	int ordercount(Map<String, Object> keyword);
+
+	List<OrderVo> OrderList(Map<String, Object> map);
 
 }

@@ -202,9 +202,9 @@
 	        						</select>
 	                				<select class="input_text_selected" id="banner_area2">
 							            <option value="Home">Home</option>
-							            <option value="Fashion">Fashion</option>
-							            <option value="Make Up">Make Up</option>
-							            <option value="Accessory">Accessory</option>
+							            <option value="fashion">Fashion</option>
+							            <option value="makeup">Make Up</option>
+							            <option value="accessory">Accessory</option>
 	        						</select>
         						</td>
             				</tr>
